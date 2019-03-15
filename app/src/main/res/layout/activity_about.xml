@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.AboutActivity">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/title_bar_a_about" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:background="@drawable/drawable_about"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        android:padding="@dimen/space_40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/space_15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/ui_f_about_line_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#4946bf"
+                android:textSize="@dimen/text_views_text_size_20sp" />
+
+            <TextView
+                android:layout_marginTop="@dimen/space_10dp"
+                android:id="@+id/ui_f_about_line_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4946bf"
+                android:textSize="@dimen/text_views_text_size_12sp" />
+        </LinearLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

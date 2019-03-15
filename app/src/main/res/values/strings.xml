@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">EvaHI</string>
+    <string name="app_name_setting">Setting</string>
+    <string name="app_name_about">About</string>
+    <string name="app_name_scan">Scan QR code</string>
+
+    <string name="app_a_main_settings">Set setting</string>
+    <string name="app_a_main_loading">Loading, please wait…</string>
+
+    <string name="app_a_settings_s_title_scan"><u>Scan QR code</u></string>
+    <string name="app_a_settings_s_title_scheme">Protocol:</string>
+    <string name="app_a_settings_s_title_address">Server:</string>
+    <string name="app_a_settings_s_title_port">Port:</string>
+    <string name="app_a_settings_s_title_page">Page:</string>
+    <string name="app_a_settings_s_title_landscape_page">Landscape page:</string>
+    <string name="app_a_settings_u_title_name">User:</string>
+    <string name="app_a_settings_u_title_key">Key:</string>
+    <string name="app_a_settings_u_title_save">Save</string>
+    <string name="app_a_settings_u_title_cancel">Cancel</string>
+
+    <string name="app_a_settings_exception_bad_code">Bad code</string>
+    <string name="app_a_settings_exception_bad_scheme">Bad protocol</string>
+    <string name="app_a_settings_exception_bad_address">Bad address</string>
+    <string name="app_a_settings_exception_bad_port">Bad port</string>
+    <string name="app_a_settings_exception_bad_page">Bad page</string>
+    <string name="app_a_settings_exception_bad_landscape_page">Bad landscape page</string>
+    <string name="app_a_settings_exception_bad_name">Bad user name</string>
+    <string name="app_a_settings_exception_bad_key">Bad key</string>
+    <string name="app_a_settings_exception_qr_io_error">QR IO ERROR</string>
+
+    <string name="app_a_about_line_1" formatted="false">EvaHI %s</string>
+    <string name="app_a_about_line_2" formatted="false">© Altertech Group Web UI %s</string>
+
+    <string name="app_exception_bad_url">Bed url</string>
+    <string name="app_exception_no_connection_to_the_server">Unable to connect to server</string>
+    <string name="app_exception_file_not_found">File not found</string>
+    <string name="app_exception_file_empty">File empty</string>
+    <string name="app_exception_parse_error">Parse error</string>
+    <string name="app_exception_error">Error…</string>
+    <string name="app_exception_ssl_error">SSL error…</string>
+    <string name="app_exception_no_settings">You must to set server config</string>
+
+    <string name="app_menu_item_name_home">Home</string>
+    <string name="app_menu_item_name_settings">Settings</string>
+    <string name="app_menu_item_name_reload">Reload</string>
+    <string name="app_menu_item_name_about">About</string>
+    <string name="app_menu_item_name_exit">Exit</string>
+
+    <string name="app_dialog_title_execution">Execution…</string>
+    <string name="app_remote_wait">Please wait…</string>
+
+
+</resources>

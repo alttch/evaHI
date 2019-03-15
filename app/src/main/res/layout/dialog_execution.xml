@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_dialog_1"
+    android:gravity="center_horizontal|center_vertical"
+    android:minWidth="200dp"
+    android:orientation="vertical"
+    android:padding="@dimen/space_15dp">
+
+    <LinearLayout
+        android:id="@+id/dialog_container_b"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/space_20dp"
+        android:paddingEnd="@dimen/space_15dp"
+        android:paddingStart="@dimen/space_15dp"
+        android:paddingTop="@dimen/space_15dp">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/a_device_progress"
+            android:layout_width="@dimen/space_60dp"
+            android:layout_height="@dimen/space_60dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@drawable/loader" />
+
+        <TextView
+            android:id="@+id/dialog_message_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="@dimen/space_20dp"
+            android:text="@string/app_remote_wait"
+            android:textAllCaps="true"
+            android:textColor="@color/app_light_blue"
+            android:textSize="@dimen/text_views_text_size_16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

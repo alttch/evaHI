@@ -1,0 +1,45 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/app_white</item>
+        <!--<item name="android:navigationBarColor" tools:targetApi="lollipop">@color/app_white</item>-->
+        <item name="android:windowBackground" tools:targetApi="lollipop">@drawable/background_custom_1</item>
+    </style>
+
+    <!--<style name="Theme.Base.Full.Status" parent="Theme.Base">
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
+        <item name="android:windowBackground" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>-->
+
+    <!--<style name="Theme.Base.Full.Status.Background" parent="Theme.Base.Full.Status">
+        <item name="android:windowBackground" tools:targetApi="lollipop">@drawable/background_1</item>
+    </style>-->
+
+    <style name="Theme.Main" parent="Theme.Base">
+    </style>
+
+    <style name="Theme.About" parent="Theme.Base">
+    </style>
+
+    <style name="Theme.Settings" parent="Theme.Base">
+        <item name="android:windowBackground" tools:targetApi="lollipop">@color/app_white</item>
+    </style>
+
+    <style name="Theme.Barcode" parent="Theme.Base">
+        <!--<item name="android:statusBarColor" tools:targetApi="lollipop">@color/app_white</item>-->
+    </style>
+
+    <style name="Theme.Menu" parent="Theme.Base">
+        <item name="android:windowBackground" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomCounterStyle" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/app_white_50</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+</resources>

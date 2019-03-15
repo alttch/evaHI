@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="app_black_overlay">#66000000</color>
+    <color name="light_gray">#bcc4cb</color>
+    <color name="app_red">#FC2027</color>
+
+    <color name="orange">#ff6633</color>
+    <color name="app_orange_dark">#d54f25</color>
+    <color name="gray">#758e9a</color>
+    <color name="app_white">#FFFFFF</color>
+    <color name="app_blue">#19447C</color>
+    <color name="app_green">#004B00</color>
+    <color name="app_dark_gray">#4a646c</color>
+    <color name="app_dark_gray_avatar">#5f7c89</color>
+    <color name="app_dark_gray_alpha">#464a646c</color>
+    <color name="app_black">#000000</color>
+    <color name="title_bar_color">#f6f6f6</color>
+    <color name="app_item_active">#FEF4DF</color>
+    <color name="app_gray_notification">#EAEAEA</color>
+    <color name="app_orange_title_bar">#F78A00</color>
+    <color name="app_active_gray_simple">#3f758e9a</color>
+
+    <color name="app_white_40">#66ffffff</color>
+    <color name="app_white_50">#80ffffff</color>
+    <color name="app_white_65">#A6ffffff</color>
+    <color name="app_white_85">#D8ffffff</color>
+
+    <color name="app_light_blue">#00ffff</color>
+
+    <color name="app_s_orange_70">#B2ff6633</color>
+    <color name="app_s_red_70">#B2C00000</color>
+    <color name="app_s_green_70">#B2004B00</color>
+
+    <color name="app_gray_1">#e6e6e6</color>
+    <color name="app_gray_2">#b3b3b3</color>
+
+
+</resources>
