@@ -7,27 +7,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.altertech.evacc.R;
 import com.altertech.evacc.core.BaseApplication;
 import com.altertech.evacc.helpers.IntentHelper;
 import com.altertech.evacc.helpers.SnackbarHelper;
-import com.altertech.evacc.helpers.ToastHelper;
 import com.altertech.evacc.models.settings.SettingsModel;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
-    private EditText a_settings_s_scheme;
+    private CheckBox a_settings_s_scheme;
     private EditText a_settings_s_address;
     private EditText a_settings_s_port;
-    //private EditText a_settings_s_page;
-    //private EditText a_settings_s_landscape_page;
     private EditText a_settings_u_name;
-    private EditText a_settings_u_key;
+    private EditText a_settings_u_password;
 
     private BaseApplication application;
 
@@ -39,30 +36,24 @@ public class SettingsActivity extends AppCompatActivity {
         this.application = BaseApplication.get(this);
 
         this.a_settings_s_scheme = findViewById(R.id.a_settings_s_scheme);
-        this.a_settings_s_scheme.setText(this.application.getServerScheme());
+        this.a_settings_s_scheme.setChecked(this.application.getServerScheme());
         this.a_settings_s_address = findViewById(R.id.a_settings_s_address);
         this.a_settings_s_address.setText(this.application.getServerAddress());
         this.a_settings_s_port = findViewById(R.id.a_settings_s_port);
         this.a_settings_s_port.setText(String.valueOf(this.application.getServerPort()));
-        //this.a_settings_s_page = findViewById(R.id.a_settings_s_page);
-        //this.a_settings_s_page.setText(this.application.getServerPage());
-        //this.a_settings_s_landscape_page = findViewById(R.id.a_settings_s_landscape_page);
-        //this.a_settings_s_landscape_page.setText(this.application.getServerLandscapePage());
         this.a_settings_u_name = findViewById(R.id.a_settings_u_name);
         this.a_settings_u_name.setText(this.application.getUserName());
-        this.a_settings_u_key = findViewById(R.id.a_settings_u_key);
-        this.a_settings_u_key.setText(this.application.getUserKey());
+        this.a_settings_u_password = findViewById(R.id.a_settings_u_password);
+        this.a_settings_u_password.setText(this.application.getUserPassword());
 
         this.findViewById(R.id.title_bar_controls_back_button).setOnClickListener(v -> this.onBackPressed());
 
         findViewById(R.id.a_settings_save).setOnClickListener(view -> {
-            SettingsModel model = new SettingsModel(a_settings_s_scheme.getText().toString(),
+            SettingsModel model = new SettingsModel(a_settings_s_scheme.isChecked(),
                     a_settings_s_address.getText().toString(),
                     a_settings_s_port.getText().toString(),
-                    //a_settings_s_page.getText().toString(),
-                    //a_settings_s_landscape_page.getText().toString(),
                     a_settings_u_name.getText().toString(),
-                    a_settings_u_key.getText().toString()
+                    a_settings_u_password.getText().toString()
 
             );
             try {

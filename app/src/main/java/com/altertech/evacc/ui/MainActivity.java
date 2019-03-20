@@ -183,7 +183,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init(String url, boolean menu) {
-        if (StringUtil.isNotEmpty(this.application.getServerScheme()) && StringUtil.isNotEmpty(this.application.getServerAddress())) {
+        if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
             if (menu) {
                 new ConfigHandler(MainActivity.this.application.getBaseUrl(), this.application.getServerConfig(), new ConfigHandler.CallBack() {
                     private CustomAlertDialog progress;
@@ -236,13 +236,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loadUrl(WebView view, String url) {
-        if (StringUtil.isNotEmpty(this.application.getServerScheme()) && StringUtil.isNotEmpty(this.application.getServerAddress())) {
+        if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
             Map<String, String> headers = new HashMap<>();
             headers.put("EvaHI", BuildConfig.VERSION_NAME);
             if (this.application.isEmptyUser()) {
                 view.loadUrl(url, headers);
             } else {
-                headers.putAll(Utils.addBasicAuth(this.application.getUserName(), this.application.getUserKey()));
+                headers.putAll(Utils.addBasicAuth(this.application.getUserName(), this.application.getUserPassword()));
                 view.loadUrl(url, headers);
             }
         } else {

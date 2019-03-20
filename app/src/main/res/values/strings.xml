@@ -7,14 +7,16 @@
     <string name="app_a_main_settings">Set setting</string>
     <string name="app_a_main_loading">Loading, please wait…</string>
 
+    <string name="app_a_settings_s_title_group">Server settings</string>
     <string name="app_a_settings_s_title_scan"><u>Scan QR code</u></string>
-    <string name="app_a_settings_s_title_scheme">Protocol:</string>
+    <string name="app_a_settings_s_title_scheme">use https</string>
     <string name="app_a_settings_s_title_address">Server:</string>
     <string name="app_a_settings_s_title_port">Port:</string>
     <string name="app_a_settings_s_title_page">Page:</string>
     <string name="app_a_settings_s_title_landscape_page">Landscape page:</string>
+    <string name="app_a_settings_u_title_group">Authentication</string>
     <string name="app_a_settings_u_title_name">User:</string>
-    <string name="app_a_settings_u_title_key">Key:</string>
+    <string name="app_a_settings_u_title_password">Password:</string>
     <string name="app_a_settings_u_title_save">Save</string>
     <string name="app_a_settings_u_title_cancel">Cancel</string>
 

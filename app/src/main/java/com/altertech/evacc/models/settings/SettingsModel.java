@@ -28,7 +28,7 @@ public class SettingsModel {
         }
     }
 
-    private String scheme;
+    private Boolean isHttps;
 
     private String address;
 
@@ -36,17 +36,17 @@ public class SettingsModel {
 
     private String name;
 
-    private String key;
+    private String password;
 
     public SettingsModel() {
     }
 
-    public SettingsModel(String scheme, String address, String port, String name, String key) {
-        this.scheme = scheme;
+    public SettingsModel(Boolean isHttps, String address, String port, String name, String password) {
+        this.isHttps = isHttps;
         this.address = address;
         this.port = port;
         this.name = name;
-        this.key = key;
+        this.password = password;
     }
 
     public void parse(String data) throws SettingsException {
@@ -58,7 +58,7 @@ public class SettingsModel {
                     if (pair.length == 2) {
                         switch (pair[0]) {
                             case "scheme":
-                                this.scheme = pair[1];
+                                this.isHttps = pair[1] != null && pair[1].equalsIgnoreCase("https");
                                 break;
                             case "address":
                                 this.address = pair[1];
@@ -69,8 +69,8 @@ public class SettingsModel {
                             case "name":
                                 this.name = pair[1];
                                 break;
-                            case "key":
-                                this.key = pair[1];
+                            case "password":
+                                this.password = pair[1];
                                 break;
                         }
                     }
@@ -83,25 +83,23 @@ public class SettingsModel {
     }
 
     public void valid() throws SettingsException {
-        if (StringUtil.isEmpty(this.scheme) || !(this.scheme.equalsIgnoreCase("http") || this.scheme.equalsIgnoreCase("https"))) {
-            throw new SettingsException(R.string.app_a_settings_exception_bad_scheme);
-        } else if (StringUtil.isEmpty(this.address)/* || !this.address.matches("^(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})$")*/) {
+        if (StringUtil.isEmpty(this.address)/* || !this.address.matches("^(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})$")*/) {
             throw new SettingsException(R.string.app_a_settings_exception_bad_address);
-        } else if (StringUtil.isEmpty(this.port) || !this.port.matches("^(\\d{0,4})$")) {
+        } else if (StringUtil.isEmpty(this.port) || !this.port.matches("^(\\d{0,5})$") || !StringUtil.isInteger(this.port)|| Integer.valueOf(this.port) > 65535) {
             throw new SettingsException(R.string.app_a_settings_exception_bad_port);
         } else if (StringUtil.isEmpty(this.name)) {
             throw new SettingsException(R.string.app_a_settings_exception_bad_name);
-        } else if (StringUtil.isEmpty(this.key)) {
+        } else if (StringUtil.isEmpty(this.password)) {
             throw new SettingsException(R.string.app_a_settings_exception_bad_key);
         }
     }
 
     public void save(Context context) {
         BaseApplication application = BaseApplication.get(context);
-        application.setServerScheme(this.scheme);
+        application.setServerScheme(this.isHttps);
         application.setServerAddress(this.address);
         application.setServerPort(Integer.valueOf(this.port));
         application.setUserName(this.name);
-        application.setUserKey(this.key);
+        application.setUserPassword(this.password);
     }
 }

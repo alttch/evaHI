@@ -31,12 +31,12 @@ public class BaseApplication extends Application implements AppConstants {
     }
 
     /*server*/
-    public void setServerScheme(String value) {
-        this.preferences.edit().putString(KEY_SETTINGS_SERVER_SCHEME, value).apply();
+    public void setServerScheme(boolean value) {
+        this.preferences.edit().putBoolean(KEY_SETTINGS_SERVER_SCHEME, value).apply();
     }
 
-    public String getServerScheme() {
-        return preferences.getString(KEY_SETTINGS_SERVER_SCHEME, StringUtil.EMPTY_STRING);
+    public Boolean getServerScheme() {
+        return preferences.getBoolean(KEY_SETTINGS_SERVER_SCHEME, true);
     }
 
     public void setServerPort(int value) {
@@ -44,7 +44,7 @@ public class BaseApplication extends Application implements AppConstants {
     }
 
     public int getServerPort() {
-        return preferences.getInt(KEY_SETTINGS_SERVER_PORT, 80);
+        return preferences.getInt(KEY_SETTINGS_SERVER_PORT, 443);
     }
 
     public void setServerAddress(String value) {
@@ -54,22 +54,6 @@ public class BaseApplication extends Application implements AppConstants {
     public String getServerAddress() {
         return preferences.getString(KEY_SETTINGS_SERVER_ADDRESS, StringUtil.EMPTY_STRING);
     }
-
-    /*public void setServerPage(String value) {
-        this.preferences.edit().putString(KEY_SETTINGS_SERVER_PAGE, value).apply();
-    }
-
-    public String getServerPage() {
-        return preferences.getString(KEY_SETTINGS_SERVER_PAGE, "/");
-    }
-
-    public void setServerLandscapePage(String value) {
-        this.preferences.edit().putString(KEY_SETTINGS_SERVER_LANDSCAPE_PAGE, value).apply();
-    }
-
-    public String getServerLandscapePage() {
-        return preferences.getString(KEY_SETTINGS_SERVER_LANDSCAPE_PAGE, "/");
-    }*/
 
     public String getServerPage() {
         Config config = getServerConfig();
@@ -115,12 +99,12 @@ public class BaseApplication extends Application implements AppConstants {
         return preferences.getString(KEY_SETTINGS_USER_NAME, StringUtil.EMPTY_STRING);
     }
 
-    public void setUserKey(String value) {
-        this.preferences.edit().putString(KEY_SETTINGS_USER_KEY, value).apply();
+    public void setUserPassword(String value) {
+        this.preferences.edit().putString(KEY_SETTINGS_USER_PASSWORD, value).apply();
     }
 
-    public String getUserKey() {
-        return preferences.getString(KEY_SETTINGS_USER_KEY, StringUtil.EMPTY_STRING);
+    public String getUserPassword() {
+        return preferences.getString(KEY_SETTINGS_USER_PASSWORD, StringUtil.EMPTY_STRING);
     }
 
     public boolean isEmptyUser() {
@@ -134,11 +118,11 @@ public class BaseApplication extends Application implements AppConstants {
     }
 
     public String getBaseUrl() {
-        return String.format("%s://%s:%s", getServerScheme(), getServerAddress(), getServerPort());
+        return String.format("%s://%s:%s", getServerScheme() ? "https" : "http", getServerAddress(), getServerPort());
     }
 
     public String prepareUrl(boolean isLandscape) {
-        return String.format("%s://%s:%s", getServerScheme(), getServerAddress(), getServerPort()) + (isLandscape ? getServerLandscapePage() : getServerPage());
+        return String.format("%s://%s:%s", getServerScheme() ? "https" : "http", getServerAddress(), getServerPort()) + (isLandscape ? getServerLandscapePage() : getServerPage());
     }
 
 }
