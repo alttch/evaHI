@@ -91,7 +91,7 @@ public class MenuHolder extends ContextWrapper {
                 BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_setting)));
         menu.add(new Menu(Type.RELOAD,
                 getResources().getString(R.string.app_menu_item_name_reload),
-                BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_page)));
+                BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_reload)));
         menu.add(new Menu(Type.ABOUT,
                 getResources().getString(R.string.app_menu_item_name_about),
                 BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_info)));

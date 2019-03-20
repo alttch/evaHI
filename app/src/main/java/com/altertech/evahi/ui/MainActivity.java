@@ -3,10 +3,12 @@ package com.altertech.evahi.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -19,7 +21,9 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.BuildConfig;
 import com.altertech.evahi.R;
 import com.altertech.evahi.controls.CustomWebView;
@@ -48,8 +52,6 @@ public class MainActivity extends BaseActivity {
 
     private BaseApplication application;
 
-    private DrawerLayout a_main_drawer;
-
     private MenuHolder menu;
 
     private WebHolder webH;
@@ -61,7 +63,7 @@ public class MainActivity extends BaseActivity {
 
         this.application = BaseApplication.get(this);
 
-        this.a_main_drawer = this.findViewById(R.id.a_main_drawer);
+        this.updateScreenOrientation(this.application.getServerConfig()).initialization();
 
         this.webH = new WebHolder(findViewById(R.id.a_main_web_container));
 
@@ -82,13 +84,13 @@ public class MainActivity extends BaseActivity {
                         MainActivity.this.finish();
                         break;
                 }
-                MainActivity.this.a_main_drawer.closeDrawer(Gravity.START, true);
+                ((DrawerLayout) MainActivity.this.findViewById(R.id.a_main_drawer)).closeDrawer(Gravity.START, true);
             }
 
             @Override
             public void click(MenuHolder.Type type, String url) {
                 MainActivity.this.loadUrl(MainActivity.this.web, MainActivity.this.application.getBaseUrl() + "/" + url);
-                MainActivity.this.a_main_drawer.closeDrawer(Gravity.START, true);
+                ((DrawerLayout) MainActivity.this.findViewById(R.id.a_main_drawer)).closeDrawer(Gravity.START, true);
             }
         }).update(this.application.getServerConfig());
 
@@ -110,7 +112,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                loadUrl(view, url);
+                MainActivity.this.loadUrl(view, url);
                 return true;
             }
 
@@ -128,7 +130,7 @@ public class MainActivity extends BaseActivity {
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     if (error.getErrorCode() == -6) {
-                        SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_progress_container), SnackbarHelper.State.ERROR, R.string.app_exception_no_connection_to_the_server, SnackbarHelper.Duration.SHORT);
+                        SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_progress_container), SnackbarHelper.State.ERROR, R.string.app_exception_connection_refused, SnackbarHelper.Duration.SHORT);
                     } else {
                         SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_error, SnackbarHelper.Duration.SHORT);
                     }
@@ -150,7 +152,6 @@ public class MainActivity extends BaseActivity {
         });
 
         this.web.setWebChromeClient(new WebChromeClient() {
-
             @Override
             public void onProgressChanged(WebView view, int progress) {
                 MainActivity.this.webH.setProgress(progress);
@@ -158,11 +159,13 @@ public class MainActivity extends BaseActivity {
         });
 
 
-        this.findViewById(R.id.title_bar_controls_menu_button).setOnClickListener(v -> {
-            this.a_main_drawer.openDrawer(Gravity.START, true);
-        });
+        this.findViewById(R.id.title_bar_controls_menu_button).setOnClickListener(v -> ((DrawerLayout) this.findViewById(R.id.a_main_drawer)).openDrawer(Gravity.START, true));
 
         this.init(true);
+    }
+
+    private void initialization() {
+        ((TextView) this.findViewById(R.id.title_bar_controls_text)).setText(AppConfig.NAME);
     }
 
     private MainActivity setStateToWebControls(boolean state) {
@@ -173,10 +176,23 @@ public class MainActivity extends BaseActivity {
         return this;
     }
 
-   /* private MainActivity setStateToSettingControl(boolean state) {
-        this.a_main_settings.setVisibility(state ? View.VISIBLE : View.GONE);
+    private MainActivity updateScreenOrientation(Config config) {
+        this.setRequestedOrientation(config != null && config.hasLandscape() ? ActivityInfo.SCREEN_ORIENTATION_SENSOR : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         return this;
-    }*/
+    }
+
+    private MainActivity updateServerConfig(Config config) {
+        try {
+            this.application.setServerConfig(config);
+        } catch (CustomException e) {
+            SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, e.getCode().getMessage(), SnackbarHelper.Duration.SHORT);
+        }
+        return this;
+    }
+
+    private void showMessage(@StringRes int id) {
+        SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, id, SnackbarHelper.Duration.SHORT);
+    }
 
     private void init(boolean menu) {
         this.init(null, menu);
@@ -191,7 +207,6 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void start() {
                         this.progress = CustomDialogs.showExecutionDialog(MainActivity.this, R.string.app_dialog_title_execution, R.string.app_remote_wait);
-
                         MainActivity.this.setStateToWebControls(false);
                     }
 
@@ -199,12 +214,7 @@ public class MainActivity extends BaseActivity {
                     public void end(boolean updated, Config config) {
                         this.progress.mDismiss();
                         if (updated) {
-                            try {
-                                MainActivity.this.application.setServerConfig(config);
-                                MainActivity.this.menu.update(config);
-                            } catch (CustomException e) {
-                                SnackbarHelper.snack(MainActivity.this.findViewById(R.id.a_main_body), SnackbarHelper.State.ERROR, e.getCode().getMessage(), SnackbarHelper.Duration.SHORT);
-                            }
+                            MainActivity.this.updateServerConfig(config).updateScreenOrientation(config).menu.update(config);
                         }
                         MainActivity.this.setStateToWebControls(true).loadUrl(web, url != null ? url : MainActivity.this.application.prepareUrl(Utils.isLandscape(MainActivity.this)));
                     }
@@ -212,19 +222,14 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void error(CustomException e) {
                         this.progress.mDismiss();
-
-                        MainActivity.this.setStateToWebControls(false);
-
-                        SnackbarHelper.snack(MainActivity.this.findViewById(R.id.a_main_body), SnackbarHelper.State.ERROR, e.getCode().getMessage(), SnackbarHelper.Duration.SHORT);
+                        MainActivity.this.setStateToWebControls(false).showMessage(e.getCode().getMessage());
                     }
                 }).load();
             } else {
                 this.setStateToWebControls(true).loadUrl(this.web, url != null ? url : MainActivity.this.application.prepareUrl(Utils.isLandscape(MainActivity.this)));
             }
         } else {
-            this.setStateToWebControls(false);
-
-            SnackbarHelper.snack(MainActivity.this.findViewById(R.id.a_main_body), SnackbarHelper.State.ERROR, R.string.app_exception_no_settings, SnackbarHelper.Duration.SHORT);
+            this.setStateToWebControls(false).showMessage(R.string.app_exception_no_settings);
         }
     }
 
@@ -285,7 +290,6 @@ public class MainActivity extends BaseActivity {
         if (this.menu != null) {
             this.menu.setOrientation(config.orientation);
         }
-
         super.onConfigurationChanged(config);
     }
 

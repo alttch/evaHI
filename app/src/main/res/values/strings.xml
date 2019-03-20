@@ -35,6 +35,7 @@
 
     <string name="app_exception_invalid_url">Invalid url</string>
     <string name="app_exception_no_connection_to_the_server">Unable to connect to server</string>
+    <string name="app_exception_connection_refused">Connection refused</string>
     <string name="app_exception_file_not_found">File not found</string>
     <string name="app_exception_file_empty">File empty</string>
     <string name="app_exception_parse_error">Parse error</string>

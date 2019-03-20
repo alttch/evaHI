@@ -34,6 +34,10 @@ public class Config {
         this.index_landscape = index_landscape;
     }
 
+    public boolean hasLandscape() {
+        return this.index_landscape != null && this.index_landscape.length() > 0;
+    }
+
     public String getHome_icon() {
         return home_icon;
     }

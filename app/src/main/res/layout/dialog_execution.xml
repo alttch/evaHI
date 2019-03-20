@@ -33,7 +33,7 @@
             android:layout_marginTop="@dimen/space_20dp"
             android:text="@string/app_remote_wait"
             android:textAllCaps="true"
-            android:textColor="@color/app_light_blue"
+            android:textColor="@color/app_blue_1"
             android:textSize="@dimen/text_views_text_size_16sp"
             android:textStyle="bold" />
 

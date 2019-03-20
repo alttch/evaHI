@@ -28,7 +28,7 @@ public class CustomDialogs {
     }
 
     public static void showAboutDialog(final Context context) {
-        final Config config = BaseApplication.get(context).getServerConfig();
+        final AppConfig config = BaseApplication.get(context).getServerConfig();
 
         new CustomAlertDialog(context, R.layout.ui_f_about)
                 .setText(R.id.ui_f_about_line_1, String.format(context.getResources().getString(R.string.app_a_about_line_1), BuildConfig.VERSION_NAME))
