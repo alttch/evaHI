@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.altertech.evacc.controls.CustomWebView
+    <com.altertech.evahi.controls.CustomWebView
         android:id="@+id/ui_f_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

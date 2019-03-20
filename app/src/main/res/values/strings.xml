@@ -20,20 +20,20 @@
     <string name="app_a_settings_u_title_save">Save</string>
     <string name="app_a_settings_u_title_cancel">Cancel</string>
 
-    <string name="app_a_settings_exception_bad_code">Bad code</string>
-    <string name="app_a_settings_exception_bad_scheme">Bad protocol</string>
-    <string name="app_a_settings_exception_bad_address">Bad address</string>
-    <string name="app_a_settings_exception_bad_port">Bad port</string>
-    <string name="app_a_settings_exception_bad_page">Bad page</string>
-    <string name="app_a_settings_exception_bad_landscape_page">Bad landscape page</string>
-    <string name="app_a_settings_exception_bad_name">Bad user name</string>
-    <string name="app_a_settings_exception_bad_key">Bad key</string>
+    <string name="app_a_settings_exception_invalid_code">Invalid code</string>
+    <string name="app_a_settings_exception_invalid_scheme">Invalid protocol</string>
+    <string name="app_a_settings_exception_invalid_address">Invalid address</string>
+    <string name="app_a_settings_exception_invalid_port">Invalid port</string>
+    <string name="app_a_settings_exception_invalid_page">Invalid page</string>
+    <string name="app_a_settings_exception_invalid_landscape_page">Invalid landscape page</string>
+    <string name="app_a_settings_exception_invalid_name">Invalid user name</string>
+    <string name="app_a_settings_exception_invalid_password">Invalid password</string>
     <string name="app_a_settings_exception_qr_io_error">QR IO ERROR</string>
 
     <string name="app_a_about_line_1" formatted="false">EvaHI %s</string>
     <string name="app_a_about_line_2" formatted="false">© Altertech Group Web UI %s</string>
 
-    <string name="app_exception_bad_url">Bed url</string>
+    <string name="app_exception_invalid_url">Invalid url</string>
     <string name="app_exception_no_connection_to_the_server">Unable to connect to server</string>
     <string name="app_exception_file_not_found">File not found</string>
     <string name="app_exception_file_empty">File empty</string>
