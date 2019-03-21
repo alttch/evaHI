@@ -4,54 +4,178 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.AboutActivity">
+    android:orientation="vertical">
 
     <include
         android:id="@+id/title_bar"
         layout="@layout/title_bar_a_about" />
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="250dp"
-        android:layout_height="200dp"
-        android:background="@drawable/drawable_about"
-        android:gravity="center_horizontal|center_vertical"
-        android:orientation="vertical"
-        android:padding="@dimen/space_40dp"
+        android:id="@+id/ui_f_about_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/title_bar">
+        app:layout_constraintTop_toBottomOf="@+id/title_bar"
+        app:layout_constraintVertical_bias="0.3">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+        <FrameLayout
+            android:id="@+id/ui_f_about_container_background"
+            android:layout_width="@dimen/space_300dp"
+            android:layout_height="0dp"
+            android:background="@drawable/drawable_about_1"
+            android:gravity="center_horizontal|center_vertical"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/space_15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/ui_f_about_line_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="#4946bf"
-                android:textSize="@dimen/text_views_text_size_20sp" />
+        </FrameLayout>
 
-            <TextView
-                android:layout_marginTop="@dimen/space_10dp"
-                android:id="@+id/ui_f_about_line_2"
-                android:layout_width="wrap_content"
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="@dimen/space_200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_50dp"
+            android:layout_marginEnd="@dimen/space_50dp"
+            android:layout_marginStart="@dimen/space_50dp"
+            android:layout_marginTop="@dimen/space_50dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.42"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#4946bf"
-                android:textSize="@dimen/text_views_text_size_12sp" />
-        </LinearLayout>
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/ui_f_about_line_0"
+                    android:layout_width="@dimen/space_40dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="@dimen/space_15dp"
+                    android:background="@drawable/background_menu_3_blue">
+
+                    <ImageView
+                        android:id="@+id/ui_f_about_icon"
+                        android:layout_width="@dimen/space_20dp"
+                        android:layout_height="@dimen/space_20dp"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        tools:ignore="ContentDescription" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/ui_f_about_line_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_horizontal"
+                    android:maxLines="2"
+                    android:textColor="@color/app_violet_1"
+                    android:textSize="@dimen/text_views_text_size_20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ui_f_about_line_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_3dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/app_violet_1"
+                    android:textSize="@dimen/text_views_text_size_12sp" />
+
+                <TextView
+                    android:id="@+id/ui_f_about_line_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_3dp"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:textColor="@color/app_violet_1"
+                    android:textSize="@dimen/text_views_text_size_12sp" />
+
+                <Space
+                    android:id="@+id/ui_f_about_line_separator_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/space_30dp" />
+
+                <TextView
+                    android:id="@+id/ui_f_about_line_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/app_violet_1"
+                    android:textSize="@dimen/text_views_text_size_12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ui_f_about_line_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_3dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/app_violet_1"
+                    android:textSize="@dimen/text_views_text_size_12sp" />
+
+                <TextView
+                    android:id="@+id/ui_f_about_line_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_3dp"
+                    android:background="@drawable/selector_change_different_color_to_simple_color"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingEnd="@dimen/space_3dp"
+                    android:paddingStart="@dimen/space_3dp"
+                    android:singleLine="true"
+                    android:textColor="@color/app_blue_2"
+                    android:textSize="@dimen/text_views_text_size_12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ui_f_about_line_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_3dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/app_violet_1"
+                    android:textSize="@dimen/text_views_text_size_12sp" />
+
+                <TextView
+                    android:id="@+id/ui_f_about_line_8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_20dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/app_violet_1"
+                    android:textSize="@dimen/text_views_text_size_10sp" />
+
+            </LinearLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
 
 
     </android.support.constraint.ConstraintLayout>
+
 
 </android.support.constraint.ConstraintLayout>

@@ -30,8 +30,11 @@
     <string name="app_a_settings_exception_invalid_password">Invalid password</string>
     <string name="app_a_settings_exception_qr_io_error">QR IO ERROR</string>
 
-    <string name="app_a_about_line_1" formatted="false">EvaHI %s</string>
-    <string name="app_a_about_line_2" formatted="false">© Altertech Group Web UI %s</string>
+    <string name="app_a_about_line_name" formatted="false">EvaHI %s</string>
+    <string name="app_a_about_line_copyright" formatted="false">(©)%s Altertech Group</string>
+    <string name="app_a_about_line_link" formatted="false">https://www.altertech.com</string>
+    <string name="app_a_about_line_license" formatted="false">Apache License 2.0</string>
+    <string name="app_a_about_line_web_ui" formatted="false">Web UI serial # %s</string>
 
     <string name="app_exception_invalid_url">Invalid url</string>
     <string name="app_exception_no_connection_to_the_server">Unable to connect to server</string>
@@ -39,6 +42,8 @@
     <string name="app_exception_file_not_found">File not found</string>
     <string name="app_exception_file_empty">File empty</string>
     <string name="app_exception_parse_error">Parse error</string>
+    <string name="app_exception_parse_error_invalid_serial">Invalid serial</string>
+    <string name="app_exception_parse_error_invalid_index_page">Invalid index page</string>
     <string name="app_exception_error">Error…</string>
     <string name="app_exception_ssl_error">SSL error…</string>
     <string name="app_exception_no_settings">You must to set server config</string>

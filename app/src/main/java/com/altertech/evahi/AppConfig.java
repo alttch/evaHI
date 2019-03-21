@@ -5,8 +5,6 @@ package com.altertech.evahi;
  */
 public class AppConfig {
 
-    public final static String NAME = "", VERSION = "", COPYRIGHT = "";
-
-
+    public final static String NAME = "Best Webshop", VERSION = "version 3.0", COPYRIGHT = "(©) Andrew Serega";
 
 }

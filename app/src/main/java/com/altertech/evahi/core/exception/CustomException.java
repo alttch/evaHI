@@ -14,7 +14,9 @@ public class CustomException extends Exception {
         NO_CONNECTION_TO_SERVER(2, R.string.app_exception_no_connection_to_the_server),
         FILE_NOT_FOUND(3, R.string.app_exception_file_not_found),
         FILE_EMPTY(4, R.string.app_exception_file_empty),
-        PARSE_ERROR(5, R.string.app_exception_parse_error);
+        PARSE_ERROR(5, R.string.app_exception_parse_error),
+        PARSE_ERROR_INVALID_SERIAL(6, R.string.app_exception_parse_error_invalid_serial),
+        PARSE_ERROR_INVALID_INDEX_PAGE(7, R.string.app_exception_parse_error_invalid_index_page);
         int id;
         @StringRes
         int message;

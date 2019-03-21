@@ -24,6 +24,10 @@
     <dimen name="space_100dp">100dp</dimen>
     <dimen name="space_150dp">150dp</dimen>
 
+    <dimen name="space_200dp">200dp</dimen>
+    <dimen name="space_300dp">300dp</dimen>
+    <dimen name="space_400dp">400dp</dimen>
+
     <dimen name="text_views_text_size_8sp">8sp</dimen>
     <dimen name="text_views_text_size_10sp">10sp</dimen>
     <dimen name="text_views_text_size_12sp">12sp</dimen>

@@ -73,6 +73,7 @@
                         android:background="@drawable/border_bottom_violet"
                         android:paddingBottom="@dimen/space_5dp"
                         android:text="@string/app_a_settings_s_title_group"
+                        android:textStyle="bold"
                         android:textColor="@color/app_violet_1"
                         android:textSize="@dimen/text_views_text_size_16sp" />
 
@@ -147,6 +148,7 @@
                         android:background="@drawable/border_bottom_violet"
                         android:paddingBottom="@dimen/space_5dp"
                         android:text="@string/app_a_settings_u_title_group"
+                        android:textStyle="bold"
                         android:textColor="@color/app_violet_1"
                         android:textSize="@dimen/text_views_text_size_16sp" />
 

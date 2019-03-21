@@ -8,6 +8,7 @@ import com.altertech.evahi.core.exception.CustomException;
 import com.altertech.evahi.core.parser.SingletonMapper;
 import com.altertech.evahi.helpers.TaskHelper;
 import com.altertech.evahi.utils.ImageUtil;
+import com.altertech.evahi.utils.StringUtil;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,22 +16,27 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * Created by oshevchuk on 14.02.2019
  */
 public class ConfigHandler {
 
+
     private Config old;
 
     private CallBack listener;
 
-    private String url;
+    private String username, password, url;
 
-    public ConfigHandler(String url, Config old, CallBack listener) {
+    public ConfigHandler(String url, String username, String password, Config old, CallBack listener) {
         this.old = old;
         this.listener = listener;
         this.url = url;
+        this.username = username;
+        this.password = password;
     }
 
     public void load() {
@@ -56,7 +62,7 @@ public class ConfigHandler {
         @Override
         protected Object doInBackground(Void... voids) {
             try {
-                Config config = ConfigHandler.this.fromYaml(ConfigHandler.this.getFromUrl(url + "/.evahi/config.yml"));
+                Config config = ConfigHandler.this.fromYaml(ConfigHandler.this.getFromUrl(url, "/.evahi/config.yml")).valid();
                 if (ConfigHandler.this.resolveToUpdate(config)) {
                     return new Result(true, ConfigHandler.this.prepare(config));
                 } else {
@@ -67,7 +73,7 @@ public class ConfigHandler {
                     return yamlE;
                 } else {
                     try {
-                        Config config = ConfigHandler.this.fromJson(ConfigHandler.this.getFromUrl(url + "/.evahi/config.json"));
+                        Config config = ConfigHandler.this.fromJson(ConfigHandler.this.getFromUrl(url, "/.evahi/config.json")).valid();
                         if (ConfigHandler.this.resolveToUpdate(config)) {
                             return new Result(true, ConfigHandler.this.prepare(config));
                         } else {
@@ -93,7 +99,7 @@ public class ConfigHandler {
             boolean updated;
             Config config;
 
-            public Result(boolean updated, Config config) {
+            Result(boolean updated, Config config) {
                 this.updated = updated;
                 this.config = config;
             }
@@ -101,7 +107,7 @@ public class ConfigHandler {
     }
 
     private boolean resolveToUpdate(Config config) {
-        return this.old == null || this.old.getVersion() != config.getVersion();
+        return this.old == null || this.old.getSerial() != config.getSerial();
     }
 
     private Config prepare(Config config) {
@@ -123,7 +129,7 @@ public class ConfigHandler {
             return null;
         } else {
             try {
-                return ImageUtil.convert(BitmapFactory.decodeStream(new URL(this.url + "/.evahi/icons/" + url).openConnection().getInputStream()));
+                return ImageUtil.convert(BitmapFactory.decodeStream(new URL(new URL(this.url), ("/.evahi/icons/" + url)).openConnection().getInputStream()));
             } catch (IOException e) {
                 return null;
             }
@@ -154,14 +160,16 @@ public class ConfigHandler {
         }
     }
 
-    private String getFromUrl(String u) throws CustomException {
-        if (u == null || u.length() == 0) {
+    private String getFromUrl(String base, String u) throws CustomException {
+        if (base == null || u == null || base.length() == 0 || u.length() == 0) {
             throw new CustomException(CustomException.Code.BAD_URL);
         } else {
             HttpURLConnection connection = null;
             try {
-                connection = (HttpURLConnection) new URL(u).openConnection();
-
+                connection = (HttpURLConnection) new URL(new URL(base), u).openConnection();
+                if(StringUtil.isNotEmpty(username) && StringUtil.isNotEmpty(password)){
+                    connection.setRequestProperty("Authorization", "Basic " + android.util.Base64.encodeToString(String.format("%s:%s", username, password).getBytes(), android.util.Base64.NO_WRAP));
+                }
                 InputStreamReader reader = new InputStreamReader(connection.getInputStream());
                 StringBuilder result = new StringBuilder();
                 int data = reader.read();

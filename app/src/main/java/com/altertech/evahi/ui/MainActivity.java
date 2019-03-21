@@ -201,7 +201,7 @@ public class MainActivity extends BaseActivity {
     private void init(String url, boolean menu) {
         if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
             if (menu) {
-                new ConfigHandler(MainActivity.this.application.getBaseUrl(), this.application.getServerConfig(), new ConfigHandler.CallBack() {
+                new ConfigHandler(MainActivity.this.application.getBaseUrl(), MainActivity.this.application.getUserName(), MainActivity.this.application.getUserPassword(), this.application.getServerConfig(), new ConfigHandler.CallBack() {
                     private CustomAlertDialog progress;
 
                     @Override
@@ -214,9 +214,9 @@ public class MainActivity extends BaseActivity {
                     public void end(boolean updated, Config config) {
                         this.progress.mDismiss();
                         if (updated) {
-                            MainActivity.this.updateServerConfig(config).updateScreenOrientation(config).menu.update(config);
+                            MainActivity.this.updateServerConfig(config).menu.update(config);
                         }
-                        MainActivity.this.setStateToWebControls(true).loadUrl(web, url != null ? url : MainActivity.this.application.prepareUrl(Utils.isLandscape(MainActivity.this)));
+                        MainActivity.this.updateScreenOrientation(config).setStateToWebControls(true).loadUrl(web, url != null && !url.equals("/") ? url : MainActivity.this.application.prepareUrl(Utils.isLandscape(MainActivity.this)));
                     }
 
                     @Override
