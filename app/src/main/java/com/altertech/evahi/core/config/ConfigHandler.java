@@ -16,14 +16,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+
+import javax.net.ssl.SSLHandshakeException;
 
 /**
  * Created by oshevchuk on 14.02.2019
  */
 public class ConfigHandler {
-
 
     private Config old;
 
@@ -69,7 +68,7 @@ public class ConfigHandler {
                     return new Result(false, ConfigHandler.this.old);
                 }
             } catch (CustomException yamlE) {
-                if (yamlE.getCode().equals(CustomException.Code.NO_CONNECTION_TO_SERVER)) {
+                if (yamlE.getCode().equals(CustomException.Code.NO_CONNECTION_TO_SERVER) || yamlE.getCode().equals(CustomException.Code.CONNECTION_ERROR_HAND_SHAKE)) {
                     return yamlE;
                 } else {
                     try {
@@ -167,9 +166,10 @@ public class ConfigHandler {
             HttpURLConnection connection = null;
             try {
                 connection = (HttpURLConnection) new URL(new URL(base), u).openConnection();
-                if(StringUtil.isNotEmpty(username) && StringUtil.isNotEmpty(password)){
+                if (StringUtil.isNotEmpty(username) && StringUtil.isNotEmpty(password)) {
                     connection.setRequestProperty("Authorization", "Basic " + android.util.Base64.encodeToString(String.format("%s:%s", username, password).getBytes(), android.util.Base64.NO_WRAP));
                 }
+                connection.setConnectTimeout(5000);
                 InputStreamReader reader = new InputStreamReader(connection.getInputStream());
                 StringBuilder result = new StringBuilder();
                 int data = reader.read();
@@ -187,6 +187,8 @@ public class ConfigHandler {
                 throw new CustomException(CustomException.Code.BAD_URL);
             } catch (FileNotFoundException e) {
                 throw new CustomException(CustomException.Code.FILE_NOT_FOUND);
+            } catch (SSLHandshakeException e) {
+                throw new CustomException(CustomException.Code.CONNECTION_ERROR_HAND_SHAKE);
             } catch (IOException e) {
                 throw new CustomException(CustomException.Code.NO_CONNECTION_TO_SERVER);
             } finally {
@@ -197,11 +199,3 @@ public class ConfigHandler {
         }
     }
 }
-
-
-
-
-
-
-
-

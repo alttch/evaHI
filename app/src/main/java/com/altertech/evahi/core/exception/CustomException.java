@@ -16,7 +16,8 @@ public class CustomException extends Exception {
         FILE_EMPTY(4, R.string.app_exception_file_empty),
         PARSE_ERROR(5, R.string.app_exception_parse_error),
         PARSE_ERROR_INVALID_SERIAL(6, R.string.app_exception_parse_error_invalid_serial),
-        PARSE_ERROR_INVALID_INDEX_PAGE(7, R.string.app_exception_parse_error_invalid_index_page);
+        PARSE_ERROR_INVALID_INDEX_PAGE(7, R.string.app_exception_parse_error_invalid_index_page),
+        CONNECTION_ERROR_HAND_SHAKE(8, R.string.app_exception_handshake);
         int id;
         @StringRes
         int message;

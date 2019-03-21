@@ -129,10 +129,16 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                    if (error.getErrorCode() == -6) {
-                        SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_progress_container), SnackbarHelper.State.ERROR, R.string.app_exception_connection_refused, SnackbarHelper.Duration.SHORT);
-                    } else {
-                        SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_error, SnackbarHelper.Duration.SHORT);
+                    switch (error.getErrorCode()) {
+                        case -6:
+                            SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_connection_refused, SnackbarHelper.Duration.SHORT);
+                            break;
+                        case -11:
+                            SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_handshake, SnackbarHelper.Duration.SHORT);
+                            break;
+                        default:
+                            SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_error, SnackbarHelper.Duration.SHORT);
+                            break;
                     }
                 } else {
                     SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_error, SnackbarHelper.Duration.SHORT);

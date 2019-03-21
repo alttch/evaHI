@@ -44,8 +44,10 @@
     <string name="app_exception_parse_error">Parse error</string>
     <string name="app_exception_parse_error_invalid_serial">Invalid serial</string>
     <string name="app_exception_parse_error_invalid_index_page">Invalid index page</string>
-    <string name="app_exception_error">Error…</string>
+    <string name="app_exception_error">Internal error…</string>
     <string name="app_exception_ssl_error">SSL error…</string>
+    <string name="app_exception_handshake">Protocol error</string>
+
     <string name="app_exception_no_settings">You must to set server config</string>
 
     <string name="app_menu_item_name_home">Home</string>
@@ -56,6 +58,5 @@
 
     <string name="app_dialog_title_execution">Execution…</string>
     <string name="app_remote_wait">Please wait…</string>
-
 
 </resources>
