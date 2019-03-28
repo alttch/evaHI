@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.core.exception.CustomException;
 import com.altertech.evahi.core.parser.SingletonMapper;
@@ -31,20 +32,24 @@ public class BaseApplication extends Application implements AppConstants {
     }
 
     /*server*/
-    public void setServerScheme(boolean value) {
+    public void useHttps(boolean value) {
         this.preferences.edit().putBoolean(KEY_SETTINGS_SERVER_SCHEME, value).apply();
     }
 
-    public Boolean getServerScheme() {
-        return preferences.getBoolean(KEY_SETTINGS_SERVER_SCHEME, true);
+    public Boolean useHttps() {
+        return AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? AppConfig.CONFIG.isUseHttps() : preferences.getBoolean(KEY_SETTINGS_SERVER_SCHEME, true);
     }
 
-    public void setServerPort(int value) {
-        this.preferences.edit().putInt(KEY_SETTINGS_SERVER_PORT, value).apply();
+    public void setServerPort(Integer value) {
+        if (value != null) {
+            this.preferences.edit().putInt(KEY_SETTINGS_SERVER_PORT, value).apply();
+        } else {
+            this.preferences.edit().remove(KEY_SETTINGS_SERVER_PORT).apply();
+        }
     }
 
     public int getServerPort() {
-        return preferences.getInt(KEY_SETTINGS_SERVER_PORT, 443);
+        return AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? AppConfig.CONFIG.getPort() : preferences.getInt(KEY_SETTINGS_SERVER_PORT, 443);
     }
 
     public void setServerAddress(String value) {
@@ -52,7 +57,7 @@ public class BaseApplication extends Application implements AppConstants {
     }
 
     public String getServerAddress() {
-        return preferences.getString(KEY_SETTINGS_SERVER_ADDRESS, StringUtil.EMPTY_STRING);
+        return AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? AppConfig.CONFIG.getAddress() : preferences.getString(KEY_SETTINGS_SERVER_ADDRESS, StringUtil.EMPTY_STRING);
     }
 
     public String getServerPage() {
@@ -118,11 +123,18 @@ public class BaseApplication extends Application implements AppConstants {
     }
 
     public String getBaseUrl() {
-        return String.format("%s://%s:%s", getServerScheme() ? "https" : "http", getServerAddress(), getServerPort());
+        return String.format("%s://%s:%s", useHttps() ? "https" : "http", getServerAddress(), getServerPort());
     }
 
     public String prepareUrl(boolean isLandscape) {
-        return String.format("%s://%s:%s", getServerScheme() ? "https" : "http", getServerAddress(), getServerPort()) + (isLandscape ? getServerLandscapePage() : getServerPage());
+        return String.format("%s://%s:%s", useHttps() ? "https" : "http", getServerAddress(), getServerPort()) + (isLandscape ? getServerLandscapePage() : getServerPage());
     }
 
+    public boolean isFirstStart() {
+        return preferences.getBoolean(KEY_FIRST_START, true);
+    }
+
+    public void setFirstStartState(boolean state) {
+        this.preferences.edit().putBoolean(KEY_FIRST_START, state).apply();
+    }
 }

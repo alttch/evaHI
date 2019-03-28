@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity {
         this.web.getSettings().setSupportZoom(true);
         this.web.getSettings().setJavaScriptEnabled(true);
         this.web.getSettings().setDisplayZoomControls(false);
-        this.web.getSettings().setUserAgentString("EvaHI (" + BuildConfig.VERSION_NAME + ", " + this.web.getSettings().getUserAgentString() + ") ");
+        this.web.getSettings().setUserAgentString(getResources().getString(R.string.app_name) + " (" + BuildConfig.VERSION_NAME + ", " + this.web.getSettings().getUserAgentString() + ") ");
         this.web.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -164,20 +164,24 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-
         this.findViewById(R.id.title_bar_controls_menu_button).setOnClickListener(v -> ((DrawerLayout) this.findViewById(R.id.a_main_drawer)).openDrawer(Gravity.START, true));
 
-        this.init(true);
+        if (this.application.isFirstStart()) {
+            this.application.setFirstStartState(false);
+            this.setStateToWebControls(false).startActivityForResult(new Intent(MainActivity.this, SettingsActivity.class), IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode());
+        } else {
+            this.init(true);
+        }
     }
 
     private void initialization() {
-        ((TextView) this.findViewById(R.id.title_bar_controls_text)).setText(AppConfig.NAME);
+        ((TextView) this.findViewById(R.id.title_bar_controls_text)).setText(StringUtil.isNotEmpty(AppConfig.NAME) ? AppConfig.NAME : getResources().getString(R.string.app_name));
     }
 
     private MainActivity setStateToWebControls(boolean state) {
         this.webH.setVisibility(state);
 
-        this.a_main_settings.setVisibility(!state ? View.VISIBLE : View.GONE);
+        this.a_main_settings.setVisibility(!state ? (AppConfig.CONFIG != null && !AppConfig.CONFIG.isEnabled()) || AppConfig.AUTHENTICATION ? View.VISIBLE : View.GONE : View.GONE);
 
         return this;
     }
@@ -212,7 +216,7 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void start() {
-                        this.progress = CustomDialogs.showExecutionDialog(MainActivity.this, R.string.app_dialog_title_execution, R.string.app_remote_wait);
+                        this.progress = CustomDialogs.showExecutionDialog(MainActivity.this, R.string.app_remote_wait);
                         MainActivity.this.setStateToWebControls(false);
                     }
 
@@ -250,7 +254,7 @@ public class MainActivity extends BaseActivity {
         if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
             Map<String, String> headers = new HashMap<>();
             headers.put("EvaHI", BuildConfig.VERSION_NAME);
-            if (this.application.isEmptyUser()) {
+            if (!AppConfig.AUTHENTICATION || this.application.isEmptyUser()) {
                 view.loadUrl(url, headers);
             } else {
                 headers.putAll(Utils.addBasicAuth(this.application.getUserName(), this.application.getUserPassword()));

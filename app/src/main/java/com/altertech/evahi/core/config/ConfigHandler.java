@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
+import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.core.exception.CustomException;
 import com.altertech.evahi.core.parser.SingletonMapper;
-import com.altertech.evahi.helpers.TaskHelper;
 import com.altertech.evahi.utils.ImageUtil;
 import com.altertech.evahi.utils.StringUtil;
 
@@ -39,7 +39,7 @@ public class ConfigHandler {
     }
 
     public void load() {
-        TaskHelper.execute(new LOADER());
+        new LOADER().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public interface CallBack {
@@ -166,7 +166,7 @@ public class ConfigHandler {
             HttpURLConnection connection = null;
             try {
                 connection = (HttpURLConnection) new URL(new URL(base), u).openConnection();
-                if (StringUtil.isNotEmpty(username) && StringUtil.isNotEmpty(password)) {
+                if (!AppConfig.AUTHENTICATION && StringUtil.isNotEmpty(username)) {
                     connection.setRequestProperty("Authorization", "Basic " + android.util.Base64.encodeToString(String.format("%s:%s", username, password).getBytes(), android.util.Base64.NO_WRAP));
                 }
                 connection.setConnectTimeout(5000);

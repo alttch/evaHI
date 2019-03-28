@@ -6,6 +6,7 @@ package com.altertech.evahi.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -17,7 +18,9 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
+import com.altertech.evahi.core.BaseApplication;
 import com.altertech.evahi.helpers.SnackbarHelper;
 import com.altertech.evahi.models.settings.SettingsModel;
 import com.google.android.gms.vision.CameraSource;
@@ -71,7 +74,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                         ActivityCompat.requestPermissions(ScannedBarcodeActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                     }
                 } catch (IOException e) {
-                    SnackbarHelper.snack(ScannedBarcodeActivity.this, SnackbarHelper.State.ERROR,  R.string.app_a_settings_exception_qr_io_error, SnackbarHelper.Duration.SHORT);
+                    SnackbarHelper.snack(ScannedBarcodeActivity.this, SnackbarHelper.State.ERROR, R.string.app_a_settings_exception_qr_io_error, SnackbarHelper.Duration.SHORT);
                 }
             }
 
@@ -100,16 +103,39 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                         SettingsModel model = new SettingsModel();
                         try {
                             model.parse(barcode.rawValue);
-                            model.save(ScannedBarcodeActivity.this);
-                            ScannedBarcodeActivity.this.setResult(RESULT_OK);
+                            boolean res = ScannedBarcodeActivity.this.save(model);
+                            if (res) {
+                                ScannedBarcodeActivity.this.setResult(RESULT_OK);
+                            }
                             ScannedBarcodeActivity.this.finish();
                         } catch (final SettingsModel.SettingsException e) {
-                            ScannedBarcodeActivity.this.showStatus(R.string.app_a_settings_exception_invalid_code);
+                            if (e.getCustomMessage() == R.string.app_a_settings_exception_invalid_password) {
+                                boolean res = ScannedBarcodeActivity.this.save(model);
+                                if (res) {
+                                    ScannedBarcodeActivity.this.setResult(RESULT_OK, new Intent().putExtra("code", e.getCustomMessage()));
+                                }
+                                ScannedBarcodeActivity.this.finish();
+                            } else {
+                                ScannedBarcodeActivity.this.showStatus(R.string.app_a_settings_exception_invalid_code);
+                            }
                         }
                     }
                 }
             }
         });
+    }
+
+    private boolean save(SettingsModel model) {
+        int counter = 0;
+        if (AppConfig.CONFIG == null || !AppConfig.CONFIG.isEnabled()) {
+            model.saveS(BaseApplication.get(ScannedBarcodeActivity.this));
+            counter++;
+        }
+        if (AppConfig.AUTHENTICATION) {
+            model.saveU(BaseApplication.get(ScannedBarcodeActivity.this));
+            counter++;
+        }
+        return counter > 0;
     }
 
     private void showStatus(final @StringRes int s) {

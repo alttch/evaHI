@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
 import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.utils.ImageUtil;
@@ -86,9 +87,12 @@ public class MenuHolder extends ContextWrapper {
 
         menu.addAll(this.getMenuFromConfig(config));
 
-        menu.add(new Menu(Type.SETTINGS,
-                getResources().getString(R.string.app_menu_item_name_settings),
-                BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_setting)));
+        if ((AppConfig.CONFIG != null && !AppConfig.CONFIG.isEnabled()) || AppConfig.AUTHENTICATION) {
+            menu.add(new Menu(Type.SETTINGS,
+                    getResources().getString(R.string.app_menu_item_name_settings),
+                    BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_setting)));
+        }
+
         menu.add(new Menu(Type.RELOAD,
                 getResources().getString(R.string.app_menu_item_name_reload),
                 BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_reload)));

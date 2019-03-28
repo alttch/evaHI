@@ -19,6 +19,7 @@
     <string name="app_a_settings_u_title_password">Password:</string>
     <string name="app_a_settings_u_title_save">Save</string>
     <string name="app_a_settings_u_title_cancel">Cancel</string>
+    <string name="app_a_settings_u_hint_password">Password</string>
 
     <string name="app_a_settings_exception_invalid_code">Invalid code</string>
     <string name="app_a_settings_exception_invalid_scheme">Invalid protocol</string>
@@ -48,7 +49,7 @@
     <string name="app_exception_ssl_error">SSL error…</string>
     <string name="app_exception_handshake">Protocol error</string>
 
-    <string name="app_exception_no_settings">You must to set server config</string>
+    <string name="app_exception_no_settings">Server config not set</string>
 
     <string name="app_menu_item_name_home">Home</string>
     <string name="app_menu_item_name_settings">Settings</string>

@@ -28,13 +28,16 @@
                 android:padding="10dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/a_settings_q_container"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/space_25dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
                     android:paddingEnd="@dimen/space_35dp"
                     android:paddingStart="@dimen/space_35dp"
+                    android:visibility="visible"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
@@ -67,147 +70,160 @@
                     android:paddingStart="@dimen/space_20dp"
                     android:paddingTop="@dimen/space_10dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_bottom_violet"
-                        android:paddingBottom="@dimen/space_5dp"
-                        android:text="@string/app_a_settings_s_title_group"
-                        android:textStyle="bold"
-                        android:textColor="@color/app_violet_1"
-                        android:textSize="@dimen/text_views_text_size_16sp" />
-
                     <LinearLayout
+                        android:id="@+id/a_settings_s_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_10dp"
-                        android:orientation="vertical">
-
-                        <CheckBox
-                            android:id="@+id/a_settings_s_scheme"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:button="@drawable/selector_checkbox"
-                            android:paddingEnd="0dp"
-                            android:paddingStart="@dimen/space_10dp"
-                            android:text="@string/app_a_settings_s_title_scheme"
-                            android:textColor="@color/app_gray_2"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/app_a_settings_s_title_address"
-                            android:textColor="@color/app_gray_2"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/a_settings_s_address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:background="@drawable/selector_gray_to_light_blue_bottom_edit_text_view"
-                            android:paddingBottom="@dimen/space_5dp"
-                            android:textColor="@color/app_black"
-                            android:textCursorDrawable="@drawable/drawable_cursor_lighy_blue"
-                            android:textSize="14sp"
-                            tools:ignore="LabelFor,TextFields" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/app_a_settings_s_title_port"
-                            android:textColor="@color/app_gray_2"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/a_settings_s_port"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:background="@drawable/selector_gray_to_light_blue_bottom_edit_text_view"
-                            android:digits="0123456789"
-                            android:inputType="numberDecimal"
-                            android:paddingBottom="@dimen/space_5dp"
-                            android:textColor="@color/app_black"
-                            android:textCursorDrawable="@drawable/drawable_cursor_lighy_blue"
-                            android:textSize="14sp"
-                            tools:ignore="LabelFor" />
-
-                    </LinearLayout>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/space_20dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_bottom_violet"
-                        android:paddingBottom="@dimen/space_5dp"
-                        android:text="@string/app_a_settings_u_title_group"
-                        android:textStyle="bold"
-                        android:textColor="@color/app_violet_1"
-                        android:textSize="@dimen/text_views_text_size_16sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_10dp"
+                        android:layout_marginBottom="@dimen/space_20dp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/app_a_settings_u_title_name"
-                            android:textColor="@color/app_gray_2"
-                            android:textSize="12sp" />
-
-                        <EditText
-                            android:id="@+id/a_settings_u_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:background="@drawable/selector_gray_to_light_blue_bottom_edit_text_view"
+                            android:background="@drawable/border_bottom_violet"
                             android:paddingBottom="@dimen/space_5dp"
-                            android:textColor="@color/app_black"
-                            android:textCursorDrawable="@drawable/drawable_cursor_lighy_blue"
-                            android:textSize="14sp"
-                            tools:ignore="LabelFor,TextFields" />
+                            android:text="@string/app_a_settings_s_title_group"
+                            android:textColor="@color/app_violet_1"
+                            android:textSize="@dimen/text_views_text_size_16sp"
+                            android:textStyle="bold" />
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/app_a_settings_u_title_password"
-                            android:textColor="@color/app_gray_2"
-                            android:textSize="12sp" />
+                            android:layout_marginTop="@dimen/space_10dp"
+                            android:orientation="vertical">
 
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:counterEnabled="false"
-                            app:counterMaxLength="16"
-                            app:counterTextAppearance="@style/CustomCounterStyle"
-                            app:errorEnabled="false"
-                            app:passwordToggleEnabled="true"
-                            app:passwordToggleTint="@color/app_gray_2">
-                            <!---->
-                            <android.support.design.widget.TextInputEditText
-                                android:id="@+id/a_settings_u_password"
+                            <CheckBox
+                                android:id="@+id/a_settings_s_scheme"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/space_30dp"
+                                android:layout_height="wrap_content"
+                                android:button="@drawable/selector_checkbox"
+                                android:paddingEnd="0dp"
+                                android:paddingStart="@dimen/space_10dp"
+                                android:text="@string/app_a_settings_s_title_scheme"
+                                android:textColor="@color/app_black"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/app_a_settings_s_title_address"
+                                android:textColor="@color/app_black"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/a_settings_s_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
                                 android:background="@drawable/selector_gray_to_light_blue_bottom_edit_text_view"
-                                android:inputType="textPassword"
+                                android:paddingBottom="@dimen/space_5dp"
                                 android:textColor="@color/app_black"
                                 android:textCursorDrawable="@drawable/drawable_cursor_lighy_blue"
                                 android:textSize="14sp"
-                                tools:ignore="RtlSymmetry" />
+                                tools:ignore="LabelFor,TextFields" />
 
-                        </android.support.design.widget.TextInputLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/app_a_settings_s_title_port"
+                                android:textColor="@color/app_black"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/a_settings_s_port"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/selector_gray_to_light_blue_bottom_edit_text_view"
+                                android:digits="0123456789"
+                                android:inputType="numberDecimal"
+                                android:paddingBottom="@dimen/space_5dp"
+                                android:textColor="@color/app_black"
+                                android:textCursorDrawable="@drawable/drawable_cursor_lighy_blue"
+                                android:textSize="14sp"
+                                tools:ignore="LabelFor" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/a_settings_u_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/border_bottom_violet"
+                            android:paddingBottom="@dimen/space_5dp"
+                            android:text="@string/app_a_settings_u_title_group"
+                            android:textColor="@color/app_violet_1"
+                            android:textSize="@dimen/text_views_text_size_16sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/app_a_settings_u_title_name"
+                                android:textColor="@color/app_black"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/a_settings_u_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/selector_gray_to_light_blue_bottom_edit_text_view"
+                                android:paddingBottom="@dimen/space_5dp"
+                                android:textColor="@color/app_black"
+                                android:textCursorDrawable="@drawable/drawable_cursor_lighy_blue"
+                                android:textSize="14sp"
+                                tools:ignore="LabelFor,TextFields" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/app_a_settings_u_title_password"
+                                android:textColor="@color/app_black"
+                                android:textSize="12sp" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:counterEnabled="false"
+                                app:counterMaxLength="16"
+                                app:counterTextAppearance="@style/CustomCounterStyle"
+                                app:errorEnabled="false"
+                                app:passwordToggleEnabled="true"
+                                app:passwordToggleTint="@color/app_gray_2">
+                                <!---->
+                                <android.support.design.widget.TextInputEditText
+                                    android:id="@+id/a_settings_u_password"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/space_30dp"
+                                    android:background="@drawable/selector_gray_to_light_blue_bottom_edit_text_view"
+                                    android:inputType="textPassword"
+                                    android:textColor="@color/app_black"
+                                    android:textCursorDrawable="@drawable/drawable_cursor_lighy_blue"
+                                    android:textSize="14sp"
+                                    tools:ignore="RtlSymmetry" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

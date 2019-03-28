@@ -1,15 +1,18 @@
 package com.altertech.evahi.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.altertech.evahi.R;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public final class Utils {
     private Utils() {
@@ -58,5 +61,10 @@ public final class Utils {
             p.setMargins(l, t, r, b);
             v.requestLayout();
         }
+    }
+
+    public static void showKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        Objects.requireNonNull(inputMethodManager).toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 }
