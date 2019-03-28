@@ -21,18 +21,24 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/space_5dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:gravity="center_vertical|start"
+            android:maxLines="1"
+            android:padding="@dimen/space_5dp"
+            android:singleLine="true"
             android:text="@string/app_a_main_loading"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/app_white"
+            android:textSize="@dimen/text_views_text_size_12sp" />
 
         <ProgressBar
             android:id="@+id/ui_f_web_progress_p"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dip" />
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="@dimen/space_5dp"
+            android:paddingStart="0dp" />
     </LinearLayout>
 
 

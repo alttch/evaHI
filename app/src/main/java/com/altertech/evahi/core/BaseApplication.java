@@ -117,17 +117,12 @@ public class BaseApplication extends Application implements AppConstants {
         return user == null || user.isEmpty();
     }
 
-    public String getServerName() {
-        String address = this.getServerAddress();
-        return address.endsWith("/") ? address.substring(0, address.length() - 1) : address;
-    }
-
     public String getBaseUrl() {
-        return String.format("%s://%s:%s", useHttps() ? "https" : "http", getServerAddress(), getServerPort());
+        return String.format("%s://%s:%s", useHttps() ? "https" : "http", this.getServerAddress(), this.getServerPort());
     }
 
     public String prepareUrl(boolean isLandscape) {
-        return String.format("%s://%s:%s", useHttps() ? "https" : "http", getServerAddress(), getServerPort()) + (isLandscape ? getServerLandscapePage() : getServerPage());
+        return this.getBaseUrl() + (isLandscape ? this.getServerLandscapePage() : this.getServerPage());
     }
 
     public boolean isFirstStart() {

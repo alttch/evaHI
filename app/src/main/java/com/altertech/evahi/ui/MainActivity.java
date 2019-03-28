@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void click(MenuHolder.Type type, String url) {
-                MainActivity.this.loadUrl(MainActivity.this.web, MainActivity.this.application.getBaseUrl() + "/" + url);
+                MainActivity.this.loadUrl(MainActivity.this.web, MainActivity.this.application.getBaseUrl() + url);
                 ((DrawerLayout) MainActivity.this.findViewById(R.id.a_main_drawer)).closeDrawer(Gravity.START, true);
             }
         }).update(this.application.getServerConfig());
