@@ -136,6 +136,9 @@ public class MainActivity extends BaseActivity {
                         case -11:
                             SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_handshake, SnackbarHelper.Duration.SHORT);
                             break;
+                        case -2:
+                            SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_a_settings_exception_invalid_address, SnackbarHelper.Duration.SHORT);
+                            break;
                         default:
                             SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_error, SnackbarHelper.Duration.SHORT);
                             break;
