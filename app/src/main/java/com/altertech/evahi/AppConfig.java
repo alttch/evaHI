@@ -7,9 +7,9 @@ public class AppConfig {
 
     public final static String NAME = "", VERSION = "", COPYRIGHT = "";
 
-    public final static ServerConfig CONFIG = new ServerConfig(true, false, "", 8833);
+    public final static ServerConfig CONFIG = new ServerConfig(false, false, "", 443);
 
-    public final static boolean AUTHENTICATION = false;
+    public final static boolean AUTHENTICATION = true;
 
     public static class ServerConfig {
 
