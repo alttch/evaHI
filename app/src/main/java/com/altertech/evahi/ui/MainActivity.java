@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity {
         this.web.getSettings().setSupportZoom(true);
         this.web.getSettings().setJavaScriptEnabled(true);
         this.web.getSettings().setDisplayZoomControls(false);
-        this.web.getSettings().setUserAgentString(getResources().getString(R.string.app_name) + " (" + BuildConfig.VERSION_NAME + ", " + this.web.getSettings().getUserAgentString() + ") ");
+        this.web.getSettings().setUserAgentString("X-EVA-HI" + " (" + BuildConfig.VERSION_NAME + ", " + this.web.getSettings().getUserAgentString() + ") ");
         this.web.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -256,7 +256,7 @@ public class MainActivity extends BaseActivity {
     private void loadUrl(WebView view, String url) {
         if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
             Map<String, String> headers = new HashMap<>();
-            headers.put("EvaHI", BuildConfig.VERSION_NAME);
+            headers.put("X-EVA-HI", BuildConfig.VERSION_NAME);
             if (!AppConfig.AUTHENTICATION || this.application.isEmptyUser()) {
                 view.loadUrl(url, headers);
             } else {
