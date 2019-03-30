@@ -27,6 +27,7 @@ import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.BuildConfig;
 import com.altertech.evahi.R;
 import com.altertech.evahi.controls.CustomWebView;
+import com.altertech.evahi.controls.CustomWebViewClient;
 import com.altertech.evahi.core.BaseApplication;
 import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.core.config.ConfigHandler;
@@ -108,7 +109,7 @@ public class MainActivity extends BaseActivity {
         this.web.getSettings().setJavaScriptEnabled(true);
         this.web.getSettings().setDisplayZoomControls(false);
         this.web.getSettings().setUserAgentString("EvaHI" + " (" + BuildConfig.VERSION_NAME + ", " + this.web.getSettings().getUserAgentString() + ") ");
-        this.web.setWebViewClient(new WebViewClient() {
+        this.web.setWebViewClient(new CustomWebViewClient(this.application) {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -257,12 +258,7 @@ public class MainActivity extends BaseActivity {
         if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
             Map<String, String> headers = new HashMap<>();
             headers.put("X-EVA-HI", BuildConfig.VERSION_NAME);
-            if (!AppConfig.AUTHENTICATION || this.application.isEmptyUser()) {
-                view.loadUrl(url, headers);
-            } else {
-                headers.putAll(Utils.addBasicAuth(this.application.getUserName(), this.application.getUserPassword()));
-                view.loadUrl(url, headers);
-            }
+            view.loadUrl(url, headers);
         } else {
             SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_no_settings, SnackbarHelper.Duration.SHORT);
         }

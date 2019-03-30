@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.webkit.HttpAuthHandler;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -134,6 +135,7 @@ public class CustomWebView extends WebView {
 	private void clearViewReliably() {
 		loadUrl(ABOUT_BLANK);
 	}
+
 
 	public String backPressAction() {
 		WebBackForwardList history = copyBackForwardList();
