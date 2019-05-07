@@ -61,7 +61,7 @@ menu:
 - {icon: pages/contacts.png, name: Contacts, url: /contacts.html}
 ```
 
-All icons should be placed in */.evahi/icons* and have relative path in
+All icons should be placed in */.evahi/icons* and have relative paths in
 app configuration.
 
 The app caches configuration settings and icons, but reloads them if *serial*
