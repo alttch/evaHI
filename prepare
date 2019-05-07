@@ -209,6 +209,7 @@ rmdir app/src/main/java/com/altertech/evahi || exit 1
 rmdir app/src/main/java/com/altertech > /dev/null 2>&1
 rmdir app/src/main/java/com > /dev/null 2>&1
 rm -f prepare prepare.ini evaHI.iml
+rm -rf examples
 echo "-----------------------------------------------"
 echo "Completed"
 echo "Don't forget to customize app icons (app/src/main/res)"
