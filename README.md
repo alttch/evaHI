@@ -4,6 +4,8 @@ What is evaHI?
 evaHI is Android application template which allow you to quickly build custom
 Android app viewer for your mobile web application.
 
+<img src="./examples/1.jpg" alt="Interface example" width="250"/>
+
 Why do I need this?
 -------------------
 
@@ -66,6 +68,16 @@ app configuration.
 
 The app caches configuration settings and icons, but reloads them if **serial**
 field is increased.
+
+Configuration QR codes
+----------------------
+
+User can scan QR codes with settings to quickly configure the app. QR code
+format is:
+
+    scheme:https|address:yourserver.com|port:443|user:test|password:123
+  
+Fields _user_ and _password_ are optional.
 
 Any examples?
 -------------
