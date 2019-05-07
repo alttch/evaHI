@@ -32,21 +32,16 @@ But evaHI provides additional features:
 Looks cool. How can I build my own app?
 ---------------------------------------
 
-Firstly, let's customize app source
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Customize app source:
 
 * Download evaHI source (git clone https://github.com/alttch/evaHI)
-
 * Edit prepare.ini file
-
 * Run ./prepare -D <your_app_dir>
-
 * Go to <your_app_dir>, customize app icons in ./app/src/main/res (optional)
-
 * Build your app with Android Studio or other Android build tool
 
-Then, create configuration file on your web server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create configuration file on your web server
+--------------------------------------------
 
 * Create .evahi directory in your web server http root
 
