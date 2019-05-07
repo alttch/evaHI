@@ -11,8 +11,8 @@ Of course, users can just open your web application via mobile web browser.
 
 But evaHI provides additional features:
 
-* Your app will look cool just as any native Android app and can be added to
-  Google Play Store
+* Your web-app will look cool just as any native Android app and your custom
+  viewer app can be added to Google Play Store
 
 * You can hard-code connection parameters of your web-app
 
@@ -46,7 +46,7 @@ Firstly, let's customize app source
 Then, create configuration file on your web server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Create *.evahi* directory in your web server http root
+* Create .evahi directory in your web server http root
 
 * Put there the following configuration file. The file should be named
   config.yml, config.yaml or config.json (if JSON format is used)
@@ -70,8 +70,8 @@ field is increased.
 Any examples?
 -------------
 
-Our EVA ICS (https://www.eva-ics.com/) Control Center Android app is fully evaHI-based. Check
-it out:
+Our EVA ICS (https://www.eva-ics.com/) Control Center Android app is fully
+evaHI-based. Check it out:
 
 https://play.google.com/store/apps/details?id=com.altertech.evacc
 
