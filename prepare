@@ -204,6 +204,7 @@ cd ${DIRECTORY} || exit 1
 echo "Configuring..."
 sed -i "s/<string name=\"app_name\">EvaHI</<string name=\"app_name\">${name}</g" app/src/main/res/values/strings.xml || exit 1
 sed -i "s/String NAME = \"\", VERSION = \"\", COPYRIGHT = \"\";/String NAME = \"${name}\", VERSION = \"${version}\", COPYRIGHT = \"${copyright}\";/g" app/src/main/java/com/altertech/evahi/AppConfig.java || exit 1
+sed -i "s|/opt/evaHI|${DIRECTORY}|g" app/build/intermediates/build-info/debug/build-info.xml || exit 1
 [ "x${configurable}" = "xyes" ] && C=false || C=true
 [ "x${https}" = "xyes" ] && H=true || H=false
 sed -i "s/ServerConfig(false, false, \"\", 443);/ServerConfig(${C}, ${H}, \"${address}\", ${port});/g" app/src/main/java/com/altertech/evahi/AppConfig.java || exit 1
