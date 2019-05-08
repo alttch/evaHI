@@ -16,8 +16,8 @@ Of course, users can just open your web application via mobile web browser.
 
 But evaHI provides additional features:
 
-* Your web-app will look as cool as any native Android app and your custom viewer
-  app can be added to Google Play Store
+* Your web-app will look as cool as any native Android app and your custom
+  viewer app can be added to Google Play Store
 
 * You can hard-code connection parameters of your web-app or users can quickly
   configure it with QR codes
