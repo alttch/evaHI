@@ -27,6 +27,8 @@ https=
 address=
 port=
 
+PAUSE=1
+
 CONFIG_FILE='./prepare.ini'
 DIRECTORY=
 
@@ -95,6 +97,7 @@ Usage: prepare <-D dir> [-f config]
 
     -D  directory to store prepared app in
     -f  configuration file (default: ./prepare.ini)
+    -q  don't ask any questions, just do it
 
 EOF
 }
@@ -111,6 +114,9 @@ do
         ;;
         -D) DIRECTORY="$2"
             shift
+            shift
+        ;;
+        -q) PAUSE=
             shift
         ;;
         -h|--help) showHelp
@@ -184,13 +190,15 @@ echo "Default server address: ${address}"
 echo "Default server port: ${port}"
 
 echo
-echo "Check if everything is correct, press ENTER to continue, Ctrl+C to abort"
-read
 
-echo "Starting"
+if [ $PAUSE ]; then
+  echo "Check if everything is correct, press ENTER to continue, Ctrl+C to abort"
+  read
+fi
+
 echo "Creating app directory"
 mkdir -p ${DIRECTORY} || exit 1
-echo "Copying app files"
+echo "Copying app files..."
 cp -prf * ${DIRECTORY} || exit 1
 cd ${DIRECTORY} || exit 1
 echo "Configuring..."
