@@ -23,7 +23,7 @@ copyright=""
 
 configurable="yes"
 authentication="yes"
-https="yes"
+https=
 address=
 port=
 
