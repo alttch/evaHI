@@ -22,7 +22,7 @@ But evaHI provides additional features:
 * You can hard-code connection parameters of your web-app or users can quickly
   configure it with QR codes
   
-  <img hspace="10" src="./examples/3.jpg" alt="Interface example" height="250" />
+  <img hspace="10" src="./examples/3.jpg" alt="Interface example" height="350" />
 
 * The app can automatically pass basic authentication forms
 
