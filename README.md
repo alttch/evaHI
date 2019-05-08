@@ -5,8 +5,8 @@ evaHI is Android application template which allow you to quickly build custom
 Android app viewer for your mobile web application.
 
 <div>
-<img src="./examples/1.jpg" alt="Interface example" height="250" />
-<img hspace="10" src="./examples/2.jpg" alt="Interface example" height="250" />
+<img hspace="5" src="./examples/1.jpg" alt="Interface example" height="250" />
+<img hspace="5" src="./examples/2.jpg" alt="Interface example" height="250" />
 </div>
 
 Why do I need this?
