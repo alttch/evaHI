@@ -93,7 +93,7 @@ function getProperty() {
 
 function showHelp() {
 cat <<EOF
-Usage: prepare <-D dir> [-f config]
+Usage: prepare <-D dir> [-f config] [-q]
 
     -D  directory to store prepared app in
     -f  configuration file (default: ./prepare.ini)
