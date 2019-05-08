@@ -5,8 +5,8 @@ evaHI is Android application template which allow you to quickly build custom
 Android app viewer for your mobile web application.
 
 <div>
-<img src="./examples/1.jpg" alt="Interface example" width="250"/>
-<img hspace="10" src="./examples/2.jpg" alt="Interface example" width="250"/>
+<img src="./examples/1.jpg" alt="Interface example" height="250" />
+<img hspace="10" src="./examples/2.jpg" alt="Interface example" height="250" />
 </div>
 
 Why do I need this?
@@ -19,7 +19,10 @@ But evaHI provides additional features:
 * Your web-app will look cool just as any native Android app and your custom
   viewer app can be added to Google Play Store
 
-* You can hard-code connection parameters of your web-app
+* You can hard-code connection parameters of your web-app or users can quickly
+  configure it with QR codes
+  
+  <img hspace="10" src="./examples/3.jpg" alt="Interface example" height="250" />
 
 * The app can automatically pass basic authentication forms
 
