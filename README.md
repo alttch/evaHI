@@ -83,7 +83,7 @@ Fields _user_ and _password_ are optional.
 Any examples?
 -------------
 
-Our EVA ICS (https://www.eva-ics.com/) Control Center Android app is fully
+Our [EVA ICS](https://www.eva-ics.com/) Control Center Android app is fully
 evaHI-based. Check it out:
 
 https://play.google.com/store/apps/details?id=com.altertech.evacc
