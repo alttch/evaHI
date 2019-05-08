@@ -26,8 +26,7 @@ But evaHI provides additional features:
 
 * The app can automatically pass basic authentication forms
 
-* The app provides for user native navigation menu with custom icons and menu
-  labels
+* The app provides native navigation menu with custom icons and menu labels
 
 * Icons, menu labels and target URLs can be changed dynamically on your web-app
   server so users don't need to download application updates again and again.
