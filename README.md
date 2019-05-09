@@ -79,6 +79,19 @@ format is:
   
 Fields _user_ and _password_ are optional.
 
+Authentication
+--------------
+
+evaHI sends username/password only if basic authentication is set up. However
+your web application may automatically evaHI client (by HTTP *User-Agent* =
+'evaHI ...' header) and ask it to provide authentication credentials returning:
+
+    HTTP/1.1 401 Unauthorized
+    WWW-Authenticate: Basic realm="?"
+
+and the application will repeat HTTP request with authentication headers
+included.
+
 Any examples?
 -------------
 
