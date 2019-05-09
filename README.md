@@ -82,7 +82,7 @@ Fields _user_ and _password_ are optional.
 Authentication
 --------------
 
-evaHI sends username/password only if basic authentication is set up. However
+evaHI sends username/password only if basic authentication is set up. However,
 your web application may detect evaHI client (checking HTTP *User-Agent* =
 'evaHI ...' header) and ask it to provide authentication credentials returning:
 
