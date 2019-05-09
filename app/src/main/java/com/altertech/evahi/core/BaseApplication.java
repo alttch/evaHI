@@ -37,7 +37,7 @@ public class BaseApplication extends Application implements AppConstants {
     }
 
     public Boolean useHttps() {
-        return AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? AppConfig.CONFIG.isUseHttps() : preferences.getBoolean(KEY_SETTINGS_SERVER_SCHEME, true);
+        return AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? AppConfig.CONFIG.useHttps() : preferences.getBoolean(KEY_SETTINGS_SERVER_SCHEME, AppConfig.CONFIG.useHttps());
     }
 
     public void setServerPort(Integer value) {
@@ -49,7 +49,7 @@ public class BaseApplication extends Application implements AppConstants {
     }
 
     public int getServerPort() {
-        return AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? AppConfig.CONFIG.getPort() : preferences.getInt(KEY_SETTINGS_SERVER_PORT, 443);
+        return AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? AppConfig.CONFIG.getPort() : preferences.getInt(KEY_SETTINGS_SERVER_PORT, AppConfig.CONFIG.getPort());
     }
 
     public void setServerAddress(String value) {
@@ -57,7 +57,7 @@ public class BaseApplication extends Application implements AppConstants {
     }
 
     public String getServerAddress() {
-        return AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? AppConfig.CONFIG.getAddress() : preferences.getString(KEY_SETTINGS_SERVER_ADDRESS, StringUtil.EMPTY_STRING);
+        return AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? AppConfig.CONFIG.getAddress() : preferences.getString(KEY_SETTINGS_SERVER_ADDRESS, AppConfig.CONFIG.getAddress());
     }
 
     public String getServerPage() {
