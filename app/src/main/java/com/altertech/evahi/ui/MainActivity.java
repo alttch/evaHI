@@ -3,7 +3,6 @@ package com.altertech.evahi.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.http.SslError;
 import android.os.Build;
@@ -19,7 +18,6 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -64,7 +62,7 @@ public class MainActivity extends BaseActivity {
 
         this.application = BaseApplication.get(this);
 
-        this.updateScreenOrientation(this.application.getServerConfig()).initialization();
+        this/*.updateScreenOrientation(this.application.getServerConfig())*/.initialization();
 
         this.webH = new WebHolder(findViewById(R.id.a_main_web_container));
 
@@ -190,10 +188,10 @@ public class MainActivity extends BaseActivity {
         return this;
     }
 
-    private MainActivity updateScreenOrientation(Config config) {
+    /*private MainActivity updateScreenOrientation(Config config) {
         this.setRequestedOrientation(config != null && config.hasLandscape() ? ActivityInfo.SCREEN_ORIENTATION_SENSOR : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         return this;
-    }
+    }*/
 
     private MainActivity updateServerConfig(Config config) {
         try {
@@ -230,7 +228,8 @@ public class MainActivity extends BaseActivity {
                         if (updated) {
                             MainActivity.this.updateServerConfig(config).menu.update(config);
                         }
-                        MainActivity.this.updateScreenOrientation(config).setStateToWebControls(true).loadUrl(web, url != null && !url.equals("/") ? url : MainActivity.this.application.prepareUrl(Utils.isLandscape(MainActivity.this)));
+                        /* MainActivity.this.updateScreenOrientation(config)*/
+                        MainActivity.this.setStateToWebControls(true).loadUrl(web, url != null && !url.equals("/") ? url : MainActivity.this.application.prepareUrl(Utils.isLandscape(MainActivity.this)));
                     }
 
                     @Override
@@ -290,10 +289,13 @@ public class MainActivity extends BaseActivity {
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             this.loadUrl(this.web, this.application.prepareUrl(false));
         } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            if (this.web.getUrl() == null) {
-                this.loadUrl(this.web, this.application.prepareUrl(true));
-            } else if (this.web.getUrl() != null && !this.web.getUrl().contains("camview")) {
-                this.loadUrl(this.web, this.application.prepareUrl(true));
+            Config c = this.application.getServerConfig();
+            if (c != null && c.hasLandscape()) {
+                if (this.web.getUrl() == null) {
+                    this.loadUrl(this.web, this.application.prepareUrl(true));
+                } else if (this.web.getUrl() != null && !this.web.getUrl().contains("camview")) {
+                    this.loadUrl(this.web, this.application.prepareUrl(true));
+                }
             }
         }
         if (this.menu != null) {

@@ -34,7 +34,7 @@ public class AppConfig {
             return enabled;
         }
 
-        public boolean isUseHttps() {
+        public boolean useHttps() {
             return useHttps;
         }
 
