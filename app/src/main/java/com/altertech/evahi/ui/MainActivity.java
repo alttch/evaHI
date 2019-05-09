@@ -255,7 +255,7 @@ public class MainActivity extends BaseActivity {
 
     private void loadUrl(WebView view, String url) {
         if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
-            view.loadUrl(url, headers);
+            view.loadUrl(url);
         } else {
             SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_no_settings, SnackbarHelper.Duration.SHORT);
         }
