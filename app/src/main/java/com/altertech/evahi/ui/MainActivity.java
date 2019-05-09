@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity {
         this.web.getSettings().setSupportZoom(true);
         this.web.getSettings().setJavaScriptEnabled(true);
         this.web.getSettings().setDisplayZoomControls(false);
-        this.web.getSettings().setUserAgentString("EvaHI" + " (" + BuildConfig.VERSION_NAME + ", " + this.web.getSettings().getUserAgentString() + ") ");
+        this.web.getSettings().setUserAgentString("evaHI" + " (" + BuildConfig.VERSION_NAME + ", " + this.web.getSettings().getUserAgentString() + ") ");
         this.web.setWebViewClient(new CustomWebViewClient(this.application) {
 
             @Override
@@ -256,8 +256,6 @@ public class MainActivity extends BaseActivity {
 
     private void loadUrl(WebView view, String url) {
         if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
-            Map<String, String> headers = new HashMap<>();
-            headers.put("X-EVA-HI", BuildConfig.VERSION_NAME);
             view.loadUrl(url, headers);
         } else {
             SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_no_settings, SnackbarHelper.Duration.SHORT);
