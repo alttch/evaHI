@@ -83,7 +83,8 @@ Any examples?
 -------------
 
 Our [EVA ICS](https://www.eva-ics.com/) Control Center Android app is fully
-evaHI-based. Check it out:
+evaHI-based.
 
-https://play.google.com/store/apps/details?id=com.altertech.evacc
+source: https://github.com/alttch/evacc/
+app: https://play.google.com/store/apps/details?id=com.altertech.evacc
 
