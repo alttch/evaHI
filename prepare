@@ -13,23 +13,24 @@ fi
 shopt -s extglob
 
 _CONFIG=()
-_SECTIONS=""
-_PROP=""
+_SECTIONS=
+_PROP=
 
-classname=""
-name=""
-version=""
-copyright=""
+classname=
+name=
+version=
+versioncode=
+copyright=
 
-configurable="yes"
-authentication="yes"
+configurable=yes
+authentication=yes
 https=
 address=
 port=
 
 PAUSE=1
 
-CONFIG_FILE='./prepare.ini'
+CONFIG_FILE=./prepare.ini
 DIRECTORY=
 
 
@@ -155,6 +156,8 @@ getProperty app.name
 name=${_PROP}
 getProperty app.version
 version=${_PROP}
+getProperty app.versioncode
+versioncode=${_PROP}
 getProperty app.copyright
 copyright=${_PROP}
 
@@ -210,6 +213,8 @@ sed -i "s|/opt/evaHI|${DIRECTORY}|g" app/build/intermediates/build-info/debug/bu
 sed -i "s/ServerConfig(false, false, \"\", 443);/ServerConfig(${C}, ${H}, \"${address}\", ${port});/g" app/src/main/java/com/altertech/evahi/AppConfig.java || exit 1
 [ "x${authentication}" = "xyes" ] && A=true || A=false
 sed -i "s/boolean AUTHENTICATION = true;/boolean AUTHENTICATION = ${A};/g" app/src/main/java/com/altertech/evahi/AppConfig.java || exit 1
+sed -i "s/versionCode .*/versionCode ${versioncode}/g" app/build.gradle || exit 1
+sed -i "s/versionName .*/versionName \"${version}\"/g" app/build.gradle || exit 1
 echo "Renaming classes..."
 find . -type f -exec sed -i "s/com.altertech.evahi/${classname}/g" {} \; || exit 1
 mkdir -p app/src/main/java/`echo ${classname} | tr "." "/"` || exit 1
