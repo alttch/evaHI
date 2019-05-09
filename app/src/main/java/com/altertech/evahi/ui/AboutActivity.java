@@ -51,7 +51,7 @@ public class AboutActivity extends BaseActivity {
 
         findViewById(R.id.ui_f_about_line_separator_1).setVisibility(nExistAppConfig ? View.GONE : View.VISIBLE);
 
-        ((TextView) findViewById(R.id.ui_f_about_line_4)).setText(String.format(getResources().getString(R.string.app_a_about_line_name), BuildConfig.VERSION_NAME));
+        ((TextView) findViewById(R.id.ui_f_about_line_4)).setText(String.format(getResources().getString(R.string.app_a_about_line_name), AppConfig.evaHI_Build));
 
         ((TextView) findViewById(R.id.ui_f_about_line_5)).setText(String.format(getResources().getString(R.string.app_a_about_line_copyright), String.valueOf(Calendar.getInstance().get(Calendar.YEAR))));
 

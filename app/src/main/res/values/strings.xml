@@ -31,7 +31,7 @@
     <string name="app_a_settings_exception_invalid_password">Invalid password</string>
     <string name="app_a_settings_exception_qr_io_error">QR IO ERROR</string>
 
-    <string name="app_a_about_line_name" formatted="false">EvaHI %s</string>
+    <string name="app_a_about_line_name" formatted="false">EvaHI build %s</string>
     <string name="app_a_about_line_copyright" formatted="false">(©)%s Altertech Group</string>
     <string name="app_a_about_line_link" formatted="false">https://www.altertech.com</string>
     <string name="app_a_about_line_license" formatted="false">Apache License 2.0</string>

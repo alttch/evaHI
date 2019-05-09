@@ -11,6 +11,8 @@ public class AppConfig {
 
     public final static boolean AUTHENTICATION = true;
 
+    public final static int evaHI_Build = 2019090501;
+
     public static class ServerConfig {
 
         final private boolean enabled, useHttps;
