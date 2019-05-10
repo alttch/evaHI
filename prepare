@@ -21,6 +21,8 @@ name=
 version=
 versioncode=
 copyright=
+icon=
+icon_round=
 
 configurable=yes
 authentication=yes
@@ -96,9 +98,12 @@ function showHelp() {
 cat <<EOF
 Usage: prepare <-D dir> [-f config] [-q]
 
-    -D  directory to store prepared app in
-    -f  configuration file (default: ./prepare.ini)
-    -q  don't ask any questions, just do it
+    -D            directory to store prepared app in
+    -f            configuration file (default: ./prepare.ini)
+    -q            don't ask any questions, just do it
+
+    --icon        launcher icon (requires ImageMagick)
+    --icon-round  launcher round icon (both must be specified)
 
 EOF
 }
@@ -120,6 +125,14 @@ do
         -q) PAUSE=
             shift
         ;;
+        --icon) icon="$2"
+          shift
+          shift
+          ;;
+        --icon-round) icon_round="$2"
+          shift
+          shift
+          ;;
         -h|--help) showHelp
             exit 0
         ;;
@@ -146,6 +159,33 @@ if [ -d ${DIRECTORY} ]; then
   echo "Directory ${DIRECTORY} already exists"
   echo "Aborting"
   exit 4
+fi
+
+if [ ${icon} ] || [ ${icon_round} ]; then
+  if [ ! ${icon} ]; then
+    echo "Icon not specified"
+    echo "Aborting"
+    exit 4
+  fi
+  if [ ! ${icon_round} ]; then
+    echo "Round icon not specified"
+    echo "Aborting"
+    exit 4
+  fi
+  which convert
+  if [ $? -ne 0 ]; then
+    echo "Icons specified but ImageMagick not found"
+    echo "Aborting"
+    exit 4
+  fi
+  if [ ! -f ${icon} ]; then
+    echo "File not found: ${icon}"
+    exit 4
+  fi
+  if [ ! -f ${icon_round} ]; then
+    echo "File not found: ${icon_round}"
+    exit 4
+  fi
 fi
 
 parseIniFile < $CONFIG_FILE
@@ -184,6 +224,7 @@ echo "App directory: ${DIRECTORY}"
 echo "Class name: ${classname}"
 echo "App name: ${name}"
 echo "App version: ${version}"
+echo "App version code: ${versioncode}"
 echo "App copyright: ${copyright}"
 echo
 echo "Server configurable: ${configurable}"
@@ -191,6 +232,13 @@ echo "Use basic authentication: ${authentication}"
 echo "Use HTTPS: ${https}"
 echo "Default server address: ${address}"
 echo "Default server port: ${port}"
+
+if [ ! ${icon} ]; then
+  echo "Launcher icon not set"
+else
+  echo "Launcher icon: ${icon}"
+  echo "Launcher round icon: ${icon_round}"
+fi
 
 echo
 
@@ -207,7 +255,6 @@ cd ${DIRECTORY} || exit 1
 echo "Configuring..."
 sed -i "s/<string name=\"app_name\">EvaHI</<string name=\"app_name\">${name}</g" app/src/main/res/values/strings.xml || exit 1
 sed -i "s/String NAME = \"\", VERSION = \"\", COPYRIGHT = \"\";/String NAME = \"${name}\", VERSION = \"${version}\", COPYRIGHT = \"${copyright}\";/g" app/src/main/java/com/altertech/evahi/AppConfig.java || exit 1
-sed -i "s|/opt/evaHI|${DIRECTORY}|g" app/build/intermediates/build-info/debug/build-info.xml || exit 1
 [ "x${configurable}" = "xyes" ] && C=false || C=true
 [ "x${https}" = "xyes" ] && H=true || H=false
 sed -i "s/ServerConfig(false, false, \"\", 443);/ServerConfig(${C}, ${H}, \"${address}\", ${port});/g" app/src/main/java/com/altertech/evahi/AppConfig.java || exit 1
@@ -224,7 +271,24 @@ rmdir app/src/main/java/com/altertech > /dev/null 2>&1
 rmdir app/src/main/java/com > /dev/null 2>&1
 rm -f prepare prepare.ini evaHI.iml
 rm -rf examples
+rm -rf app/build
+if [ ${icon} ]; then
+  echo "Generating icons..."
+  convert -resize 48x48 -unsharp 1x4 ${icon} app/src/main/res/mipmap-mdpi/ic_launcher.png || exit 1
+  convert -resize 72x72 -unsharp 1x4 ${icon} app/src/main/res/mipmap-hdpi/ic_launcher.png || exit 1
+  convert -resize 96x96 -unsharp 1x4 ${icon} app/src/main/res/mipmap-xhdpi/ic_launcher.png || exit 1
+  convert -resize 144x144 -unsharp 1x4 ${icon} app/src/main/res/mipmap-xxhdpi/ic_launcher.png || exit 1
+  convert -resize 192x192 -unsharp 1x4 ${icon} app/src/main/res/mipmap-xxxhdpi/ic_launcher.png || exit 1
+
+  convert -resize 48x48 -unsharp 1x4 ${icon_round} app/src/main/res/mipmap-mdpi/ic_launcher_round.png || exit 1
+  convert -resize 72x72 -unsharp 1x4 ${icon_round} app/src/main/res/mipmap-hdpi/ic_launcher_round.png || exit 1
+  convert -resize 96x96 -unsharp 1x4 ${icon_round} app/src/main/res/mipmap-xhdpi/ic_launcher_round.png || exit 1
+  convert -resize 144x144 -unsharp 1x4 ${icon_round} app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png || exit 1
+  convert -resize 192x192 -unsharp 1x4 ${icon_round} app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png || exit 1
+fi
 echo "-----------------------------------------------"
 echo "Completed"
-echo "Don't forget to customize app icons (app/src/main/res)"
+if [ ! ${icon} ]; then
+  echo "Don't forget to customize app icons (app/src/main/res)"
+fi
 exit 0
