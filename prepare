@@ -172,7 +172,7 @@ if [ ${icon} ] || [ ${icon_round} ]; then
     echo "Aborting"
     exit 4
   fi
-  which convert
+  which convert > /dev/null
   if [ $? -ne 0 ]; then
     echo "Icons specified but ImageMagick not found"
     echo "Aborting"
