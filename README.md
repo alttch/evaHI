@@ -42,8 +42,14 @@ Customize app source:
 * Download evaHI source (git clone https://github.com/alttch/evaHI)
 * Edit prepare.ini file
 * Run ./prepare -D <your_app_dir>
-* Go to <your_app_dir>, customize app icons in ./app/src/main/res (optional)
 * Build your app with Android Studio or other Android build tool
+
+How can I customize launcher icons?
+-----------------------------------
+
+You may either place own icons to <your_app_dir>/app/src/main/res or use
+*--icon* and *--icon-round* (both must be specified) options for *prepare*
+script.
 
 Create configuration file on your web server
 --------------------------------------------

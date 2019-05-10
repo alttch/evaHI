@@ -96,14 +96,14 @@ function getProperty() {
 
 function showHelp() {
 cat <<EOF
-Usage: prepare <-D dir> [-f config] [-q]
+Usage: prepare <-D DIR> [-f CONFIG] [-q] [--icon FILE] [--icon-round FILE]
 
-    -D            directory to store prepared app in
-    -f            configuration file (default: ./prepare.ini)
-    -q            don't ask any questions, just do it
+    -D DIR             directory to store prepared app in
+    -f CONFIG          configuration file (default: ./prepare.ini)
+    -q                 don't ask any questions, just do it
 
-    --icon        launcher icon (requires ImageMagick)
-    --icon-round  launcher round icon (both must be specified)
+    --icon FILE        launcher icon (requires ImageMagick)
+    --icon-round FILE  launcher round icon (both must be specified)
 
 EOF
 }
