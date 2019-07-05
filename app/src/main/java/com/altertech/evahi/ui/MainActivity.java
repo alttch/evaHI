@@ -284,16 +284,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onConfigurationChanged(Configuration config) {
+        Config c = this.application.getServerConfig();
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            this.loadUrl(this.web, this.application.prepareUrl(false));
-        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Config c = this.application.getServerConfig();
             if (c != null && c.hasLandscape()) {
-                if (this.web.getUrl() == null) {
-                    this.loadUrl(this.web, this.application.prepareUrl(true));
-                } else if (this.web.getUrl() != null && !this.web.getUrl().contains("camview")) {
-                    this.loadUrl(this.web, this.application.prepareUrl(true));
-                }
+                this.loadUrl(this.web, this.application.prepareUrl(false));
+            }
+        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (c != null && c.hasLandscape()) {
+                this.loadUrl(this.web, this.application.prepareUrl(true));
             }
         }
         if (this.menu != null) {
