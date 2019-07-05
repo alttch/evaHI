@@ -293,11 +293,7 @@ public class MainActivity extends BaseActivity {
             }
         } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (c != null && c.hasLandscape()) {
-                if (this.web.getUrl() == null) {
-                    this.loadUrl(this.web, this.application.prepareUrl(true));
-                } else if (this.web.getUrl() != null && !this.web.getUrl().contains("camview")) {
-                    this.loadUrl(this.web, this.application.prepareUrl(true));
-                }
+                this.loadUrl(this.web, this.application.prepareUrl(true));
             }
         }
         if (this.menu != null) {
