@@ -41,6 +41,7 @@ import com.altertech.evahi.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends BaseActivity {
@@ -54,6 +55,8 @@ public class MainActivity extends BaseActivity {
     private MenuHolder menu;
 
     private WebHolder webH;
+
+    private long t_pause = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class MainActivity extends BaseActivity {
                         MainActivity.this.init(MainActivity.this.web.getUrl(), true);
                         break;
                     case ABOUT:
-                        MainActivity.this.startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                        MainActivity.this.startActivityForResult(new Intent(MainActivity.this, AboutActivity.class), IntentHelper.REQUEST_CODES.ABOUT_ACTIVITY.getCode());
                         break;
                     case EXIT:
                         MainActivity.this.finish();
@@ -176,6 +179,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void resume(boolean state) {
+        if (!state && this.getTPause() > 0 && this.web != null && TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - this.getTPause()) >= 30) {
+            this.web.reload();
+        }
+    }
+
     private void initialization() {
         ((TextView) this.findViewById(R.id.title_bar_controls_text)).setText(StringUtil.isNotEmpty(AppConfig.NAME) ? AppConfig.NAME : getResources().getString(R.string.app_name));
     }
@@ -248,9 +258,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        this.setState(true);
         if (requestCode == IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode() && resultCode == Activity.RESULT_OK) {
             this.init(true);
+        } else if (requestCode == IntentHelper.REQUEST_CODES.ABOUT_ACTIVITY.getCode() && resultCode == Activity.RESULT_OK) {
+
         }
+
     }
 
     private void loadUrl(WebView view, String url) {
