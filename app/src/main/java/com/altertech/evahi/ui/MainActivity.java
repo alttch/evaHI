@@ -56,8 +56,6 @@ public class MainActivity extends BaseActivity {
 
     private WebHolder webH;
 
-    private long t_pause = 0L;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
