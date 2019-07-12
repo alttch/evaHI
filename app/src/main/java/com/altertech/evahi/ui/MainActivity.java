@@ -181,7 +181,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void resume(boolean state) {
-        if (!state && this.getTPause() > 0 && this.web != null && TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - this.getTPause()) >= 30) {
+        if (!state && this.getTPause() > 0 && this.web != null && TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - this.getTPause()) >= AppConfig.RELOAD_AFTER_SLEEP) {
             this.web.reload();
         }
     }

@@ -46,4 +46,9 @@ public class AppConfig {
             return port;
         }
     }
+
+    /**
+     * in second
+     */
+    public final static int RELOAD_AFTER_SLEEP = 30;
 }
