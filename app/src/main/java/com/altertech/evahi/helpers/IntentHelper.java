@@ -13,7 +13,8 @@ public class IntentHelper {
 
     public enum REQUEST_CODES {
         BAR_CODE_ACTIVITY(1002),
-        SETTINGS_ACTIVITY(1003);
+        SETTINGS_ACTIVITY(1003),
+        ABOUT_ACTIVITY(1004);
         int code;
 
         REQUEST_CODES(int code) {
