@@ -33,7 +33,6 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.Settings" />
         <activity
             android:name=".ui.ScannedBarcodeActivity"

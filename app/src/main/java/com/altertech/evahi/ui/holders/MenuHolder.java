@@ -54,7 +54,7 @@ public class MenuHolder extends ContextWrapper {
         } else {
 
         }
-        this.view.findViewById(R.id.ui_f_menu_background).setBackgroundResource(orientation == Configuration.ORIENTATION_PORTRAIT ? R.drawable.background_menu_1 : R.drawable.background_menu_4);
+        //this.view.findViewById(R.id.ui_f_menu_background).setBackgroundResource(orientation == Configuration.ORIENTATION_PORTRAIT ? R.drawable.background_menu_4/*1*/ : R.drawable.background_menu_4);
 
         return this;
     }
