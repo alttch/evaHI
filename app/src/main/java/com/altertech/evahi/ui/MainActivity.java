@@ -53,6 +53,9 @@ public class MainActivity extends BaseActivity {
     private CustomWebView
             web;
 
+    private WebHolder
+            webH;
+
     private Button
             a_main_settings;
 
@@ -62,8 +65,7 @@ public class MainActivity extends BaseActivity {
     private MenuHolder
             menu;
 
-    private WebHolder
-            webH;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class MainActivity extends BaseActivity {
 
         this.application = BaseApplication.get(this);
 
-        this.initialization();
+        ((TextView) this.findViewById(R.id.title_bar_controls_text)).setText(StringUtil.isNotEmpty(AppConfig.NAME) ? AppConfig.NAME + " (" + this.application.profiles().get(this.application.id()).name + ")" : getResources().getString(R.string.app_name) + " (" + this.application.profiles().get(this.application.id()).name + ")");
 
         this.webH = new WebHolder(findViewById(R.id.a_main_web_container));
 
@@ -115,7 +117,7 @@ public class MainActivity extends BaseActivity {
 
         this.web = findViewById(R.id.ui_f_web_view);
 
-        //this.web.getSettings().setSavePassword(false);
+        this.web.getSettings().setSavePassword(false);
         this.web.getSettings().setSaveFormData(false);
         this.web.getSettings().setUseWideViewPort(true);
         this.web.getSettings().setBuiltInZoomControls(true);
@@ -128,7 +130,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 MainActivity.this.loadUrl(view, url);
-                return true;
+                return
+                        true;
             }
 
             @Override
@@ -177,8 +180,9 @@ public class MainActivity extends BaseActivity {
         this.findViewById(R.id.title_bar_controls_menu_button).setOnClickListener(v -> ((DrawerLayout) this.findViewById(R.id.a_main_drawer)).openDrawer(Gravity.START, true));
 
         if (this.application.first()) {
-            this.application.setFirstStartState(false);
-            this.setStateToWebControls(false).startActivityForResult(new Intent(MainActivity.this, SettingsActivity.class), IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode());
+            this.application.first(false);
+            this
+                    .setStateToWebControls(false).startActivityForResult(new Intent(MainActivity.this, SettingsActivity.class), IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode());
         } else {
             this.init(true);
         }
@@ -191,10 +195,6 @@ public class MainActivity extends BaseActivity {
         if (!state && this.getTPause() > 0 && this.web != null && TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - this.getTPause()) >= AppConfig.RELOAD_AFTER_SLEEP) {
             this.web.reload();
         }
-    }
-
-    private void initialization() {
-        ((TextView) this.findViewById(R.id.title_bar_controls_text)).setText(StringUtil.isNotEmpty(AppConfig.NAME) ? AppConfig.NAME : getResources().getString(R.string.app_name));
     }
 
     private MainActivity setStateToWebControls(boolean state) {

@@ -16,6 +16,26 @@
         android:layout_marginEnd="@dimen/space_35dp"
         android:background="@drawable/background_menu_4" />
 
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/space_35dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_5dp"
+            android:layout_marginTop="@dimen/space_10dp"
+            android:layout_marginEnd="@dimen/space_5dp"
+            android:layout_marginBottom="@dimen/space_10dp"
+            android:background="@color/app_red" />
+
+    </LinearLayout>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

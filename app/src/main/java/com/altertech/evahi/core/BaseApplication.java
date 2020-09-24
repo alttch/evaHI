@@ -100,7 +100,7 @@ public class BaseApplication extends Application implements AppConstants {
 
     public Long id() {
         return
-                this.preferences.getLong("83eadee5ac3b14608986b87aaf075a0b", this.id);
+                -3994276515190055954L;//this.preferences.getLong("83eadee5ac3b14608986b87aaf075a0b", this.id);
     }
 
     public BaseApplication id(Long id) {
@@ -170,7 +170,7 @@ public class BaseApplication extends Application implements AppConstants {
                 this.preferences.getBoolean(KEY_FIRST_START, true);
     }
 
-    public void setFirstStartState(boolean state) {
+    public void first(boolean state) {
         this.preferences.edit().putBoolean(KEY_FIRST_START, state).apply();
     }
 }
