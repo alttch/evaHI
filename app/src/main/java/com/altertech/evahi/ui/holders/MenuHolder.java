@@ -31,7 +31,7 @@ import java.util.List;
 public class MenuHolder extends ContextWrapper {
 
     public enum Type {
-        SETTINGS, RELOAD, EXIT, PAGE, ABOUT;
+        SETTINGS, RELOAD, EXIT, PAGE, ABOUT, QR;
     }
 
     private CallBack listener;
@@ -68,7 +68,6 @@ public class MenuHolder extends ContextWrapper {
         view.setLayoutManager(new LinearLayoutManager(this));
     }
 
-
     public MenuHolder update(Config config) {
         this.menu.clear();
         this.menu.addAll(this.generate(config));
@@ -86,6 +85,10 @@ public class MenuHolder extends ContextWrapper {
                 config != null && StringUtil.isNotEmpty(config.getIndex()) ? config.getIndex() : "/"));
 
         menu.addAll(this.getMenuFromConfig(config));
+
+        menu.add(new Menu(Type.QR,
+                getResources().getString(R.string.app_menu_item_name_qr),
+                BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_setting)));
 
         if ((AppConfig.CONFIG != null && !AppConfig.CONFIG.isEnabled()) || AppConfig.AUTHENTICATION) {
             menu.add(new Menu(Type.SETTINGS,
@@ -108,7 +111,8 @@ public class MenuHolder extends ContextWrapper {
 
     private List<Menu> getMenuFromConfig(Config config) {
         if (config == null || config.getMenu() == null || config.getMenu().isEmpty()) {
-            return new ArrayList<>();
+            return
+                    new ArrayList<>();
         } else {
             List<Menu> menu = new ArrayList<>();
             for (com.altertech.evahi.core.config.Menu m : config.getMenu()) {

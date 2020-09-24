@@ -12,16 +12,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/title_bar">
+        android:layout_below="@+id/title_bar"
+        android:layout_alignParentStart="true">
 
         <SurfaceView
-            android:id="@+id/surfaceView"
+            android:id="@+id/surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <TextView
-            android:id="@+id/barcode_status_id"
+            android:id="@+id/status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"

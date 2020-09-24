@@ -1,5 +1,6 @@
 package com.altertech.evahi.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 

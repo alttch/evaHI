@@ -16,6 +16,8 @@ public class CustomWebViewClient extends WebViewClient {
     @Override
     public void onReceivedHttpAuthRequest(WebView view,
                                           HttpAuthHandler handler, String host, String realm) {
-        handler.proceed(this.application.getUserName(), this.application.getUserPassword());
+        BaseApplication.Profiles.Profile profile = this.application.profiles().get(this.application.id());
+        handler
+                .proceed(profile.settings.name(), profile.settings.password());
     }
 }

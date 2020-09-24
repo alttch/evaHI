@@ -56,8 +56,11 @@
     <string name="app_menu_item_name_reload">Reload</string>
     <string name="app_menu_item_name_about">About</string>
     <string name="app_menu_item_name_exit">Exit</string>
+    <string name="app_menu_item_name_qr">QR</string>
 
     <string name="app_dialog_title_execution">Execution…</string>
     <string name="app_remote_wait">Please wait…</string>
+
+    <string name="app_profile_unknown">Unknown</string>
 
 </resources>

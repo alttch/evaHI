@@ -1,28 +1,17 @@
 package com.altertech.evahi.ui;
 
-/**
- * Created by oshevchuk on 28.08.2018
- */
-
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.widget.TextView;
 
-import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
-import com.altertech.evahi.core.BaseApplication;
 import com.altertech.evahi.helpers.SnackbarHelper;
-import com.altertech.evahi.models.settings.SettingsModel;
+import com.altertech.evahi.models.settings.SSettings;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -30,49 +19,36 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-@SuppressLint("Registered")
 public class ScannedBarcodeActivity extends AppCompatActivity {
 
-    private SurfaceView surfaceView;
-    private CameraSource cameraSource;
-    private static final int REQUEST_CAMERA_PERMISSION = 201;
+    private CameraSource
+            camera;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_barcode);
+    protected void onCreate(Bundle instance) {
+        super.onCreate(instance);
+        this
+                .setContentView(R.layout.activity_scan_barcode);
 
-        this.surfaceView = findViewById(R.id.surfaceView);
-
-        findViewById(R.id.title_bar_controls_back_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ScannedBarcodeActivity.this.onBackPressed();
-            }
-        });
+        this.findViewById(R.id.title_bar_controls_back_button).setOnClickListener(view -> ScannedBarcodeActivity.this.onBackPressed());
     }
 
-    private void initialiseDetectorsAndSources() {
+    private void init() {
 
-        BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this)
-                .setBarcodeFormats(Barcode.QR_CODE)
-                .build();
+        BarcodeDetector barcode;
 
-        this.cameraSource = new CameraSource.Builder(this, barcodeDetector)
+        this.camera = new CameraSource.Builder(this, barcode = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build())
                 .setRequestedPreviewSize(1920, 1080)
                 .setAutoFocusEnabled(true)
                 .build();
 
 
-        this.surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+        ((SurfaceView) findViewById(R.id.surface)).getHolder().addCallback(new SurfaceHolder.Callback() {
+            @SuppressLint("MissingPermission")
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 try {
-                    if (ActivityCompat.checkSelfPermission(ScannedBarcodeActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        ScannedBarcodeActivity.this.cameraSource.start(holder);
-                    } else {
-                        ActivityCompat.requestPermissions(ScannedBarcodeActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-                    }
+                    ScannedBarcodeActivity.this.camera.start(holder);
                 } catch (IOException e) {
                     SnackbarHelper.snack(ScannedBarcodeActivity.this, SnackbarHelper.State.ERROR, R.string.app_a_settings_exception_qr_io_error, SnackbarHelper.Duration.SHORT);
                 }
@@ -84,78 +60,61 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
-                ScannedBarcodeActivity.this.cameraSource.stop();
+                ScannedBarcodeActivity.this.camera.stop();
             }
         });
 
 
-        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+        barcode.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
             }
 
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> detectedItems = detections.getDetectedItems();
-                if (detectedItems != null && detectedItems.size() >= 1) {
-                    Barcode barcode = detectedItems.valueAt(0);
+
+                if (detections.getDetectedItems() != null && detections.getDetectedItems().size() >= 1) {
+                    Barcode barcode = detections.getDetectedItems().valueAt(0);
                     if (barcode != null) {
-                        SettingsModel model = new SettingsModel();
+                        SSettings settings = new SSettings();
                         try {
-                            model.parse(barcode.rawValue);
-                            boolean res = ScannedBarcodeActivity.this.save(model);
-                            if (res) {
-                                ScannedBarcodeActivity.this.setResult(RESULT_OK);
-                            }
-                            ScannedBarcodeActivity.this.finish();
-                        } catch (final SettingsModel.SettingsException e) {
-                            if (e.getCustomMessage() == R.string.app_a_settings_exception_invalid_password) {
-                                boolean res = ScannedBarcodeActivity.this.save(model);
-                                if (res) {
-                                    ScannedBarcodeActivity.this.setResult(RESULT_OK, new Intent().putExtra("code", e.getCustomMessage()));
-                                }
-                                ScannedBarcodeActivity.this.finish();
+                            ScannedBarcodeActivity.this
+                                    .setResult(RESULT_OK, new Intent().putExtra("settings", settings.parse(barcode.rawValue)));
+                            ScannedBarcodeActivity.this
+                                    .finish();
+                        } catch (final SSettings.SettingsException e) {
+                            if (
+                                    e.getCustomMessage() == R.string.app_a_settings_exception_invalid_password) {
+                                ScannedBarcodeActivity.this
+                                        .setResult(RESULT_OK, new Intent().putExtra("settings", settings));
+                                ScannedBarcodeActivity.this
+                                        .finish();
                             } else {
                                 ScannedBarcodeActivity.this.showStatus(R.string.app_a_settings_exception_invalid_code);
                             }
                         }
+
                     }
                 }
             }
         });
     }
 
-    private boolean save(SettingsModel model) {
-        int counter = 0;
-        if (AppConfig.CONFIG == null || !AppConfig.CONFIG.isEnabled()) {
-            model.saveS(BaseApplication.get(ScannedBarcodeActivity.this));
-            counter++;
-        }
-        if (AppConfig.AUTHENTICATION) {
-            model.saveU(BaseApplication.get(ScannedBarcodeActivity.this));
-            counter++;
-        }
-        return counter > 0;
-    }
-
     private void showStatus(final @StringRes int s) {
-        findViewById(R.id.barcode_status_id).post(new Runnable() {
-            @Override
-            public void run() {
-                ((TextView) findViewById(R.id.barcode_status_id)).setText(s);
-            }
-        });
+        this.findViewById(R.id.status).post(() -> ((TextView) findViewById(R.id.status)).setText(s));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        this.cameraSource.release();
+        this
+                .camera.release();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        this.initialiseDetectorsAndSources();
+        this
+                .init();
     }
 }

@@ -1,14 +1,18 @@
 package com.altertech.evahi.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.http.SslError;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,27 +38,32 @@ import com.altertech.evahi.dialog.CustomDialogs;
 import com.altertech.evahi.dialog.obj.CustomAlertDialog;
 import com.altertech.evahi.helpers.IntentHelper;
 import com.altertech.evahi.helpers.SnackbarHelper;
+import com.altertech.evahi.models.settings.SSettings;
 import com.altertech.evahi.ui.holders.MenuHolder;
 import com.altertech.evahi.ui.holders.WebHolder;
 import com.altertech.evahi.utils.StringUtil;
 import com.altertech.evahi.utils.Utils;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MainActivity extends BaseActivity {
 
-    private CustomWebView web;
+    private CustomWebView
+            web;
 
-    private Button a_main_settings;
+    private Button
+            a_main_settings;
 
-    private BaseApplication application;
+    private BaseApplication
+            application;
 
-    private MenuHolder menu;
+    private MenuHolder
+            menu;
 
-    private WebHolder webH;
+    private WebHolder
+            webH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +72,7 @@ public class MainActivity extends BaseActivity {
 
         this.application = BaseApplication.get(this);
 
-        this/*.updateScreenOrientation(this.application.getServerConfig())*/.initialization();
+        this.initialization();
 
         this.webH = new WebHolder(findViewById(R.id.a_main_web_container));
 
@@ -71,6 +80,13 @@ public class MainActivity extends BaseActivity {
             @Override
             public void click(MenuHolder.Type type) {
                 switch (type) {
+                    case QR:
+                        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                            MainActivity.this.startActivityForResult(new Intent(MainActivity.this, ScannedBarcodeActivity.class), IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode());
+                        } else {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, SettingsActivity.REQUEST_CAMERA_PERMISSION);
+                        }
+                        break;
                     case SETTINGS:
                         MainActivity.this.startActivityForResult(new Intent(MainActivity.this, SettingsActivity.class), IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode());
                         break;
@@ -89,7 +105,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void click(MenuHolder.Type type, String url) {
-                MainActivity.this.loadUrl(MainActivity.this.web, MainActivity.this.application.getBaseUrl() + url);
+                MainActivity.this.loadUrl(MainActivity.this.web, MainActivity.this.application.getBaseUrl(MainActivity.this.application.profiles().get(MainActivity.this.application.id())) + url);
                 ((DrawerLayout) MainActivity.this.findViewById(R.id.a_main_drawer)).closeDrawer(Gravity.START, true);
             }
         }).update(this.application.getServerConfig());
@@ -98,9 +114,8 @@ public class MainActivity extends BaseActivity {
         this.a_main_settings.setOnClickListener(v -> MainActivity.this.startActivityForResult(new Intent(MainActivity.this, SettingsActivity.class), IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode()));
 
         this.web = findViewById(R.id.ui_f_web_view);
-        if (Build.VERSION.SDK_INT <= 18) {
-            this.web.getSettings().setSavePassword(false);
-        }
+
+        //this.web.getSettings().setSavePassword(false);
         this.web.getSettings().setSaveFormData(false);
         this.web.getSettings().setUseWideViewPort(true);
         this.web.getSettings().setBuiltInZoomControls(true);
@@ -118,34 +133,26 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-               /* if (CustomWebView.ABOUT_BLANK.equals(url) && view.getTag() != null) {
-                    String tag = view.getTag().toString();
-                    view.loadUrl(tag);
-                } else {
-                    view.setTag(url);
-                }*/
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                    switch (error.getErrorCode()) {
-                        case -6:
-                            SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_connection_refused, SnackbarHelper.Duration.SHORT);
-                            break;
-                        case -11:
-                            SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_handshake, SnackbarHelper.Duration.SHORT);
-                            break;
-                        case -2:
-                            SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_a_settings_exception_invalid_address, SnackbarHelper.Duration.SHORT);
-                            break;
-                        default:
-                            SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_error, SnackbarHelper.Duration.SHORT);
-                            break;
-                    }
-                } else {
-                    SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_error, SnackbarHelper.Duration.SHORT);
+
+                switch (error.getErrorCode()) {
+                    case -6:
+                        SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_connection_refused, SnackbarHelper.Duration.SHORT);
+                        break;
+                    case -11:
+                        SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_handshake, SnackbarHelper.Duration.SHORT);
+                        break;
+                    case -2:
+                        SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_a_settings_exception_invalid_address, SnackbarHelper.Duration.SHORT);
+                        break;
+                    default:
+                        SnackbarHelper.snack(MainActivity.this, SnackbarHelper.State.ERROR, R.string.app_exception_error, SnackbarHelper.Duration.SHORT);
+                        break;
                 }
+
                 MainActivity.this.setStateToWebControls(false);
             }
 
@@ -169,12 +176,14 @@ public class MainActivity extends BaseActivity {
 
         this.findViewById(R.id.title_bar_controls_menu_button).setOnClickListener(v -> ((DrawerLayout) this.findViewById(R.id.a_main_drawer)).openDrawer(Gravity.START, true));
 
-        if (this.application.isFirstStart()) {
+        if (this.application.first()) {
             this.application.setFirstStartState(false);
             this.setStateToWebControls(false).startActivityForResult(new Intent(MainActivity.this, SettingsActivity.class), IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode());
         } else {
             this.init(true);
         }
+
+        Log.e("ttt", application.profiles().toString());
     }
 
     @Override
@@ -196,11 +205,6 @@ public class MainActivity extends BaseActivity {
         return this;
     }
 
-    /*private MainActivity updateScreenOrientation(Config config) {
-        this.setRequestedOrientation(config != null && config.hasLandscape() ? ActivityInfo.SCREEN_ORIENTATION_SENSOR : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        return this;
-    }*/
-
     private MainActivity updateServerConfig(Config config) {
         try {
             this.application.setServerConfig(config);
@@ -219,9 +223,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init(String url, boolean menu) {
-        if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
+
+        BaseApplication.Profiles.Profile profile = this.application.profiles().get(this.application.id());
+
+        if (profile.settings.address() != null && !profile.settings.address().isEmpty()) {
+
             if (menu) {
-                new ConfigHandler(MainActivity.this.application.getBaseUrl(), MainActivity.this.application.getUserName(), MainActivity.this.application.getUserPassword(), this.application.getServerConfig(), new ConfigHandler.CallBack() {
+                new ConfigHandler(MainActivity.this.application.getBaseUrl(profile), profile.settings.name(), profile.settings.password(), this.application.getServerConfig(), new ConfigHandler.CallBack() {
                     private CustomAlertDialog progress;
 
                     @Override
@@ -236,8 +244,7 @@ public class MainActivity extends BaseActivity {
                         if (updated) {
                             MainActivity.this.updateServerConfig(config).menu.update(config);
                         }
-                        /* MainActivity.this.updateScreenOrientation(config)*/
-                        MainActivity.this.setStateToWebControls(true).loadUrl(web, url != null && !url.equals("/") ? url : MainActivity.this.application.prepareUrl(Utils.isLandscape(MainActivity.this)));
+                        MainActivity.this.setStateToWebControls(true).loadUrl(web, url != null && !url.equals("/") ? url : MainActivity.this.application.prepareUrl(profile, Utils.isLandscape(MainActivity.this)));
                     }
 
                     @Override
@@ -247,7 +254,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }).load();
             } else {
-                this.setStateToWebControls(true).loadUrl(this.web, url != null ? url : MainActivity.this.application.prepareUrl(Utils.isLandscape(MainActivity.this)));
+                this.setStateToWebControls(true).loadUrl(this.web, url != null ? url : MainActivity.this.application.prepareUrl(this.application.profiles().get(this.application.id()), Utils.isLandscape(MainActivity.this)));
             }
         } else {
             this.setStateToWebControls(false).showMessage(R.string.app_exception_no_settings);
@@ -261,13 +268,61 @@ public class MainActivity extends BaseActivity {
             this.init(true);
         } else if (requestCode == IntentHelper.REQUEST_CODES.ABOUT_ACTIVITY.getCode() && resultCode == Activity.RESULT_OK) {
 
-        }
+        } else if (requestCode == IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode() && resultCode == RESULT_OK && data != null && data.hasExtra("settings")) {
 
+            boolean
+                    changed = false;
+
+            SSettings settings = this.getData(data, "settings", SSettings.class);
+
+            Long id = new Random().nextLong();
+
+            BaseApplication.Profiles.Profile profile = new BaseApplication.Profiles.Profile(id, this.getResources().getString(R.string.app_profile_unknown) + "_" + id);
+
+            if (AppConfig.CONFIG == null || !AppConfig.CONFIG.isEnabled()) {
+
+                profile.settings
+                        .https(settings.https())
+                        .address(settings.address())
+                        .port(settings.port());
+
+                changed = true;
+            }
+            if (AppConfig.AUTHENTICATION) {
+
+                profile.settings
+                        .name(settings.name())
+                        .password(settings.password());
+
+                changed = true;
+            }
+
+            if (changed) {
+                BaseApplication.Profiles profiles = this.application.profiles();
+                profiles
+                        .add(profile);
+
+                this.application.profiles(profiles);
+            }
+
+            // MainActivity.this.init(true);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int request, @NonNull String[] permissions, @NonNull int[] results) {
+        if (request == SettingsActivity.REQUEST_CAMERA_PERMISSION && results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
+            MainActivity.this.startActivityForResult(new Intent(MainActivity.this, ScannedBarcodeActivity.class), IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode());
+        }
     }
 
     private void loadUrl(WebView view, String url) {
-        if (StringUtil.isNotEmpty(this.application.getServerAddress())) {
-            view.loadUrl(url);
+
+        BaseApplication.Profiles.Profile profile = this.application.profiles().get(this.application.id());
+
+        if (profile.settings.address() != null && !profile.settings.address().isEmpty()) {
+            view
+                    .loadUrl(url);
         } else {
             SnackbarHelper.snack(MainActivity.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_no_settings, SnackbarHelper.Duration.SHORT);
         }
@@ -276,7 +331,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            this.finish();
+            this
+                    .finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -285,13 +341,15 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        this.web.saveState(outState);
+        this
+                .web.saveState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        this.web.saveState(savedInstanceState);
+        this
+                .web.saveState(savedInstanceState);
     }
 
     @Override
@@ -299,17 +357,27 @@ public class MainActivity extends BaseActivity {
         Config c = this.application.getServerConfig();
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (c != null && c.hasLandscape()) {
-                this.loadUrl(this.web, this.application.prepareUrl(false));
+                this.loadUrl(this.web, this.application.prepareUrl(this.application.profiles().get(this.application.id()), false));
             }
         } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (c != null && c.hasLandscape()) {
-                this.loadUrl(this.web, this.application.prepareUrl(true));
+                this.loadUrl(this.web, this.application.prepareUrl(this.application.profiles().get(this.application.id()), true));
             }
         }
         if (this.menu != null) {
             this.menu.setOrientation(config.orientation);
         }
         super.onConfigurationChanged(config);
+    }
+
+    public <T> T getData(Intent intent, String key, Class<T> cls) {
+        if (intent != null) {
+            Object o = intent.getSerializableExtra(key);
+            if (o != null) {
+                return cls.cast(o);
+            }
+        }
+        return null;
     }
 
 }
