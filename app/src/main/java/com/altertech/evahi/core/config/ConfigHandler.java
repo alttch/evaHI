@@ -24,14 +24,11 @@ import javax.net.ssl.SSLHandshakeException;
  */
 public class ConfigHandler {
 
-    private Config old;
-
     private CallBack listener;
 
     private String username, password, url;
 
-    public ConfigHandler(String url, String username, String password, Config old, CallBack listener) {
-        this.old = old;
+    public ConfigHandler(String url, String username, String password, CallBack listener) {
         this.listener = listener;
         this.url = url;
         this.username = username;
@@ -45,7 +42,7 @@ public class ConfigHandler {
     public interface CallBack {
         void start();
 
-        void end(boolean updated, Config config);
+        void end(Config config);
 
         void error(CustomException e);
     }
@@ -61,23 +58,13 @@ public class ConfigHandler {
         @Override
         protected Object doInBackground(Void... voids) {
             try {
-                Config config = ConfigHandler.this.fromYaml(ConfigHandler.this.getFromUrl(url, "/.evahi/config.yml")).valid();
-                if (ConfigHandler.this.resolveToUpdate(config)) {
-                    return new Result(true, ConfigHandler.this.prepare(config));
-                } else {
-                    return new Result(false, ConfigHandler.this.old);
-                }
+                return new Result(ConfigHandler.this.prepare(ConfigHandler.this.fromYaml(ConfigHandler.this.getFromUrl(url, "/.evahi/config.yml")).valid()));
             } catch (CustomException yamlE) {
                 if (yamlE.getCode().equals(CustomException.Code.NO_CONNECTION_TO_SERVER) || yamlE.getCode().equals(CustomException.Code.CONNECTION_ERROR_HAND_SHAKE)) {
                     return yamlE;
                 } else {
                     try {
-                        Config config = ConfigHandler.this.fromJson(ConfigHandler.this.getFromUrl(url, "/.evahi/config.json")).valid();
-                        if (ConfigHandler.this.resolveToUpdate(config)) {
-                            return new Result(true, ConfigHandler.this.prepare(config));
-                        } else {
-                            return new Result(false, ConfigHandler.this.old);
-                        }
+                        return new Result(ConfigHandler.this.prepare(ConfigHandler.this.fromJson(ConfigHandler.this.getFromUrl(url, "/.evahi/config.json")).valid()));
                     } catch (CustomException jsonE) {
                         return jsonE;
                     }
@@ -88,25 +75,19 @@ public class ConfigHandler {
         @Override
         protected void onPostExecute(Object result) {
             if (result instanceof Result) {
-                ConfigHandler.this.listener.end(((Result) result).updated, ((Result) result).config);
+                ConfigHandler.this.listener.end(((Result) result).config);
             } else {
                 ConfigHandler.this.listener.error((CustomException) result);
             }
         }
 
         private class Result {
-            boolean updated;
             Config config;
 
-            Result(boolean updated, Config config) {
-                this.updated = updated;
+            Result(Config config) {
                 this.config = config;
             }
         }
-    }
-
-    private boolean resolveToUpdate(Config config) {
-        return this.old == null || this.old.getSerial() != config.getSerial();
     }
 
     private Config prepare(Config config) {

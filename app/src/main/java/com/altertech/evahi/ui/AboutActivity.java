@@ -3,32 +3,35 @@ package com.altertech.evahi.ui;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.altertech.evahi.AppConfig;
-import com.altertech.evahi.BuildConfig;
 import com.altertech.evahi.R;
-import com.altertech.evahi.core.BaseApplication;
+import com.altertech.evahi.core.BApp;
 import com.altertech.evahi.core.config.Config;
+import com.altertech.evahi.ui.base.ABase;
 import com.altertech.evahi.utils.ImageUtil;
 import com.altertech.evahi.utils.StringUtil;
 
 import java.util.Calendar;
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends ABase<BApp> {
+
+    protected @LayoutRes
+    int getLayout() {
+        return
+                R.layout.activity_about;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-
+    public void created() {
         this.findViewById(R.id.title_bar_controls_back_button).setOnClickListener(v -> this.onBackPressed());
 
-        final Config config = BaseApplication.get(this).getServerConfig();
+        final Config config = this.app.profiles().get(this.app.id()).config;
 
         final View ui_f_about_line_0 = findViewById(R.id.ui_f_about_line_0);
         ui_f_about_line_0.setVisibility(config != null && StringUtil.isNotEmpty(config.getHome_icon()) ? View.VISIBLE : View.GONE);
@@ -71,5 +74,6 @@ public class AboutActivity extends BaseActivity {
         params.height = !nExistAppConfig /*|| ui_f_about_line_0.getVisibility() == View.VISIBLE*/ ? (int) getResources().getDimension(R.dimen.space_400dp) : (int) getResources().getDimension(R.dimen.space_300dp);
         ui_f_about_container.setLayoutParams(params);
         ui_f_about_container.findViewById(R.id.ui_f_about_container_background).setBackgroundResource(!nExistAppConfig /*|| ui_f_about_line_0.getVisibility() == View.VISIBLE*/ ? R.drawable.drawable_about_1 : R.drawable.drawable_about_2);
+
     }
 }

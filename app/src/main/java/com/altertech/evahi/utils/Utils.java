@@ -8,8 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-import com.altertech.evahi.R;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,32 +27,6 @@ public final class Utils {
         return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
-    public static String prepareTitle(Context context, String server) {
-        return context.getString(R.string.app_name) + " " + server;
-    }
-
-    private static int getDoubleslash(String url) {
-        int doubleslash = url.indexOf("//");
-        if (doubleslash == -1)
-            doubleslash = 0;
-        else
-            doubleslash += 2;
-        int start = url.indexOf('/', doubleslash);
-        start = start >= 0 ? start + 1 : url.length();
-        return start;
-    }
-
-    public static String getHost(String url) {
-        if (url == null || url.length() == 0)
-            return "";
-        return url.substring(0, getDoubleslash(url));
-    }
-
-    public static String getUri(String url) {
-        if (url == null || url.length() == 0)
-            return "";
-        return url.substring(getDoubleslash(url), url.length());
-    }
 
     public static void setMargins(View v, int l, int t, int r, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
@@ -66,5 +39,28 @@ public final class Utils {
     public static void showKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(inputMethodManager).toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    public static class Strings {
+
+        public static final String EMPTY = "";
+
+        public static String val(
+                String str) {
+            return val(str, EMPTY);
+        }
+
+        public static String val(
+                String str, String def) {
+            return
+                    str == null ? (def == null ? EMPTY : def) : str;
+        }
+    }
+
+    public static class Lists {
+        public static <T> java.util.List<T> safe(java.util.List<T> other) {
+            return
+                    other == null ? new ArrayList<>() : other;
+        }
     }
 }

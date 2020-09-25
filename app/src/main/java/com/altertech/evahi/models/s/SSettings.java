@@ -1,4 +1,4 @@
-package com.altertech.evahi.models.settings;
+package com.altertech.evahi.models.s;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -173,6 +173,10 @@ public class SSettings implements Serializable {
             }
         }
         return this;
+    }
+
+    public String url() {
+        return String.format("%s://%s:%s", this.https() ? "https" : "http", this.address(), this.port());
     }
 
     @NonNull

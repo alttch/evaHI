@@ -3,41 +3,42 @@ package com.altertech.evahi.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
-import com.altertech.evahi.core.BaseApplication;
+import com.altertech.evahi.core.BApp;
 import com.altertech.evahi.helpers.IntentHelper;
 import com.altertech.evahi.helpers.SnackbarHelper;
-import com.altertech.evahi.models.settings.SSettings;
+import com.altertech.evahi.models.profiles.Profile;
+import com.altertech.evahi.models.profiles.Profiles;
+import com.altertech.evahi.models.s.SSettings;
+import com.altertech.evahi.ui.base.ABase;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends ABase<BApp> {
 
     public static final int REQUEST_CAMERA_PERMISSION = 201;
 
     private CheckBox a_settings_s_scheme;
     private EditText a_settings_s_address, a_settings_s_port, a_settings_u_name, a_settings_u_password;
 
-    private BaseApplication application;
+    private Profile profile;
 
-    private BaseApplication.Profiles.Profile profile;
+    protected @LayoutRes
+    int getLayout() {
+        return
+                R.layout.activity_settings;
+    }
 
     @Override
-    protected void onCreate(Bundle instance) {
-        super.onCreate(instance);
-        this
-                .setContentView(R.layout.activity_settings);
+    public void created() {
 
-        this.application = BaseApplication.get(this);
-
-        this.profile = this.application.profiles().get(this.application.id());
+        this.profile = this.app.profiles().get(this.app.id());
 
         this.findViewById(R.id.a_settings_s_container).setVisibility(AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? View.GONE : View.VISIBLE);
 
@@ -92,10 +93,10 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 if (changed) {
 
-                    BaseApplication.Profiles profiles = this.application.profiles();
+                    Profiles profiles = this.app.profiles();
                     profiles
                             .get(this.profile.id).settings = profile.settings;
-                    this.application.profiles(profiles);
+                    this.app.profiles(profiles);
 
                     SettingsActivity.this.setResult(RESULT_OK);
                 }
@@ -114,11 +115,10 @@ public class SettingsActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
             }
         });
-
     }
 
     @Override
-    protected void onResume() {
+    public void resume() {
         this.a_settings_s_scheme
                 .setChecked(
                         this.profile.settings.https());
@@ -134,8 +134,8 @@ public class SettingsActivity extends AppCompatActivity {
         this.a_settings_u_password
                 .setText(
                         this.profile.settings.password());
-        super.onResume();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -163,10 +163,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             if (changed) {
-                BaseApplication.Profiles profiles = this.application.profiles();
+                Profiles profiles = this.app.profiles();
                 profiles
                         .get(this.profile.id).settings = profile.settings;
-                this.application.profiles(profiles);
+                this.app.profiles(profiles);
 
                 SettingsActivity.this.setResult(RESULT_OK);
                 SettingsActivity.this.finish();

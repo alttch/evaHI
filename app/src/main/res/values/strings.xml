@@ -3,6 +3,7 @@
     <string name="app_name_setting">Setting</string>
     <string name="app_name_about">About</string>
     <string name="app_name_scan">Scan QR code</string>
+    <string name="app_name_profiles">Profiles</string>
 
     <string name="app_a_main_settings">Set setting</string>
     <string name="app_a_main_loading">Loading, please wait…</string>
@@ -57,6 +58,7 @@
     <string name="app_menu_item_name_about">About</string>
     <string name="app_menu_item_name_exit">Exit</string>
     <string name="app_menu_item_name_qr">QR</string>
+    <string name="app_menu_item_name_profiles">Profiles</string>
 
     <string name="app_dialog_title_execution">Execution…</string>
     <string name="app_remote_wait">Please wait…</string>

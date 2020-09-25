@@ -31,7 +31,7 @@ import java.util.List;
 public class MenuHolder extends ContextWrapper {
 
     public enum Type {
-        SETTINGS, RELOAD, EXIT, PAGE, ABOUT, QR;
+        SETTINGS, RELOAD, EXIT, PAGE, ABOUT, QR, PROFILES;
     }
 
     private CallBack listener;
@@ -47,16 +47,6 @@ public class MenuHolder extends ContextWrapper {
         this.view = view;
         this.listener = listener;
         this.init();
-    }
-
-    public MenuHolder setOrientation(int orientation) {
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-        } else {
-
-        }
-        //this.view.findViewById(R.id.ui_f_menu_background).setBackgroundResource(orientation == Configuration.ORIENTATION_PORTRAIT ? R.drawable.background_menu_4/*1*/ : R.drawable.background_menu_4);
-
-        return this;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -85,6 +75,10 @@ public class MenuHolder extends ContextWrapper {
                 config != null && StringUtil.isNotEmpty(config.getIndex()) ? config.getIndex() : "/"));
 
         menu.addAll(this.getMenuFromConfig(config));
+
+        menu.add(new Menu(Type.PROFILES,
+                getResources().getString(R.string.app_menu_item_name_profiles),
+                BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_setting)));
 
         menu.add(new Menu(Type.QR,
                 getResources().getString(R.string.app_menu_item_name_qr),
@@ -223,6 +217,10 @@ public class MenuHolder extends ContextWrapper {
                 this.ui_f_menu_item_container = itemView.findViewById(R.id.ui_f_menu_item_container);
             }
         }
+    }
+
+    public <T> T and(T o) {
+        return o;
     }
 
 }

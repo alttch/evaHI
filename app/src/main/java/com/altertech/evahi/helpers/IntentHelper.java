@@ -1,11 +1,5 @@
 package com.altertech.evahi.helpers;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-
-import com.altertech.evahi.ui.SettingsActivity;
-
 /**
  * Created by oshevchuk on 26.07.2018
  */
@@ -14,7 +8,8 @@ public class IntentHelper {
     public enum REQUEST_CODES {
         BAR_CODE_ACTIVITY(1002),
         SETTINGS_ACTIVITY(1003),
-        ABOUT_ACTIVITY(1004);
+        ABOUT_ACTIVITY(1004),
+        PROFILES_ACTIVITY(1005);
         int code;
 
         REQUEST_CODES(int code) {
@@ -24,11 +19,5 @@ public class IntentHelper {
         public int getCode() {
             return code;
         }
-    }
-
-
-    public static void showSettingsActivity(Context ctx) {
-        ((Activity) ctx).startActivityForResult(new Intent(ctx, SettingsActivity.class), REQUEST_CODES.SETTINGS_ACTIVITY.getCode());
-        ((Activity) ctx).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

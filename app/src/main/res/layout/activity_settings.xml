@@ -12,6 +12,12 @@
         android:id="@+id/title_bar"
         layout="@layout/title_bar_a_settings" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_8dp"
+        android:background="@drawable/background_shadow_1"
+        android:rotation="180"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

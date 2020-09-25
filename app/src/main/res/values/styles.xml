@@ -29,6 +29,10 @@
         <item name="android:windowBackground" tools:targetApi="lollipop">@color/app_white</item>
     </style>
 
+    <style name="Theme.Profiles" parent="Theme.Base">
+        <item name="android:windowBackground" tools:targetApi="lollipop">@color/app_white</item>
+    </style>
+
     <style name="Theme.Barcode" parent="Theme.Base">
         <!--<item name="android:statusBarColor" tools:targetApi="lollipop">@color/app_white</item>-->
     </style>
