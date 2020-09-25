@@ -12,7 +12,7 @@ import com.altertech.evahi.R;
 /**
  * Created by oshevchuk on 14.12.2018
  */
-public class SnackbarHelper {
+public class SnackHelper {
 
     public enum State {
         SUCCESS, ERROR, WARNING

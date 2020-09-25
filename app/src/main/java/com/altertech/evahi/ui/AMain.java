@@ -19,7 +19,6 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 
 import com.altertech.evahi.AppConfig;
@@ -34,7 +33,7 @@ import com.altertech.evahi.core.exception.CustomException;
 import com.altertech.evahi.dialog.CustomDialogs;
 import com.altertech.evahi.dialog.obj.CustomAlertDialog;
 import com.altertech.evahi.helpers.IntentHelper;
-import com.altertech.evahi.helpers.SnackbarHelper;
+import com.altertech.evahi.helpers.SnackHelper;
 import com.altertech.evahi.models.profiles.Profile;
 import com.altertech.evahi.models.profiles.Profiles;
 import com.altertech.evahi.models.s.SSettings;
@@ -134,16 +133,16 @@ public class AMain extends ABase2<BApp> {
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 switch (error.getErrorCode()) {
                     case -6:
-                        SnackbarHelper.snack(AMain.this, SnackbarHelper.State.ERROR, R.string.app_exception_connection_refused, SnackbarHelper.Duration.SHORT);
+                        SnackHelper.snack(AMain.this, SnackHelper.State.ERROR, R.string.app_exception_connection_refused, SnackHelper.Duration.SHORT);
                         break;
                     case -11:
-                        SnackbarHelper.snack(AMain.this, SnackbarHelper.State.ERROR, R.string.app_exception_handshake, SnackbarHelper.Duration.SHORT);
+                        SnackHelper.snack(AMain.this, SnackHelper.State.ERROR, R.string.app_exception_handshake, SnackHelper.Duration.SHORT);
                         break;
                     case -2:
-                        SnackbarHelper.snack(AMain.this, SnackbarHelper.State.ERROR, R.string.app_a_settings_exception_invalid_address, SnackbarHelper.Duration.SHORT);
+                        SnackHelper.snack(AMain.this, SnackHelper.State.ERROR, R.string.app_a_settings_exception_invalid_address, SnackHelper.Duration.SHORT);
                         break;
                     default:
-                        SnackbarHelper.snack(AMain.this, SnackbarHelper.State.ERROR, getResources().getString(R.string.app_exception_error) + ", code = " + error.getErrorCode(), SnackbarHelper.Duration.SHORT);
+                        SnackHelper.snack(AMain.this, SnackHelper.State.ERROR, getResources().getString(R.string.app_exception_error) + ", code = " + error.getErrorCode(), SnackHelper.Duration.SHORT);
                         break;
                 }
                 AMain.this.setStateToWebControls(false);
@@ -151,7 +150,7 @@ public class AMain extends ABase2<BApp> {
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                SnackbarHelper.snack(AMain.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_ssl_error, SnackbarHelper.Duration.SHORT);
+                SnackHelper.snack(AMain.this.findViewById(R.id.ui_f_web_view), SnackHelper.State.ERROR, R.string.app_exception_ssl_error, SnackHelper.Duration.SHORT);
             }
         });
 
@@ -304,7 +303,7 @@ public class AMain extends ABase2<BApp> {
     }
 
     private void message(@StringRes int id) {
-        SnackbarHelper.snack(AMain.this, SnackbarHelper.State.ERROR, id, SnackbarHelper.Duration.SHORT);
+        SnackHelper.snack(AMain.this, SnackHelper.State.ERROR, id, SnackHelper.Duration.SHORT);
     }
 
     private void url(WebView view, String url) {
@@ -313,7 +312,7 @@ public class AMain extends ABase2<BApp> {
             view
                     .loadUrl(url);
         } else {
-            SnackbarHelper.snack(AMain.this.findViewById(R.id.ui_f_web_view), SnackbarHelper.State.ERROR, R.string.app_exception_no_settings, SnackbarHelper.Duration.SHORT);
+            SnackHelper.snack(AMain.this.findViewById(R.id.ui_f_web_view), SnackHelper.State.ERROR, R.string.app_exception_no_settings, SnackHelper.Duration.SHORT);
         }
     }
 

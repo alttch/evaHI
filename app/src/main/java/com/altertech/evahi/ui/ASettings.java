@@ -14,7 +14,7 @@ import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
 import com.altertech.evahi.core.BApp;
 import com.altertech.evahi.helpers.IntentHelper;
-import com.altertech.evahi.helpers.SnackbarHelper;
+import com.altertech.evahi.helpers.SnackHelper;
 import com.altertech.evahi.models.profiles.Profile;
 import com.altertech.evahi.models.profiles.Profiles;
 import com.altertech.evahi.models.s.SSettings;
@@ -102,7 +102,7 @@ public class ASettings extends ABase<BApp> {
                 }
                 ASettings.this.finish();
             } catch (SSettings.SettingsException e) {
-                SnackbarHelper.snack(ASettings.this, SnackbarHelper.State.ERROR, e.getCustomMessage(), SnackbarHelper.Duration.SHORT);
+                SnackHelper.snack(ASettings.this, SnackHelper.State.ERROR, e.getCustomMessage(), SnackHelper.Duration.SHORT);
             }
         });
 

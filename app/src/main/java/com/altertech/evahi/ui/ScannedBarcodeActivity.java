@@ -10,7 +10,7 @@ import android.view.SurfaceView;
 import android.widget.TextView;
 
 import com.altertech.evahi.R;
-import com.altertech.evahi.helpers.SnackbarHelper;
+import com.altertech.evahi.helpers.SnackHelper;
 import com.altertech.evahi.models.s.SSettings;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -50,7 +50,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                 try {
                     ScannedBarcodeActivity.this.camera.start(holder);
                 } catch (IOException e) {
-                    SnackbarHelper.snack(ScannedBarcodeActivity.this, SnackbarHelper.State.ERROR, R.string.app_a_settings_exception_qr_io_error, SnackbarHelper.Duration.SHORT);
+                    SnackHelper.snack(ScannedBarcodeActivity.this, SnackHelper.State.ERROR, R.string.app_a_settings_exception_qr_io_error, SnackHelper.Duration.SHORT);
                 }
             }
 
