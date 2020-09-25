@@ -20,7 +20,7 @@ import com.altertech.evahi.models.profiles.Profiles;
 import com.altertech.evahi.models.s.SSettings;
 import com.altertech.evahi.ui.base.ABase;
 
-public class SettingsActivity extends ABase<BApp> {
+public class ASettings extends ABase<BApp> {
 
     public static final int REQUEST_CAMERA_PERMISSION = 201;
 
@@ -98,21 +98,21 @@ public class SettingsActivity extends ABase<BApp> {
                             .get(this.profile.id).settings = profile.settings;
                     this.app.profiles(profiles);
 
-                    SettingsActivity.this.setResult(RESULT_OK);
+                    ASettings.this.setResult(RESULT_OK);
                 }
-                SettingsActivity.this.finish();
+                ASettings.this.finish();
             } catch (SSettings.SettingsException e) {
-                SnackbarHelper.snack(SettingsActivity.this, SnackbarHelper.State.ERROR, e.getCustomMessage(), SnackbarHelper.Duration.SHORT);
+                SnackbarHelper.snack(ASettings.this, SnackbarHelper.State.ERROR, e.getCustomMessage(), SnackbarHelper.Duration.SHORT);
             }
         });
 
-        this.findViewById(R.id.a_settings_cancel).setOnClickListener(view -> SettingsActivity.this.onBackPressed());
+        this.findViewById(R.id.a_settings_cancel).setOnClickListener(view -> ASettings.this.onBackPressed());
 
         this.findViewById(R.id.a_settings_q_container).setOnClickListener(view -> {
-            if (ActivityCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                this.startActivityForResult(new Intent(SettingsActivity.this, ScannedBarcodeActivity.class), IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode());
+            if (ActivityCompat.checkSelfPermission(ASettings.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                this.startActivityForResult(new Intent(ASettings.this, ScannedBarcodeActivity.class), IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode());
             } else {
-                ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                ActivityCompat.requestPermissions(ASettings.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
             }
         });
     }
@@ -168,8 +168,8 @@ public class SettingsActivity extends ABase<BApp> {
                         .get(this.profile.id).settings = profile.settings;
                 this.app.profiles(profiles);
 
-                SettingsActivity.this.setResult(RESULT_OK);
-                SettingsActivity.this.finish();
+                ASettings.this.setResult(RESULT_OK);
+                ASettings.this.finish();
             }
         }
     }
@@ -177,7 +177,7 @@ public class SettingsActivity extends ABase<BApp> {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            this.startActivityForResult(new Intent(SettingsActivity.this, ScannedBarcodeActivity.class), IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode());
+            this.startActivityForResult(new Intent(ASettings.this, ScannedBarcodeActivity.class), IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode());
         }
     }
 

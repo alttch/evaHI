@@ -1,9 +1,7 @@
 package com.altertech.evahi.ui.holders;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -31,7 +29,7 @@ import java.util.List;
 public class MenuHolder extends ContextWrapper {
 
     public enum Type {
-        SETTINGS, RELOAD, EXIT, PAGE, ABOUT, QR, PROFILES;
+        SETTINGS, RELOAD, EXIT, PAGE, ABOUT, QR, PROFILES
     }
 
     private CallBack listener;
@@ -49,7 +47,6 @@ public class MenuHolder extends ContextWrapper {
         this.init();
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void init() {
         this.adapter = new Adapter(this.menu);
         RecyclerView view = this.view.findViewById(R.id.ui_f_menu_items);
@@ -171,21 +168,21 @@ public class MenuHolder extends ContextWrapper {
                 params.height = (int) MenuHolder.this.getResources().getDimension(R.dimen.space_75dp);
                 holder.ui_f_menu_item_shadow.setLayoutParams(params);
 
-                Utils.setMargins(holder.ui_f_menu_item_container, 0, (int) MenuHolder.this.getResources().getDimension(R.dimen.space_15dp), 0, (int) MenuHolder.this.getResources().getDimension(R.dimen.space_15dp));
+                Utils.Views.margins(holder.ui_f_menu_item_container, 0, (int) MenuHolder.this.getResources().getDimension(R.dimen.space_15dp), 0, (int) MenuHolder.this.getResources().getDimension(R.dimen.space_15dp));
             } else if (i == this.menu.size() - 1) {
                 holder.ui_f_menu_item_shadow.setBackgroundResource(R.drawable.background_menu_5);
 
                 params.height = (int) MenuHolder.this.getResources().getDimension(R.dimen.space_60dp);
                 holder.ui_f_menu_item_shadow.setLayoutParams(params);
 
-                Utils.setMargins(holder.ui_f_menu_item_container, 0, 0, 0, (int) MenuHolder.this.getResources().getDimension(R.dimen.space_15dp));
+                Utils.Views.margins(holder.ui_f_menu_item_container, 0, 0, 0, (int) MenuHolder.this.getResources().getDimension(R.dimen.space_15dp));
             } else {
                 holder.ui_f_menu_item_shadow.setBackgroundResource(R.drawable.background_menu_6);
 
                 params.height = (int) MenuHolder.this.getResources().getDimension(R.dimen.space_60dp);
                 holder.ui_f_menu_item_shadow.setLayoutParams(params);
 
-                Utils.setMargins(holder.ui_f_menu_item_container, 0, 0, 0, (int) MenuHolder.this.getResources().getDimension(R.dimen.space_15dp));
+                Utils.Views.margins(holder.ui_f_menu_item_container, 0, 0, 0, (int) MenuHolder.this.getResources().getDimension(R.dimen.space_15dp));
             }
 
             holder.itemView.setOnClickListener(v -> {

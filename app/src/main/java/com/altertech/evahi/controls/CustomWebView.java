@@ -3,155 +3,128 @@ package com.altertech.evahi.controls;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.webkit.HttpAuthHandler;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class CustomWebView extends WebView {
 
-	private static final String TAG = CustomWebView.class.getSimpleName();
+    public static final String ABOUT_BLANK = "about:blank";
 
-	public static final String ABOUT_BLANK = "about:blank";
+    public boolean isReadable = false;
 
-	public boolean isReadable = false;
+    private boolean forceOriginalFormat = false;
 
-	private boolean forceOriginalFormat = false;
+    private WebViewClient webViewClient = null;
 
-	private WebViewClient webViewClient = null;
+    public boolean readableBackState = false;
 
-	public boolean readableBackState = false;
+    public boolean loadingReadableBack = false;
 
-	public boolean loadingReadableBack = false;
+    public boolean shouldClearHistory = false;
 
-	public boolean shouldClearHistory = false;
+    public CustomWebView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        attrSet = attrs;
+    }
 
-	public CustomWebView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		attrSet = attrs;
-	}
+    public boolean is_gone = true;
 
-	public boolean is_gone = true;
+    public AttributeSet attrSet = null;
 
-	public AttributeSet attrSet = null;
+    public void setWebViewClient(WebViewClient client) {
+        webViewClient = client;
+        super.setWebViewClient(client);
+    }
 
-	public void setWebViewClient(WebViewClient client) {
-		webViewClient = client;
-		super.setWebViewClient(client);
-	}
+    public WebViewClient getWebViewClient() {
+        return webViewClient;
+    }
 
-	public WebViewClient getWebViewClient() {
-		return webViewClient;
-	}
+    public void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        if (visibility == View.GONE) {
+            try {
+                WebView.class.getMethod("onPause").invoke(this);// stop flash
+            } catch (Exception ignored) {
+            }
+            this.pauseTimers();
+            this.is_gone = true;
+        } else if (visibility == View.VISIBLE) {
+            try {
+                WebView.class.getMethod("onResume").invoke(this);// resume flash
+            } catch (Exception ignored) {
+            }
+            this.resumeTimers();
+            this.is_gone = false;
+        }
+    }
 
-	public void setIsReadable(boolean isReadable) {
-		this.isReadable = isReadable;
-	}
+    public AttributeSet getAttributes() {
+        return attrSet;
+    }
 
-	public void onWindowVisibilityChanged(int visibility) {
-		super.onWindowVisibilityChanged(visibility);
-		if (visibility == View.GONE) {
-			try {
-				WebView.class.getMethod("onPause").invoke(this);// stop flash
-			} catch (Exception e) {
-			}
-			this.pauseTimers();
-			this.is_gone = true;
-		} else if (visibility == View.VISIBLE) {
-			try {
-				WebView.class.getMethod("onResume").invoke(this);// resume flash
-			} catch (Exception e) {
-			}
-			this.resumeTimers();
-			this.is_gone = false;
-		}
-	}
+    public void stopView() {
+        try {
+            WebView.class.getMethod("onPause").invoke(this);// stop flash
+        } catch (Exception ignored) {
+        }
+        this.pauseTimers();
+    }
 
-	public AttributeSet getAttributes() {
-		return attrSet;
-	}
+    public void resumeView() {
+        try {
+            WebView.class.getMethod("onResume").invoke(this);// resume flash
+        } catch (Exception ignored) {
+        }
+        this.resumeTimers();
+    }
 
-	public void stopView() {
-		try {
-			WebView.class.getMethod("onPause").invoke(this);// stop flash
-		} catch (Exception ignored) {
-		}
-		this.pauseTimers();
-	}
+    @Override
+    public WebBackForwardList saveState(Bundle outState) {
+        outState.putBoolean("isReadable", isReadable);
+        return super.saveState(outState);
+    }
 
-	public void resumeView() {
-		try {
-			WebView.class.getMethod("onResume").invoke(this);// resume flash
-		} catch (Exception ignored) {
-		}
-		this.resumeTimers();
-	}
+    @Override
+    public WebBackForwardList restoreState(Bundle inState) {
+        isReadable = inState.getBoolean("isReadable");
+        return super.restoreState(inState);
+    }
 
-	@Override
-	public WebBackForwardList saveState(Bundle outState) {
-		outState.putBoolean("isReadable", isReadable);
-		return super.saveState(outState);
-	}
+    /**
+     * Whether original format of the web page is required (no readability)
+     *
+     * @return true if original format is required, false otherwise
+     */
+    public boolean isOriginalRequired() {
+        return forceOriginalFormat;
+    }
 
-	@Override
-	public WebBackForwardList restoreState(Bundle inState) {
-		isReadable = inState.getBoolean("isReadable");
-		return super.restoreState(inState);
-	}
+    public void clearReadabilityState() {
+        isReadable = false;
+        forceOriginalFormat = false;
 
-	/**
-	 * Whether original format of the web page is required (no readability)
-	 * 
-	 * @return true if original format is required, false otherwise
-	 */
-	public boolean isOriginalRequired() {
-		return forceOriginalFormat;
-	}
+        readableBackState = false;
+        loadingReadableBack = false;
+    }
 
-	public void clearReadabilityState() {
-		isReadable = false;
-		forceOriginalFormat = false;
+    public void forceOriginal() {
+        isReadable = false;
+        forceOriginalFormat = true;
+    }
 
-		readableBackState = false;
-		loadingReadableBack = false;
-	}
+    public void clearBrowserState() {
+        stopLoading();
+        clearHistory();
+        clearViewReliably();
+        shouldClearHistory = true;
 
-	public void forceOriginal() {
-		isReadable = false;
-		forceOriginalFormat = true;
-	}
+        clearReadabilityState();
+    }
 
-	public void clearBrowserState() {
-		stopLoading();
-		clearHistory();
-		clearViewReliably();
-		shouldClearHistory = true;
-
-		clearReadabilityState();
-	}
-
-	private void clearViewReliably() {
-		loadUrl(ABOUT_BLANK);
-	}
-
-
-	public String backPressAction() {
-		WebBackForwardList history = copyBackForwardList();
-		int index = -1;
-		String url = null;
-
-		while (canGoBackOrForward(index)) {
-			if (!history.getItemAtIndex(history.getCurrentIndex() + index)
-					.getUrl().equalsIgnoreCase(ABOUT_BLANK)) {
-				goBackOrForward(index);
-				url = history.getItemAtIndex(-index).getUrl();
-				Log.e(TAG, "first non empty " + url);
-				break;
-			}
-			index--;
-		}
-		return url;
-	}
+    private void clearViewReliably() {
+        loadUrl(ABOUT_BLANK);
+    }
 }

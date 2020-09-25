@@ -16,10 +16,11 @@ import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.ui.base.ABase;
 import com.altertech.evahi.utils.ImageUtil;
 import com.altertech.evahi.utils.StringUtil;
+import com.altertech.evahi.utils.Utils;
 
 import java.util.Calendar;
 
-public class AboutActivity extends ABase<BApp> {
+public class AAbout extends ABase<BApp> {
 
     protected @LayoutRes
     int getLayout() {
@@ -56,7 +57,7 @@ public class AboutActivity extends ABase<BApp> {
 
         ((TextView) findViewById(R.id.ui_f_about_line_4)).setText(String.format(getResources().getString(R.string.app_a_about_line_name), AppConfig.evaHI_Build));
 
-        ((TextView) findViewById(R.id.ui_f_about_line_5)).setText(String.format(getResources().getString(R.string.app_a_about_line_copyright), String.valueOf(Calendar.getInstance().get(Calendar.YEAR))));
+        ((TextView) findViewById(R.id.ui_f_about_line_5)).setText(String.format(getResources().getString(R.string.app_a_about_line_copyright), Calendar.getInstance().get(Calendar.YEAR)));
 
         final TextView l_6 = findViewById(R.id.ui_f_about_line_6);
         l_6.setText(R.string.app_a_about_line_link);

@@ -1,10 +1,9 @@
-package com.altertech.evahi.ui;
+package com.altertech.evahi.ui.base;
 
 import android.app.Application;
 import android.content.res.Configuration;
 
 import com.altertech.evahi.R;
-import com.altertech.evahi.ui.base.ABase;
 
 /**
  * Created by oshevchuk on 11.03.2019

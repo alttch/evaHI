@@ -15,24 +15,5 @@ public class StringUtil {
         return (string != null && string.length() > 0);
     }
 
-    public static String arrayAsString(byte[] bytes) {
-        if (bytes != null) {
-            StringBuilder temp = new StringBuilder(EMPTY_STRING);
-            for (byte b : bytes) {
-                temp.append("[").append(b).append("]");
-            }
-            return temp.toString();
-        } else {
-            return "NULL";
-        }
-    }
 
-    public static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException | NullPointerException e) {
-            return false;
-        }
-        return true;
-    }
 }
