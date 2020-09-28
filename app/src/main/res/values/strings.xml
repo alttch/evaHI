@@ -20,6 +20,7 @@
     <string name="app_a_settings_u_title_password">Password:</string>
     <string name="app_a_settings_u_title_save">Save</string>
     <string name="app_a_settings_u_title_cancel">Cancel</string>
+    <string name="app_a_settings_u_title_yes">Yes</string>
     <string name="app_a_settings_u_hint_password">Password</string>
 
     <string name="app_a_settings_exception_invalid_code">Invalid code</string>
@@ -61,7 +62,9 @@
     <string name="app_menu_item_name_profiles">Profiles</string>
 
     <string name="app_dialog_title_execution">Execution…</string>
+    <string name="app_dialog_title_delete_profiles">Delete selected profiles?</string>
     <string name="app_remote_wait">Please wait…</string>
+
 
     <string name="app_profile_unknown">Unknown</string>
 

@@ -72,6 +72,26 @@ public class VHBase {
         return this;
     }
 
+    public VHBase touch(
+            @IdRes int id, View.OnTouchListener l) {
+        View v = this.v(id);
+        if (
+                v != null) {
+            v.setOnTouchListener(l);
+        }
+        return this;
+    }
+
+    public String text(
+            @IdRes int id) {
+        TextView v = this.v(id, TextView.class);
+        if (
+                v != null) {
+            return v.getText().toString();
+        } else {
+            return Utils.Strings.EMPTY;
+        }
+    }
 
     public VHBase text(
             @IdRes int id, String text) {
@@ -174,4 +194,11 @@ public class VHBase {
         }
         return null;
     }
+
+    public <T> T and(T o) {
+        return
+                o;
+    }
+
+
 }

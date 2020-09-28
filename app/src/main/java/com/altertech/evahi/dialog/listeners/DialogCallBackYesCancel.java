@@ -1,12 +1,12 @@
 package com.altertech.evahi.dialog.listeners;
 
-import com.altertech.evahi.dialog.obj.CustomAlertDialog;
+import com.altertech.evahi.dialog.obj.Dialog;
 
 /**
  * Created by oshevchuk on 03.07.2018
  */
-public interface DialogCallBackYesCancel {
-    void dialogYes(CustomAlertDialog dialog, Object o);
+public interface DialogCallBackYesCancel<T> {
+    void dialogYes(Dialog dialog, T... o);
 
-    void dialogCancel(CustomAlertDialog dialog);
+    void dialogCancel(Dialog dialog);
 }

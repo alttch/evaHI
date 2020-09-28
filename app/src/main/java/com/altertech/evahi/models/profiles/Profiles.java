@@ -9,6 +9,17 @@ public class Profiles {
 
     public List<Profile> profiles = new ArrayList<>();
 
+    public Profiles(
+
+    ) {
+    }
+
+    public Profiles(
+            List<Profile> profiles) {
+        this();
+        this.profiles = profiles;
+    }
+
     public Profiles add(Profile profile) {
         this.profiles
                 .add(profile);

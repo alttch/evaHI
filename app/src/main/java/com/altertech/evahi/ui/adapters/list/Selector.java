@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Selector implements Serializable {
 
-    protected boolean selected = false;
+    protected transient boolean selected = false;
 
     public boolean isSelected() {
         return selected;

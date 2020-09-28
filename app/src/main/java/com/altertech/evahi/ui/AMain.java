@@ -30,8 +30,8 @@ import com.altertech.evahi.core.BApp;
 import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.core.config.ConfigHandler;
 import com.altertech.evahi.core.exception.CustomException;
-import com.altertech.evahi.dialog.CustomDialogs;
-import com.altertech.evahi.dialog.obj.CustomAlertDialog;
+import com.altertech.evahi.dialog.Dialogs;
+import com.altertech.evahi.dialog.obj.Dialog;
 import com.altertech.evahi.helpers.IntentHelper;
 import com.altertech.evahi.helpers.SnackHelper;
 import com.altertech.evahi.models.profiles.Profile;
@@ -254,12 +254,12 @@ public class AMain extends ABase2<BApp> {
     private void initialization(String url) {
 
         new ConfigHandler(this.app.profiles().get(this.app.id()).settings.url(), this.app.profiles().get(this.app.id()).settings.name(), this.app.profiles().get(this.app.id()).settings.password(), new ConfigHandler.CallBack() {
-            private CustomAlertDialog progress;
+            private Dialog progress;
 
             @Override
             public void start() {
                 this
-                        .progress = CustomDialogs.showExecutionDialog(AMain.this, R.string.app_remote_wait);
+                        .progress = Dialogs.execution(AMain.this, R.string.app_remote_wait);
 
                 AMain.this.setStateToWebControls(false);
             }
@@ -267,7 +267,7 @@ public class AMain extends ABase2<BApp> {
             @Override
             public void end(Config config) {
                 this
-                        .progress.mDismiss();
+                        .progress.dismiss();
 
                 Profiles profiles = AMain.this.app.profiles();
                 profiles
@@ -280,7 +280,7 @@ public class AMain extends ABase2<BApp> {
             @Override
             public void error(CustomException e) {
                 this
-                        .progress.mDismiss();
+                        .progress.dismiss();
 
                 Profiles profiles = AMain.this.app.profiles();
                 profiles

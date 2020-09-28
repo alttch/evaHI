@@ -4,9 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.models.s.SSettings;
+import com.altertech.evahi.ui.adapters.list.Selector;
 import com.altertech.evahi.ui.adapters.rv.BaseAdapter;
 
-public class Profile implements BaseAdapter.IItem {
+public class Profile extends Selector implements BaseAdapter.IItem {
     public Long
             id;
     public String

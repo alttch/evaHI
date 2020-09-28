@@ -13,14 +13,13 @@ import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
 import com.altertech.evahi.core.BApp;
 import com.altertech.evahi.core.config.Config;
-import com.altertech.evahi.ui.base.ABase;
+import com.altertech.evahi.ui.base.ABase2;
 import com.altertech.evahi.utils.ImageUtil;
 import com.altertech.evahi.utils.StringUtil;
-import com.altertech.evahi.utils.Utils;
 
 import java.util.Calendar;
 
-public class AAbout extends ABase<BApp> {
+public class AAbout extends ABase2<BApp> {
 
     protected @LayoutRes
     int getLayout() {

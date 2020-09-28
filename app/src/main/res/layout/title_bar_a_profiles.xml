@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/app_white"
     android:layout_height="?android:attr/actionBarSize"
+    android:background="@color/app_white"
     android:visibility="visible">
 
     <LinearLayout
@@ -43,6 +43,15 @@
         android:layout_alignParentEnd="true"
         android:orientation="horizontal"
         android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/title_bar_controls_delete"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@drawable/selector_change_different_color_to_simple_color_round"
+            android:padding="@dimen/space_15dp"
+            android:src="@drawable/drawable_delete"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 </RelativeLayout>

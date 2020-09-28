@@ -15,7 +15,10 @@ import com.altertech.evahi.utils.Utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+
 
 public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase> extends RecyclerView.Adapter<Holder<H>> implements IBaseAdapter<T, H> {
 
@@ -33,6 +36,10 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
             Context c, int l) {
         this.c = c;
         this.l = l;
+        this
+                .init(
+
+                );
     }
 
     public BaseAdapter(
@@ -45,10 +52,14 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
     public BaseAdapter(
             Context c, int l, Injection arg1, List<T> arg2) {
         this(c, l);
-
         this
                 .oAdd(arg1)
                 .oAdd(arg2);
+
+    }
+
+    @Override
+    public void init() {
 
     }
 
@@ -155,7 +166,7 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
                     (H) view.item, (Injection) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
         } else {
             this.bind(
-                    (H) view.item, (T) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
+                    view, (T) this.items.get(view.getAdapterPosition()), view.getAdapterPosition());
         }
     }
 
@@ -185,27 +196,35 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
         return null;
     }
 
-    public IItem selected() {
+    public List<T> selected() {
+        List<T>
+                checked = new ArrayList<>();
         for (IItem item : this.items) {
             if (item instanceof Selector && ((Selector) item).isSelected()) {
-                return item;
+                checked.add((T) item);
             }
         }
-        return null;
+        return checked;
     }
 
     public IItem get(int i) {
         return this.items.get(i);
     }
 
-    public BaseAdapter<T, H> select(int index) {
-        return select(index, true);
+    public BaseAdapter<T, H> select(int index, boolean multiple) {
+        return select(index, multiple, true);
     }
 
-    public BaseAdapter<T, H> select(int index, boolean notif) {
+    public BaseAdapter<T, H> select(int index, boolean multiple, boolean notif) {
         for (int i = 0; i < this.items.size(); i++) {
             if (this.items.get(i) instanceof Selector) {
-                ((Selector) this.items.get(i)).setSelected(i == index);
+                if (multiple) {
+                    if (i == index) {
+                        ((Selector) this.items.get(i)).setSelected(!((Selector) this.items.get(i)).isSelected());
+                    }
+                } else {
+                    ((Selector) this.items.get(i)).setSelected(i == index);
+                }
             }
         }
         if (notif) {
@@ -221,6 +240,15 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
             }
         }
         return -1;
+    }
+
+    public List<T> items() {
+        List<T> items = new ArrayList<>(this.items.size());
+        for (
+                IItem item : this.items) {
+            items.add((T) item);
+        }
+        return items;
     }
 
     public interface IItem extends Serializable {
@@ -306,7 +334,44 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
         return this;
     }
 
+    public BaseAdapter<T, H> remove(T[] items) {
+        Iterator<IItem> i = this.items.iterator();
+        while (
+                i.hasNext()) {
+
+            T item = (T) i.next();
+
+            for (
+                    T remove : items) {
+                if (item.equals(remove)) {
+                    i
+                            .remove();
+                    break;
+                }
+            }
+        }
+        return
+                this;
+    }
+
+    public BaseAdapter<T, H> move(int from, int to) {
+        if (from < to) {
+            for (int i = from; i < to; i++) {
+                Collections.swap(this.items, i, i + 1);
+            }
+        } else {
+            for (int i = from; i > to; i--) {
+                Collections.swap(this.items, i, i - 1);
+            }
+        }
+        this.notifyItemMoved(from, to);
+        return
+                this;
+    }
+
     public <O> O and(O o) {
         return o;
     }
+
+
 }
