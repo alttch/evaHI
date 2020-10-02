@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.altertech.evahi.R;
 import com.altertech.evahi.helpers.SnackHelper;
-import com.altertech.evahi.models.s.SSettings;
+import com.altertech.evahi.core.models.s.SSettings;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;

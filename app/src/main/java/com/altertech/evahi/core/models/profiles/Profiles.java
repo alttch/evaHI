@@ -1,4 +1,4 @@
-package com.altertech.evahi.models.profiles;
+package com.altertech.evahi.core.models.profiles;
 
 import android.support.annotation.NonNull;
 

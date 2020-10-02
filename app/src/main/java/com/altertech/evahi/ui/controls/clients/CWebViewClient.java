@@ -1,16 +1,19 @@
-package com.altertech.evahi.controls;
+package com.altertech.evahi.ui.controls.clients;
 
 import android.webkit.HttpAuthHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.altertech.evahi.core.BApp;
-import com.altertech.evahi.models.profiles.Profile;
+import com.altertech.evahi.core.models.profiles.Profile;
 
-public class CustomWebViewClient extends WebViewClient {
-    private BApp application;
+public class CWebViewClient extends WebViewClient {
 
-    public CustomWebViewClient(BApp application) {
+    private BApp
+            application;
+
+    public CWebViewClient(
+            BApp application) {
         this.application = application;
     }
 

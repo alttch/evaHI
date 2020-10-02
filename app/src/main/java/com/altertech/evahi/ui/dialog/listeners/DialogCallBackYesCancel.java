@@ -1,6 +1,6 @@
-package com.altertech.evahi.dialog.listeners;
+package com.altertech.evahi.ui.dialog.listeners;
 
-import com.altertech.evahi.dialog.obj.Dialog;
+import com.altertech.evahi.ui.dialog.obj.Dialog;
 
 /**
  * Created by oshevchuk on 03.07.2018

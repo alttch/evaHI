@@ -2,19 +2,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.altertech.evahi.controls.CustomWebView
-        android:id="@+id/ui_f_web_view"
+    <com.altertech.evahi.ui.controls.CWebView
+        android:id="@+id/web"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" />
 
     <LinearLayout
-        android:id="@+id/ui_f_web_progress_container"
+        android:id="@+id/progress_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|center_horizontal"
         android:background="@color/app_black_50"
         android:orientation="horizontal">
@@ -32,13 +32,13 @@
             android:textSize="@dimen/text_views_text_size_12sp" />
 
         <ProgressBar
-            android:id="@+id/ui_f_web_progress_p"
+            android:id="@+id/progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingEnd="@dimen/space_5dp"
-            android:paddingStart="0dp" />
+            android:paddingStart="0dp"
+            android:paddingEnd="@dimen/space_5dp" />
     </LinearLayout>
 
 

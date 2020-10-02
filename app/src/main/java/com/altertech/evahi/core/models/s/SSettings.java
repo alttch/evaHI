@@ -1,4 +1,4 @@
-package com.altertech.evahi.models.s;
+package com.altertech.evahi.core.models.s;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;

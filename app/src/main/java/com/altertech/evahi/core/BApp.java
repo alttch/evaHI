@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.altertech.evahi.R;
-import com.altertech.evahi.models.profiles.Profile;
-import com.altertech.evahi.models.profiles.Profiles;
+import com.altertech.evahi.core.models.profiles.Profile;
+import com.altertech.evahi.core.models.profiles.Profiles;
 import com.google.gson.Gson;
 
 /**

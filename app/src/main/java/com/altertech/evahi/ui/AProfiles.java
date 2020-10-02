@@ -9,11 +9,11 @@ import android.view.View;
 
 import com.altertech.evahi.R;
 import com.altertech.evahi.core.BApp;
-import com.altertech.evahi.dialog.Dialogs;
-import com.altertech.evahi.dialog.listeners.DialogCallBackYesCancel;
-import com.altertech.evahi.dialog.obj.Dialog;
-import com.altertech.evahi.models.profiles.Profile;
-import com.altertech.evahi.models.profiles.Profiles;
+import com.altertech.evahi.ui.dialog.Dialogs;
+import com.altertech.evahi.ui.dialog.listeners.DialogCallBackYesCancel;
+import com.altertech.evahi.ui.dialog.obj.Dialog;
+import com.altertech.evahi.core.models.profiles.Profile;
+import com.altertech.evahi.core.models.profiles.Profiles;
 import com.altertech.evahi.ui.adapters.rv.BaseAdapter;
 import com.altertech.evahi.ui.adapters.rv.components.ItemTouchHelperCallback;
 import com.altertech.evahi.ui.adapters.rv.holder.Holder;

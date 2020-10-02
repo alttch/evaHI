@@ -1,4 +1,4 @@
-package com.altertech.evahi.dialog.obj;
+package com.altertech.evahi.ui.dialog.obj;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

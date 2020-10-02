@@ -328,7 +328,7 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
         return this;
     }
 
-    private BaseAdapter<T, H> uiNotifInsertRange(int start, int count) {
+    public BaseAdapter<T, H> uiNotifInsertRange(int start, int count) {
         this
                 .notifyItemRangeInserted(start, count);
         return this;
@@ -339,7 +339,7 @@ public abstract class BaseAdapter<T extends BaseAdapter.IItem, H extends VHBase>
         while (
                 i.hasNext()) {
 
-            T item = (T) i.next();
+            IItem item = i.next();
 
             for (
                     T remove : items) {

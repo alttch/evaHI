@@ -1,4 +1,4 @@
-package com.altertech.evahi.dialog.listeners;
+package com.altertech.evahi.ui.dialog.listeners;
 
 /**
  * Created by oshevchuk on 21.12.2018

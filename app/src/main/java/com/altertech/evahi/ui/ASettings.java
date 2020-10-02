@@ -15,9 +15,9 @@ import com.altertech.evahi.R;
 import com.altertech.evahi.core.BApp;
 import com.altertech.evahi.helpers.IntentHelper;
 import com.altertech.evahi.helpers.SnackHelper;
-import com.altertech.evahi.models.profiles.Profile;
-import com.altertech.evahi.models.profiles.Profiles;
-import com.altertech.evahi.models.s.SSettings;
+import com.altertech.evahi.core.models.profiles.Profile;
+import com.altertech.evahi.core.models.profiles.Profiles;
+import com.altertech.evahi.core.models.s.SSettings;
 import com.altertech.evahi.ui.base.ABase;
 
 public class ASettings extends ABase<BApp> {

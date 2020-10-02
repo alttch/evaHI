@@ -1,14 +1,12 @@
-package com.altertech.evahi.dialog;
+package com.altertech.evahi.ui.dialog;
 
 import android.content.Context;
 import android.support.annotation.StringRes;
 
 import com.altertech.evahi.R;
-import com.altertech.evahi.dialog.listeners.DialogCallBackYesCancel;
-import com.altertech.evahi.dialog.obj.Dialog;
-import com.altertech.evahi.models.profiles.Profile;
-
-import java.util.List;
+import com.altertech.evahi.ui.dialog.listeners.DialogCallBackYesCancel;
+import com.altertech.evahi.ui.dialog.obj.Dialog;
+import com.altertech.evahi.core.models.profiles.Profile;
 
 /**
  * Created by oshevchuk on 08.05.2018
