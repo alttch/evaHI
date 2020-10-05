@@ -8,17 +8,19 @@ import java.io.ByteArrayOutputStream;
 
 public class ImageUtil {
     public static Bitmap convert(String base64Str) {
-        byte[] decodedBytes = Base64.decode(
+        byte[] bytes = Base64.decode(
                 base64Str.substring(base64Str.indexOf(",") + 1),
                 Base64.DEFAULT
         );
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
     public static String convert(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(
+                Bitmap.CompressFormat.PNG, 100, stream
+        );
+        return Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT);
     }
 
 }

@@ -14,8 +14,8 @@ import com.altertech.evahi.core.App;
 import com.altertech.evahi.core.models.profiles.Profile;
 import com.altertech.evahi.core.models.profiles.Profiles;
 import com.altertech.evahi.core.models.s.SSettings;
-import com.altertech.evahi.helpers.SnackHelper;
 import com.altertech.evahi.ui.base.ABase;
+import com.altertech.evahi.ui.holders.view.VHBase;
 
 public class ASettings extends ABase<App> {
 
@@ -82,11 +82,11 @@ public class ASettings extends ABase<App> {
                                     .get(this.profile.id).settings = profile.settings;
                             this.app.profiles(profiles);
 
-                            ASettings.this.setResult(RESULT_OK);
+                            ASettings.this.result(RESULT_OK);
                         }
                         ASettings.this.finish();
                     } catch (SSettings.SettingsException e) {
-                        SnackHelper.snack(ASettings.this, SnackHelper.State.ERROR, e.getCustomMessage(), SnackHelper.Duration.SHORT);
+                        ASettings.this.h.snack(VHBase.Messages.Snack.Type.E, e.getCustomMessage(), VHBase.Messages.Snack.Duration.SHORT);
                     }
                 })
                 .click(R.id.a_settings_q_container, view -> {

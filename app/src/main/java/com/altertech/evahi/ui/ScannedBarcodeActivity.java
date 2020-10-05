@@ -2,16 +2,17 @@ package com.altertech.evahi.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
-import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
 
 import com.altertech.evahi.R;
-import com.altertech.evahi.helpers.SnackHelper;
+import com.altertech.evahi.core.App;
 import com.altertech.evahi.core.models.s.SSettings;
+import com.altertech.evahi.ui.base.ABase;
+import com.altertech.evahi.ui.holders.view.VHBase;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -19,21 +20,25 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-public class ScannedBarcodeActivity extends AppCompatActivity {
+public class ScannedBarcodeActivity extends ABase<App> {
 
     private CameraSource
             camera;
 
-    @Override
-    protected void onCreate(Bundle instance) {
-        super.onCreate(instance);
-        this
-                .setContentView(R.layout.a_barcode);
-
-        this.findViewById(R.id.title_bar_controls_back_button).setOnClickListener(view -> ScannedBarcodeActivity.this.onBackPressed());
+    protected @LayoutRes
+    int getLayout() {
+        return
+                R.layout.a_barcode;
     }
 
-    private void init() {
+    @Override
+    public void created() {
+        this.h.click(R.id.title_bar_controls_back_button, view -> this.back());
+
+    }
+
+
+    private void initialization() {
 
         BarcodeDetector barcode;
 
@@ -50,7 +55,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                 try {
                     ScannedBarcodeActivity.this.camera.start(holder);
                 } catch (IOException e) {
-                    SnackHelper.snack(ScannedBarcodeActivity.this, SnackHelper.State.ERROR, R.string.app_a_settings_exception_qr_io_error, SnackHelper.Duration.SHORT);
+                    ScannedBarcodeActivity.this.h.snack(VHBase.Messages.Snack.Type.E, R.string.app_a_settings_exception_qr_io_error, VHBase.Messages.Snack.Duration.SHORT);
                 }
             }
 
@@ -90,7 +95,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                                 ScannedBarcodeActivity.this
                                         .finish();
                             } else {
-                                ScannedBarcodeActivity.this.showStatus(R.string.app_a_settings_exception_invalid_code);
+                                ScannedBarcodeActivity.this.status(R.string.app_a_settings_exception_invalid_code);
                             }
                         }
 
@@ -100,21 +105,22 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         });
     }
 
-    private void showStatus(final @StringRes int s) {
+    private void status(final @StringRes int s) {
         this.findViewById(R.id.status).post(() -> ((TextView) findViewById(R.id.status)).setText(s));
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        this
-                .camera.release();
+    public void resume(
+
+    ) {
+        this.initialization();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        this
-                .init();
+    public void pause(
+
+    ) {
+        this.camera.release();
     }
+
 }

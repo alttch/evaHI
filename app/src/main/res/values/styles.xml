@@ -5,25 +5,14 @@
         <item name="windowActionBar">true</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/app_white</item>
-        <!--<item name="android:navigationBarColor" tools:targetApi="lollipop">@color/app_white</item>-->
-        <item name="android:windowBackground" tools:targetApi="lollipop">@drawable/background_custom_1</item>
+        <item name="android:windowBackground" tools:targetApi="lollipop">
+            @drawable/background_custom_1
+        </item>
     </style>
 
-    <!--<style name="Theme.Base.Full.Status" parent="Theme.Base">
-        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
-        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
-        <item name="android:windowBackground" tools:targetApi="lollipop">@android:color/transparent</item>
-    </style>-->
+    <style name="Theme.Main" parent="Theme.Base" />
 
-    <!--<style name="Theme.Base.Full.Status.Background" parent="Theme.Base.Full.Status">
-        <item name="android:windowBackground" tools:targetApi="lollipop">@drawable/background_1</item>
-    </style>-->
-
-    <style name="Theme.Main" parent="Theme.Base">
-    </style>
-
-    <style name="Theme.About" parent="Theme.Base">
-    </style>
+    <style name="Theme.About" parent="Theme.Base" />
 
     <style name="Theme.Settings" parent="Theme.Base">
         <item name="android:windowBackground" tools:targetApi="lollipop">@color/app_white</item>
@@ -33,12 +22,12 @@
         <item name="android:windowBackground" tools:targetApi="lollipop">@color/app_white</item>
     </style>
 
-    <style name="Theme.Barcode" parent="Theme.Base">
-        <!--<item name="android:statusBarColor" tools:targetApi="lollipop">@color/app_white</item>-->
-    </style>
+    <style name="Theme.Barcode" parent="Theme.Base" />
 
     <style name="Theme.Menu" parent="Theme.Base">
-        <item name="android:windowBackground" tools:targetApi="lollipop">@android:color/transparent</item>
+        <item name="android:windowBackground" tools:targetApi="lollipop">
+            @android:color/transparent
+        </item>
     </style>
 
     <style name="CustomCounterStyle" parent="TextAppearance.AppCompat.Small">

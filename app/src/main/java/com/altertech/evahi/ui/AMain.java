@@ -10,7 +10,6 @@ import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -31,7 +30,6 @@ import com.altertech.evahi.core.exception.CustomException;
 import com.altertech.evahi.core.models.profiles.Profile;
 import com.altertech.evahi.core.models.profiles.Profiles;
 import com.altertech.evahi.core.models.s.SSettings;
-import com.altertech.evahi.helpers.SnackHelper;
 import com.altertech.evahi.services.SService;
 import com.altertech.evahi.ui.base.ABase2;
 import com.altertech.evahi.ui.controls.clients.CWebViewClient;
@@ -39,6 +37,7 @@ import com.altertech.evahi.ui.dialog.Dialogs;
 import com.altertech.evahi.ui.dialog.obj.Dialog;
 import com.altertech.evahi.ui.holders.MenuHolder;
 import com.altertech.evahi.ui.holders.WebHolder;
+import com.altertech.evahi.ui.holders.view.VHBase;
 import com.altertech.evahi.utils.Utils;
 
 import java.util.concurrent.TimeUnit;
@@ -101,28 +100,23 @@ public class AMain extends ABase2<App> {
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 switch (error.getErrorCode()) {
                     case -6:
-                        message(R.string.app_exception_connection_refused)
-                                .state(false);
+                        AMain.this.state(false).h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_connection_refused, VHBase.Messages.Snack.Duration.SHORT);
                         break;
                     case -11:
-                        message(R.string.app_exception_handshake)
-                                .state(false);
+                        AMain.this.state(false).h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_handshake, VHBase.Messages.Snack.Duration.SHORT);
                         break;
                     case -2:
-                        message(R.string.app_a_settings_exception_invalid_address)
-                                .state(false);
+                        AMain.this.state(false).h.snack(VHBase.Messages.Snack.Type.E, R.string.app_a_settings_exception_invalid_address, VHBase.Messages.Snack.Duration.SHORT);
                         break;
                     default:
-                        message(getResources().getString(R.string.app_exception_error) + ", code = " + error.getErrorCode());
+                        AMain.this.h.snack(VHBase.Messages.Snack.Type.E, getResources().getString(R.string.app_exception_error) + ", code = " + error.getErrorCode(), VHBase.Messages.Snack.Duration.SHORT);
                         break;
                 }
             }
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                AMain.this.message(
-                        R.string.app_exception_ssl_error
-                );
+                AMain.this.h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_ssl_error, VHBase.Messages.Snack.Duration.SHORT);
             }
         }).clientChrome(new WebChromeClient() {
             @Override
@@ -257,7 +251,9 @@ public class AMain extends ABase2<App> {
                         AMain.this.startActivityForResult(new Intent(AMain.this, AProfiles.class), App.RQ_A_PROFILES);
                         break;
                     case QR:
-                        if (ActivityCompat.checkSelfPermission(AMain.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.checkSelfPermission(
+                                AMain.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                        ) {
                             AMain.this.startActivityForResult(new Intent(AMain.this, ScannedBarcodeActivity.class), App.RQ_A_BARCODE);
                         } else {
                             ActivityCompat.requestPermissions(AMain.this, new String[]{Manifest.permission.CAMERA}, ASettings.REQUEST_CAMERA_PERMISSION);
@@ -335,7 +331,7 @@ public class AMain extends ABase2<App> {
                         .get(AMain.this.app.id()).config(null);
                 AMain.this.app.profiles(profiles);
 
-                AMain.this.menu.update(null).and(AMain.this).state(false).message(e.getCode().getMessage());
+                AMain.this.menu.update(null).and(AMain.this).state(false).h.snack(VHBase.Messages.Snack.Type.E, e.getCode().getMessage(), VHBase.Messages.Snack.Duration.SHORT);
             }
         }).load();
     }
@@ -351,23 +347,13 @@ public class AMain extends ABase2<App> {
         return this;
     }
 
-    private AMain message(@StringRes int id) {
-        SnackHelper.snack(AMain.this, SnackHelper.State.ERROR, id, SnackHelper.Duration.SHORT);
-        return this;
-    }
-
-    private AMain message(String text) {
-        SnackHelper.snack(AMain.this, SnackHelper.State.ERROR, text, SnackHelper.Duration.SHORT);
-        return this;
-    }
-
     private void url(WebView view, String url) {
 
         if (this.app.profiles().get(this.app.id()).settings.address() != null && !this.app.profiles().get(this.app.id()).settings.address().isEmpty()) {
             view
                     .loadUrl(url);
         } else {
-            this.message(R.string.app_exception_no_settings);
+            this.h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_no_settings, VHBase.Messages.Snack.Duration.SHORT);
         }
     }
 
