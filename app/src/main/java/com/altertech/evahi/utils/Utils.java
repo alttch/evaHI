@@ -30,6 +30,14 @@ public final class Utils {
 
         public static final String EMPTY = "";
 
+        public static boolean empty(String string) {
+            return (string == null || string.length() == 0);
+        }
+
+        public static boolean notEmpty(String string) {
+            return (string != null && string.length() > 0);
+        }
+
         public static String val(
                 String str) {
             return val(str, EMPTY);
@@ -46,6 +54,36 @@ public final class Utils {
         public static <T> java.util.List<T> safe(java.util.List<T> other) {
             return
                     other == null ? new ArrayList<>() : other;
+        }
+    }
+
+    public static class Cookies {
+        public static String get(String in, String name) {
+            if (in == null || name == null || name.isEmpty()) {
+                return
+                        Strings.EMPTY;
+            } else {
+                String[] cookies = in.split(
+                        ";"
+                );
+                if (
+                        cookies.length == 0) {
+                    return
+                            Strings.EMPTY;
+                } else {
+                    for (String cookie : cookies) {
+                        String[] kv = cookie.trim(
+
+                        ).split("=");
+                        if (
+                                kv.length == 2 && kv[0].equalsIgnoreCase(name)) {
+                            return
+                                    kv[1];
+                        }
+                    }
+                    return Strings.EMPTY;
+                }
+            }
         }
     }
 }

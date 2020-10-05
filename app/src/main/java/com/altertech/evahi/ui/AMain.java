@@ -13,10 +13,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -26,28 +24,26 @@ import android.webkit.WebView;
 
 import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
-import com.altertech.evahi.ui.controls.clients.CWebViewClient;
-import com.altertech.evahi.core.BApp;
+import com.altertech.evahi.core.App;
 import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.core.config.ConfigHandler;
 import com.altertech.evahi.core.exception.CustomException;
-import com.altertech.evahi.ui.dialog.Dialogs;
-import com.altertech.evahi.ui.dialog.obj.Dialog;
-import com.altertech.evahi.helpers.IntentHelper;
-import com.altertech.evahi.helpers.SnackHelper;
 import com.altertech.evahi.core.models.profiles.Profile;
 import com.altertech.evahi.core.models.profiles.Profiles;
 import com.altertech.evahi.core.models.s.SSettings;
+import com.altertech.evahi.helpers.SnackHelper;
 import com.altertech.evahi.services.SService;
 import com.altertech.evahi.ui.base.ABase2;
+import com.altertech.evahi.ui.controls.clients.CWebViewClient;
+import com.altertech.evahi.ui.dialog.Dialogs;
+import com.altertech.evahi.ui.dialog.obj.Dialog;
 import com.altertech.evahi.ui.holders.MenuHolder;
 import com.altertech.evahi.ui.holders.WebHolder;
-import com.altertech.evahi.utils.StringUtil;
 import com.altertech.evahi.utils.Utils;
 
 import java.util.concurrent.TimeUnit;
 
-public class AMain extends ABase2<BApp> {
+public class AMain extends ABase2<App> {
 
     public static final int REQUEST_GPS_PERMISSION = 2067;
 
@@ -60,7 +56,7 @@ public class AMain extends ABase2<BApp> {
     protected @LayoutRes
     int getLayout() {
         return
-                R.layout.activity_main;
+                R.layout.a_main;
     }
 
     @Override
@@ -74,7 +70,7 @@ public class AMain extends ABase2<BApp> {
 
         this.title()
                 .h
-                .click(R.id.a_main_settings, view -> AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode()))
+                .click(R.id.a_main_settings, view -> AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS))
                 .click(R.id.title_bar_controls_menu_button, view -> ((DrawerLayout) this.findViewById(R.id.a_main_drawer)).openDrawer(Gravity.START, true));
 
         this
@@ -94,8 +90,11 @@ public class AMain extends ABase2<BApp> {
                 AMain.this.state(
                         true
                 );
-                String cookies = CookieManager.getInstance().getCookie(url);
-                Log.e("1715", cookies);
+
+                /*Profiles profiles = AMain.this.app.profiles();
+                profiles
+                        .get(AMain.this.app.id()).totraq = Utils.Cookies.get(CookieManager.getInstance().getCookie("https://api.totraq.com/"), "totraq");
+                AMain.this.app.profiles(profiles);*/
             }
 
             @Override
@@ -114,8 +113,7 @@ public class AMain extends ABase2<BApp> {
                                 .state(false);
                         break;
                     default:
-                        message(getResources().getString(R.string.app_exception_error) + ", code = " + error.getErrorCode())
-                                .state(false);
+                        message(getResources().getString(R.string.app_exception_error) + ", code = " + error.getErrorCode());
                         break;
                 }
             }
@@ -129,7 +127,7 @@ public class AMain extends ABase2<BApp> {
         }).clientChrome(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int progress) {
-                AMain.this.web.setProgress(progress);
+                AMain.this.web.progress(progress);
             }
 
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback l) {
@@ -141,7 +139,7 @@ public class AMain extends ABase2<BApp> {
         if (this.app.first()) {
             this.app.first(false);
             this
-                    .state(false).startActivityForResult(new Intent(AMain.this, ASettings.class), IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode());
+                    .state(false).startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
         } else {
             this.initialization();
         }
@@ -182,10 +180,10 @@ public class AMain extends ABase2<BApp> {
         this
                 .setState(true);
 
-        if (request == IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode() && result == Activity.RESULT_OK) {
+        if (request == App.RQ_A_SETTINGS && result == Activity.RESULT_OK) {
             this
                     .initialization();
-        } else if (request == IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode() && result == RESULT_OK && data != null && data.hasExtra("settings")) {
+        } else if (request == App.RQ_A_BARCODE && result == RESULT_OK && data != null && data.hasExtra("settings")) {
 
             boolean
                     changed = false;
@@ -224,7 +222,7 @@ public class AMain extends ABase2<BApp> {
 
             this
                     .title().initialization();
-        } else if (request == IntentHelper.REQUEST_CODES.PROFILES_ACTIVITY.getCode() && result == Activity.RESULT_OK) {
+        } else if (request == App.RQ_A_PROFILES && result == Activity.RESULT_OK) {
             this
                     .title().initialization();
         }
@@ -235,7 +233,7 @@ public class AMain extends ABase2<BApp> {
         if (request == ASettings.REQUEST_CAMERA_PERMISSION && results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
             AMain.this.startActivityForResult(
                     new Intent(AMain.this, ScannedBarcodeActivity.class),
-                    IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode());
+                    App.RQ_A_BARCODE);
         } else if (request == REQUEST_GPS_PERMISSION && results.length == 2 && results[0] == PackageManager.PERMISSION_GRANTED && results[1] == PackageManager.PERMISSION_GRANTED) {
             this.startService(new Intent(
                     AMain.this,
@@ -245,7 +243,7 @@ public class AMain extends ABase2<BApp> {
     }
 
     private AMain title() {
-        this.h.text(R.id.title_bar_controls_text, StringUtil.isNotEmpty(AppConfig.NAME) ? AppConfig.NAME + " (" + this.app.profiles().get(this.app.id()).name + ")" : getResources().getString(R.string.app_name) + " (" + this.app.profiles().get(this.app.id()).name + ")");
+        this.h.text(R.id.title_bar_controls_text, Utils.Strings.notEmpty(AppConfig.NAME) ? AppConfig.NAME + " (" + this.app.profiles().get(this.app.id()).name + ")" : getResources().getString(R.string.app_name) + " (" + this.app.profiles().get(this.app.id()).name + ")");
         return
                 this;
     }
@@ -256,25 +254,28 @@ public class AMain extends ABase2<BApp> {
             public void click(MenuHolder.Type type) {
                 switch (type) {
                     case PROFILES:
-                        AMain.this.startActivityForResult(new Intent(AMain.this, AProfiles.class), IntentHelper.REQUEST_CODES.PROFILES_ACTIVITY.getCode());
+                        AMain.this.startActivityForResult(new Intent(AMain.this, AProfiles.class), App.RQ_A_PROFILES);
                         break;
                     case QR:
                         if (ActivityCompat.checkSelfPermission(AMain.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                            AMain.this.startActivityForResult(new Intent(AMain.this, ScannedBarcodeActivity.class), IntentHelper.REQUEST_CODES.BAR_CODE_ACTIVITY.getCode());
+                            AMain.this.startActivityForResult(new Intent(AMain.this, ScannedBarcodeActivity.class), App.RQ_A_BARCODE);
                         } else {
                             ActivityCompat.requestPermissions(AMain.this, new String[]{Manifest.permission.CAMERA}, ASettings.REQUEST_CAMERA_PERMISSION);
                         }
                         break;
                     case SETTINGS:
-                        AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), IntentHelper.REQUEST_CODES.SETTINGS_ACTIVITY.getCode());
+                        AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
                         break;
                     case RELOAD:
                         AMain.this.initialization(AMain.this.web.getWeb().getUrl());
                         break;
                     case ABOUT:
-                        AMain.this.startActivityForResult(new Intent(AMain.this, AAbout.class), IntentHelper.REQUEST_CODES.ABOUT_ACTIVITY.getCode());
+                        AMain.this.startActivityForResult(new Intent(AMain.this, AAbout.class), App.RQ_A_ABOUT);
                         break;
                     case EXIT:
+                        AMain.this.stopService(new Intent(
+                                AMain.this, SService.class
+                        ));
                         AMain.this.finish();
                         break;
                 }

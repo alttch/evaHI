@@ -7,24 +7,31 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.webkit.CookieManager;
 
 import com.altertech.evahi.R;
+import com.altertech.evahi.core.App;
+import com.altertech.evahi.core.connection.Post;
+import com.altertech.evahi.core.connection.client.ApiClient;
+import com.altertech.evahi.utils.Utils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -32,6 +39,8 @@ public class SService extends Service implements GoogleApiClient.ConnectionCallb
             "notification_8c6188c625ec8a2522390a2ec1fb8373";
     private static int NOTIFICATION_ID =
             322985;
+    private App
+            app;
 
     private GoogleApiClient
             client;
@@ -46,7 +55,6 @@ public class SService extends Service implements GoogleApiClient.ConnectionCallb
     public int onStartCommand(
             Intent intent, int flags, int start) {
         Log.e("1715", "onStartCommand");
-
         return
                 START_STICKY;
     }
@@ -55,6 +63,9 @@ public class SService extends Service implements GoogleApiClient.ConnectionCallb
     @SuppressLint("MissingPermission")
     public void onCreate() {
 
+        this.app = (App) this.getApplication(
+
+        );
         this.initChannels().startForeground(
                 NOTIFICATION_ID, this.notification(getResources().getString(R.string.app_name), "")
         );
@@ -70,9 +81,14 @@ public class SService extends Service implements GoogleApiClient.ConnectionCallb
     private SService initChannels() {
         if (
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID, "notification", NotificationManager.IMPORTANCE_LOW);
+            channel.setShowBadge(
+                    false
+            );
             this.getSystemService(
                     NotificationManager.class
-            ).createNotificationChannel(new NotificationChannel(CHANNEL_ID, "notification", NotificationManager.IMPORTANCE_LOW));
+            ).createNotificationChannel(channel);
         }
         return this;
     }
@@ -87,6 +103,12 @@ public class SService extends Service implements GoogleApiClient.ConnectionCallb
     @Override
     public void onDestroy() {
         Log.e("1715", "onDestroy");
+        if (this.client != null) {
+            this.client.disconnect();
+        }
+        this.getSystemService(
+                NotificationManager.class
+        ).cancelAll();
     }
 
     /*
@@ -97,61 +119,48 @@ public class SService extends Service implements GoogleApiClient.ConnectionCallb
     @SuppressLint("MissingPermission")
     @Override
     public void onConnected(Bundle bundle) {
-        Log.e("1715", "onConnected");
-        LocationServices.FusedLocationApi.requestLocationUpdates(this.client, new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(5000).setFastestInterval(5000), this);
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                this.client, new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(5000).setFastestInterval(5000), this
+        );
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended(
+            int i
+    ) {
         Log.e("1715", "onConnectionSuspended = " + i);
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
+    public void onConnectionFailed(
+            ConnectionResult result
+    ) {
         Log.e("1715", "ConnectionResult = " + result);
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e("1715", "onLocationChanged = " + location);
-        this.getSystemService(NotificationManager.class).notify(NOTIFICATION_ID, this.notification(this.getResources().getString(R.string.app_name), "lat:" + location.getLatitude() + ", lng:" + location.getLongitude()));
+        this.getSystemService(
+                NotificationManager.class
+        ).notify(NOTIFICATION_ID, this.notification(this.getResources().getString(R.string.app_name), "lat:" + location.getLatitude() + ", lng:" + location.getLongitude()));
 
+        new Post(() -> {
 
-        new UDP_CLIENT_SENDER("lat:" + location.getLatitude() + ", lng:" + location.getLongitude()).execute();
-    }
+            Request.Builder request = new Request.Builder().url(
+                    "https://api.totraq.com/location"
+            ).post(
+                    RequestBody.create("{\"lat\": " + location.getLatitude() + "  ,\"lng\":" + location.getLongitude() + "}", MediaType.parse("application/json; charset=utf-8"))
+            ).addHeader("Cookie", "totraq=" + /*this.app.profiles().get(
+                    this.app.id()
+            ).totraq*/Utils.Cookies.get(CookieManager.getInstance().getCookie("https://api.totraq.com/"), "totraq"));
 
-    @SuppressLint("StaticFieldLeak")
-    private class UDP_CLIENT_SENDER extends AsyncTask<Void, Void, Void> {
-
-        private String messages = "";
-
-        public UDP_CLIENT_SENDER(String messages) {
-            this.messages = messages;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            DatagramSocket socket = null;
             try {
-
-
-                DatagramPacket dp = new DatagramPacket(messages.getBytes(), messages.length(),
-                        InetAddress.getByName("10.90.2.124"),
-                        4567);
-                socket = new DatagramSocket();
-                socket.setBroadcast(true);
-                socket.send(dp);
-
-
-            } catch (Exception e) {
-
-            } finally {
-                if (socket != null) {
-                    socket.close();
-                }
+                return ApiClient.getInstance((App) getApplication()).newCall(request.build()).execute();
+            } catch (IOException e) {
+                return new Response.Builder().code(
+                        -1
+                ).build();
             }
-            return null;
-        }
+        }).success((code, data) -> Log.d(App.TAG, "success, code = " + code + ", data = " + data)).error(code -> Log.d(App.TAG, "error, code = " + code)).execute();
     }
 }

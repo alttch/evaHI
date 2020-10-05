@@ -12,9 +12,17 @@ import com.google.gson.Gson;
 /**
  * Created by oshevchuk on 13.02.2019
  */
-public class BApp extends Application {
+public class App extends Application {
 
-    private SharedPreferences preferences;
+    public static final String TAG = "tAg1715";
+
+    private transient SharedPreferences
+            preferences;
+
+    public static final int RQ_A_BARCODE = 1002;
+    public static final int RQ_A_SETTINGS = 1003;
+    public static final int RQ_A_ABOUT = 1004;
+    public static final int RQ_A_PROFILES = 1005;
 
     @Override
     public void onCreate() {
@@ -42,7 +50,7 @@ public class BApp extends Application {
         return this.preferences.getLong("83eadee5ac3b14608986b87aaf075a0b", this.id);
     }
 
-    public BApp
+    public App
     id(Long id) {
         this.preferences.edit().putLong("83eadee5ac3b14608986b87aaf075a0b", id).apply();
         return

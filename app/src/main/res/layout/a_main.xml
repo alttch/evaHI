@@ -19,21 +19,13 @@
 
         <include
             android:id="@+id/title_bar"
-            layout="@layout/title_bar_a_main"
+            layout="@layout/tb_a_main"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/space_8dp"
-            android:background="@drawable/background_shadow_1"
-            android:rotation="180"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_bar" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,6 +64,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/title_bar"
             app:layout_constraintStart_toStartOf="@+id/title_bar"
+            app:layout_constraintTop_toBottomOf="@+id/title_bar" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_8dp"
+            android:background="@drawable/background_shadow_1"
+            android:rotation="180"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_bar" />
 
     </android.support.constraint.ConstraintLayout>

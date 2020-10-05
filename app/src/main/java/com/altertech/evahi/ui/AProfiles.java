@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.altertech.evahi.R;
-import com.altertech.evahi.core.BApp;
+import com.altertech.evahi.core.App;
 import com.altertech.evahi.ui.dialog.Dialogs;
 import com.altertech.evahi.ui.dialog.listeners.DialogCallBackYesCancel;
 import com.altertech.evahi.ui.dialog.obj.Dialog;
@@ -22,7 +22,7 @@ import com.altertech.evahi.ui.holders.view.VHBase;
 
 import java.util.List;
 
-public class AProfiles extends ABase<BApp> {
+public class AProfiles extends ABase<App> {
 
     protected @LayoutRes
     int getLayout() {

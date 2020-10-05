@@ -1,7 +1,7 @@
 package com.altertech.evahi.core.config;
 
 import com.altertech.evahi.core.exception.CustomException;
-import com.altertech.evahi.utils.StringUtil;
+import com.altertech.evahi.utils.Utils;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class Config {
     }
 
     public String getIndex_landscape() {
-        return index_landscape != null && index_landscape.length() > 0 ? index_landscape : StringUtil.EMPTY_STRING;
+        return index_landscape != null && index_landscape.length() > 0 ? index_landscape : Utils.Strings.EMPTY;
     }
 
     public void setIndex_landscape(String index_landscape) {

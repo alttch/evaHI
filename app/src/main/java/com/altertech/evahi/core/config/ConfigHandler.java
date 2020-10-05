@@ -8,7 +8,6 @@ import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.core.exception.CustomException;
 import com.altertech.evahi.core.parser.SingletonMapper;
 import com.altertech.evahi.utils.ImageUtil;
-import com.altertech.evahi.utils.StringUtil;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -147,7 +146,7 @@ public class ConfigHandler {
             HttpURLConnection connection = null;
             try {
                 connection = (HttpURLConnection) new URL(new URL(base), u).openConnection();
-                if (!AppConfig.AUTHENTICATION && StringUtil.isNotEmpty(username)) {
+                if (!AppConfig.AUTHENTICATION && username != null && !username.isEmpty()) {
                     connection.setRequestProperty("Authorization", "Basic " + android.util.Base64.encodeToString(String.format("%s:%s", username, password).getBytes(), android.util.Base64.NO_WRAP));
                 }
                 connection.setConnectTimeout(5000);

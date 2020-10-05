@@ -11,7 +11,7 @@ public class Profile extends Selector implements BaseAdapter.IItem {
     public Long
             id;
     public String
-            name;
+            name, totraq;
     public SSettings settings = new SSettings();
 
     public Config

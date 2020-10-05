@@ -3,6 +3,7 @@ package com.altertech.evahi.ui.holders.view;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.altertech.evahi.utils.Utils;
@@ -81,6 +82,27 @@ public class VHBase {
         }
         return this;
     }
+
+    public VHBase checked(
+            @IdRes int id, boolean state) {
+        CheckBox v = this.v(id, CheckBox.class);
+        if (
+                v != null) {
+            v.setChecked(state);
+        }
+        return this;
+    }
+
+    public boolean checked(
+            @IdRes int id) {
+        CheckBox v = this.v(id, CheckBox.class);
+        if (
+                v != null) {
+            return v.isChecked();
+        }
+        return false;
+    }
+
 
     public String text(
             @IdRes int id) {

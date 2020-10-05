@@ -4,16 +4,16 @@ import android.webkit.HttpAuthHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.altertech.evahi.core.BApp;
+import com.altertech.evahi.core.App;
 import com.altertech.evahi.core.models.profiles.Profile;
 
 public class CWebViewClient extends WebViewClient {
 
-    private BApp
+    private App
             application;
 
     public CWebViewClient(
-            BApp application) {
+            App application) {
         this.application = application;
     }
 

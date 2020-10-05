@@ -17,7 +17,6 @@ import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
 import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.utils.ImageUtil;
-import com.altertech.evahi.utils.StringUtil;
 import com.altertech.evahi.utils.Utils;
 
 import java.util.ArrayList;
@@ -48,9 +47,8 @@ public class MenuHolder extends ContextWrapper {
     }
 
     private void init() {
-        this.adapter = new Adapter(this.menu);
         RecyclerView view = this.view.findViewById(R.id.ui_f_menu_items);
-        view.setAdapter(this.adapter);
+        view.setAdapter(this.adapter = new Adapter(this.menu));
         view.setHasFixedSize(true);
         view.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -68,8 +66,8 @@ public class MenuHolder extends ContextWrapper {
 
         menu.add(new Menu(Type.PAGE,
                 getResources().getString(R.string.app_menu_item_name_home),
-                config != null && StringUtil.isNotEmpty(config.getHome_icon()) ? ImageUtil.convert(config.getHome_icon()) : BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_home),
-                config != null && StringUtil.isNotEmpty(config.getIndex()) ? config.getIndex() : "/"));
+                config != null && Utils.Strings.notEmpty(config.getHome_icon()) ? ImageUtil.convert(config.getHome_icon()) : BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_home),
+                config != null && Utils.Strings.notEmpty(config.getIndex()) ? config.getIndex() : "/"));
 
         menu.addAll(this.getMenuFromConfig(config));
 
@@ -109,7 +107,7 @@ public class MenuHolder extends ContextWrapper {
             for (com.altertech.evahi.core.config.Menu m : config.getMenu()) {
                 menu.add(new Menu(
                         Type.PAGE, m.getName(),
-                        StringUtil.isNotEmpty(m.getIcon()) ? ImageUtil.convert(m.getIcon()) : BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_page),
+                        Utils.Strings.notEmpty(m.getIcon()) ? ImageUtil.convert(m.getIcon()) : BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_page),
                         m.getUrl()));
             }
             return menu;

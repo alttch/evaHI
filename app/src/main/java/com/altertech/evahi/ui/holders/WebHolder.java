@@ -17,18 +17,16 @@ public class WebHolder {
     private CWebView
             web;
 
-    public WebHolder(
-            View view) {
-        this.view = view;
+    public WebHolder(View view) {
 
-        this.web = this.view.findViewById(
+        this.web = (this.view = view).findViewById(
                 R.id.web
         );
 
         this.view.findViewById(R.id.progress_container).setVisibility(View.INVISIBLE);
     }
 
-    public void setProgress(int progress) {
+    public void progress(int progress) {
 
         this.view.findViewById(R.id.progress_container).setVisibility(
                 progress < 100 ? View.VISIBLE : View.INVISIBLE

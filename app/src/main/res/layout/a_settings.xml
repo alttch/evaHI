@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/title_bar"
-        layout="@layout/title_bar_a_settings" />
+        layout="@layout/tb_a_settings" />
 
     <View
         android:layout_width="match_parent"

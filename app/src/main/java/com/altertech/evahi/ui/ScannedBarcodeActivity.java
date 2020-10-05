@@ -28,7 +28,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle instance) {
         super.onCreate(instance);
         this
-                .setContentView(R.layout.activity_scan_barcode);
+                .setContentView(R.layout.a_barcode);
 
         this.findViewById(R.id.title_bar_controls_back_button).setOnClickListener(view -> ScannedBarcodeActivity.this.onBackPressed());
     }

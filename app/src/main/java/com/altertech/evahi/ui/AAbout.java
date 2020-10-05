@@ -11,20 +11,20 @@ import android.widget.TextView;
 
 import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
-import com.altertech.evahi.core.BApp;
+import com.altertech.evahi.core.App;
 import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.ui.base.ABase2;
 import com.altertech.evahi.utils.ImageUtil;
-import com.altertech.evahi.utils.StringUtil;
+import com.altertech.evahi.utils.Utils;
 
 import java.util.Calendar;
 
-public class AAbout extends ABase2<BApp> {
+public class AAbout extends ABase2<App> {
 
     protected @LayoutRes
     int getLayout() {
         return
-                R.layout.activity_about;
+                R.layout.a_about;
     }
 
     @Override
@@ -34,21 +34,21 @@ public class AAbout extends ABase2<BApp> {
         final Config config = this.app.profiles().get(this.app.id()).config;
 
         final View ui_f_about_line_0 = findViewById(R.id.ui_f_about_line_0);
-        ui_f_about_line_0.setVisibility(config != null && StringUtil.isNotEmpty(config.getHome_icon()) ? View.VISIBLE : View.GONE);
+        ui_f_about_line_0.setVisibility(config != null && Utils.Strings.notEmpty(config.getHome_icon()) ? View.VISIBLE : View.GONE);
         final ImageView ui_f_about_icon = ui_f_about_line_0.findViewById(R.id.ui_f_about_icon);
-        ui_f_about_icon.setImageBitmap(config != null && StringUtil.isNotEmpty(config.getHome_icon()) ? ImageUtil.convert(config.getHome_icon()) : BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_home));
+        ui_f_about_icon.setImageBitmap(config != null && Utils.Strings.notEmpty(config.getHome_icon()) ? ImageUtil.convert(config.getHome_icon()) : BitmapFactory.decodeResource(getResources(), R.drawable.drawable_menu_home));
 
         final TextView l_1 = findViewById(R.id.ui_f_about_line_1);
         l_1.setText(AppConfig.NAME);
-        l_1.setVisibility(StringUtil.isNotEmpty(AppConfig.NAME) ? View.VISIBLE : View.GONE);
+        l_1.setVisibility(Utils.Strings.notEmpty(AppConfig.NAME) ? View.VISIBLE : View.GONE);
 
         final TextView l_2 = findViewById(R.id.ui_f_about_line_2);
         l_2.setText(AppConfig.VERSION);
-        l_2.setVisibility(StringUtil.isNotEmpty(AppConfig.VERSION) ? View.VISIBLE : View.GONE);
+        l_2.setVisibility(Utils.Strings.notEmpty(AppConfig.VERSION) ? View.VISIBLE : View.GONE);
 
         final TextView l_3 = findViewById(R.id.ui_f_about_line_3);
         l_3.setText(AppConfig.COPYRIGHT);
-        l_3.setVisibility(StringUtil.isNotEmpty(AppConfig.COPYRIGHT) ? View.VISIBLE : View.GONE);
+        l_3.setVisibility(Utils.Strings.notEmpty(AppConfig.COPYRIGHT) ? View.VISIBLE : View.GONE);
 
         boolean nExistAppConfig = l_1.getVisibility() == View.GONE && l_2.getVisibility() == View.GONE && l_3.getVisibility() == View.GONE;
 
@@ -66,7 +66,7 @@ public class AAbout extends ABase2<BApp> {
 
         TextView l_8 = findViewById(R.id.ui_f_about_line_8);
         l_8.setVisibility(config != null ? View.VISIBLE : View.GONE);
-        l_8.setText(config != null ? String.format(getResources().getString(R.string.app_a_about_line_web_ui), String.valueOf(config.getSerial())) : StringUtil.EMPTY_STRING);
+        l_8.setText(config != null ? String.format(getResources().getString(R.string.app_a_about_line_web_ui), String.valueOf(config.getSerial())) : Utils.Strings.EMPTY);
 
 
         View ui_f_about_container = findViewById(R.id.ui_f_about_container);
