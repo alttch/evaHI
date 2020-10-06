@@ -4,9 +4,10 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 
 import com.altertech.evahi.R;
+import com.altertech.evahi.core.models.profiles.Profile;
 import com.altertech.evahi.ui.dialog.listeners.DialogCallBackYesCancel;
 import com.altertech.evahi.ui.dialog.obj.Dialog;
-import com.altertech.evahi.core.models.profiles.Profile;
+import com.altertech.evahi.utils.Utils;
 
 /**
  * Created by oshevchuk on 08.05.2018
@@ -39,5 +40,14 @@ public class Dialogs {
                     .dialogYes(dialog, obj);
         });
         return dialog.view();
+    }
+
+    public static <T> Dialog text(final Context context, DialogCallBackYesCancel<String> listener, String value) {
+        final Dialog dialog = new Dialog(
+                context, R.layout.dialog_text
+        ).canceled(true);
+        dialog.h.text(R.id.value, Utils.Strings.val(value)).click(R.id.a_cancel, v -> listener.dialogCancel(dialog)).click(R.id.a_save, v -> listener.dialogYes(dialog, dialog.h.text(R.id.value)));
+        return
+                dialog.view();
     }
 }

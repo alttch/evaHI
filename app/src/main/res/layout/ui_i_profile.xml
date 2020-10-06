@@ -32,9 +32,22 @@
         android:textSize="@dimen/text_views_text_size_12sp"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/drag"
+        app:layout_constraintEnd_toStartOf="@+id/edit"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/state"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/space_10dp"
+        android:background="@drawable/selector_change_different_color_to_simple_color_round"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/drawable_edit"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/drag"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

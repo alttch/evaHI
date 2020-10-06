@@ -93,7 +93,39 @@ public class AProfiles extends ABase<App> {
                                         ? (this.selected().size() > 0 ? R.drawable.background_profile_item_selector_2 : R.drawable.background_profile_item_selector_1)
                                         : R.drawable.background_profile_item_selector_2)
                         .visible(R.id.state, item.isSelected() ? View.VISIBLE : View.GONE)
+                        .visible(R.id.edit, this.selected().size() > 0 ? View.VISIBLE : View.GONE)
                         .visible(R.id.drag, this.selected().size() > 0 ? View.VISIBLE : View.GONE)
+                        .click(R.id.edit, view -> Dialogs.text(view.getContext(), new DialogCallBackYesCancel<String>() {
+                            @Override
+                            public void dialogYes(
+                                    Dialog dialog, String[] o
+                            ) {
+                                if (o != null && o.length == 1 && o[0] != null && !o[0].isEmpty()) {
+
+                                    AProfiles.this.profiles.get(
+                                            item.id
+                                    ).name = o[0];
+                                    AProfiles.this.app.profiles(
+                                            AProfiles.this.profiles
+                                    );
+                                    dialog.dismiss(
+
+                                    );
+                                    AProfiles.this.adapter.notifyDataSetChanged(
+
+                                    );
+                                } else {
+                                    h.snack(VHBase.Messages.Snack.Type.E, R.string.app_a_settings_exception_empty_field, VHBase.Messages.Snack.Duration.SHORT);
+                                }
+                            }
+
+                            @Override
+                            public void dialogCancel(
+                                    Dialog dialog
+                            ) {
+                                dialog.dismiss();
+                            }
+                        }, Utils.Strings.val(item.name)))
                         .click(view -> {
                             if (
                                     this.selected().size() > 0) {

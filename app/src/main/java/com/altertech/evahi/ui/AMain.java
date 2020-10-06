@@ -216,9 +216,17 @@ public class AMain extends ABase2<App> {
 
             this
                     .title().initialization();
-        } else if (request == App.RQ_A_PROFILES && result == Activity.RESULT_OK) {
-            this
-                    .title().initialization();
+        } else if (request == App.RQ_A_PROFILES) {
+            if (
+                    result == Activity.RESULT_OK) {
+                this.title().initialization(
+
+                );
+            } else {
+                this.title(
+
+                );
+            }
         }
     }
 

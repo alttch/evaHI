@@ -32,6 +32,9 @@
     <string name="app_a_settings_exception_invalid_name">Invalid user name</string>
     <string name="app_a_settings_exception_invalid_password">Invalid password</string>
     <string name="app_a_settings_exception_qr_io_error">QR IO ERROR</string>
+    <string name="app_a_settings_exception_empty_field">field cannot be empty</string>
+
+
 
     <string name="app_a_about_line_name" formatted="false">EvaHI build %d</string>
     <string name="app_a_about_line_copyright" formatted="false">(©)%d Altertech Group</string>
