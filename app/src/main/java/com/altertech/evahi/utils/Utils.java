@@ -74,7 +74,7 @@ public final class Utils {
                     for (String cookie : cookies) {
                         String[] kv = cookie.trim(
 
-                        ).split("=");
+                        ).split("=", 2);
                         if (
                                 kv.length == 2 && kv[0].equalsIgnoreCase(name)) {
                             return

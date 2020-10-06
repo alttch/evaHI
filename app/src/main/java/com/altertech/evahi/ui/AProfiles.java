@@ -9,17 +9,19 @@ import android.view.View;
 
 import com.altertech.evahi.R;
 import com.altertech.evahi.core.App;
-import com.altertech.evahi.ui.dialog.Dialogs;
-import com.altertech.evahi.ui.dialog.listeners.DialogCallBackYesCancel;
-import com.altertech.evahi.ui.dialog.obj.Dialog;
 import com.altertech.evahi.core.models.profiles.Profile;
 import com.altertech.evahi.core.models.profiles.Profiles;
 import com.altertech.evahi.ui.adapters.rv.BaseAdapter;
 import com.altertech.evahi.ui.adapters.rv.components.ItemTouchHelperCallback;
 import com.altertech.evahi.ui.adapters.rv.holder.Holder;
 import com.altertech.evahi.ui.base.ABase;
+import com.altertech.evahi.ui.dialog.Dialogs;
+import com.altertech.evahi.ui.dialog.listeners.DialogCallBackYesCancel;
+import com.altertech.evahi.ui.dialog.obj.Dialog;
 import com.altertech.evahi.ui.holders.view.VHBase;
+import com.altertech.evahi.utils.Utils;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class AProfiles extends ABase<App> {
@@ -61,7 +63,7 @@ public class AProfiles extends ABase<App> {
                         Dialog dialog) {
                     dialog.dismiss();
                 }
-            }, this.adapter.selected().toArray(new Profile[0]));
+            }, this.profiles(this.adapter.selected(), this.app.id()).toArray(new Profile[0]));
         });
 
         RecyclerView oitems = this.findViewById(
@@ -83,7 +85,7 @@ public class AProfiles extends ABase<App> {
             @Override
             public void bind(Holder<VHBase> holder, Profile item, int i) {
 
-                AProfiles.this.h.visible(R.id.title_bar_controls_delete, this.selected().size() > 0 && !AProfiles.this.containId(this.selected(), AProfiles.this.app.id()) ? View.VISIBLE : View.GONE);
+                AProfiles.this.h.visible(R.id.title_bar_controls_delete, this.selected().size() > 0 /*&& !AProfiles.this.containId(this.selected(), AProfiles.this.app.id())*/ ? View.VISIBLE : View.GONE);
 
                 holder.item.text(R.id.name, item.name)
                         .backgroundResource(
@@ -130,6 +132,20 @@ public class AProfiles extends ABase<App> {
             }
         }
         return false;
+    }
+
+    private List<Profile> profiles(List<Profile> profiles, Long id) {
+        if (profiles != null && id != null) {
+            Iterator<Profile> i = profiles.iterator();
+            while (i.hasNext()) {
+                Profile profile = i.next();
+                if (
+                        profile.id.equals(id)) {
+                    i.remove();
+                }
+            }
+        }
+        return Utils.Lists.safe(profiles);
     }
 
     @Override
