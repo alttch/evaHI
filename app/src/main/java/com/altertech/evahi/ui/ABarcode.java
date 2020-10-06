@@ -20,7 +20,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-public class ScannedBarcodeActivity extends ABase<App> {
+public class ABarcode extends ABase<App> {
 
     private CameraSource
             camera;
@@ -53,9 +53,9 @@ public class ScannedBarcodeActivity extends ABase<App> {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 try {
-                    ScannedBarcodeActivity.this.camera.start(holder);
+                    ABarcode.this.camera.start(holder);
                 } catch (IOException e) {
-                    ScannedBarcodeActivity.this.h.snack(VHBase.Messages.Snack.Type.E, R.string.app_a_settings_exception_qr_io_error, VHBase.Messages.Snack.Duration.SHORT);
+                    ABarcode.this.h.snack(VHBase.Messages.Snack.Type.E, R.string.app_a_settings_exception_qr_io_error, VHBase.Messages.Snack.Duration.SHORT);
                 }
             }
 
@@ -65,7 +65,7 @@ public class ScannedBarcodeActivity extends ABase<App> {
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
-                ScannedBarcodeActivity.this.camera.stop();
+                ABarcode.this.camera.stop();
             }
         });
 
@@ -83,19 +83,19 @@ public class ScannedBarcodeActivity extends ABase<App> {
                     if (barcode != null) {
                         SSettings settings = new SSettings();
                         try {
-                            ScannedBarcodeActivity.this
+                            ABarcode.this
                                     .setResult(RESULT_OK, new Intent().putExtra("settings", settings.parse(barcode.rawValue)));
-                            ScannedBarcodeActivity.this
+                            ABarcode.this
                                     .finish();
                         } catch (final SSettings.SettingsException e) {
                             if (
                                     e.getCustomMessage() == R.string.app_a_settings_exception_invalid_password) {
-                                ScannedBarcodeActivity.this
+                                ABarcode.this
                                         .setResult(RESULT_OK, new Intent().putExtra("settings", settings));
-                                ScannedBarcodeActivity.this
+                                ABarcode.this
                                         .finish();
                             } else {
-                                ScannedBarcodeActivity.this.status(R.string.app_a_settings_exception_invalid_code);
+                                ABarcode.this.status(R.string.app_a_settings_exception_invalid_code);
                             }
                         }
 

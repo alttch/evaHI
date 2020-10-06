@@ -226,7 +226,7 @@ public class AMain extends ABase2<App> {
     public void permissions(int request, @NonNull String[] permissions, @NonNull int[] results) {
         if (request == ASettings.REQUEST_CAMERA_PERMISSION && results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
             AMain.this.startActivityForResult(
-                    new Intent(AMain.this, ScannedBarcodeActivity.class),
+                    new Intent(AMain.this, ABarcode.class),
                     App.RQ_A_BARCODE);
         } else if (request == REQUEST_GPS_PERMISSION && results.length == 2 && results[0] == PackageManager.PERMISSION_GRANTED && results[1] == PackageManager.PERMISSION_GRANTED) {
             this.startService(new Intent(
@@ -254,7 +254,7 @@ public class AMain extends ABase2<App> {
                         if (ActivityCompat.checkSelfPermission(
                                 AMain.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            AMain.this.startActivityForResult(new Intent(AMain.this, ScannedBarcodeActivity.class), App.RQ_A_BARCODE);
+                            AMain.this.startActivityForResult(new Intent(AMain.this, ABarcode.class), App.RQ_A_BARCODE);
                         } else {
                             ActivityCompat.requestPermissions(AMain.this, new String[]{Manifest.permission.CAMERA}, ASettings.REQUEST_CAMERA_PERMISSION);
                         }

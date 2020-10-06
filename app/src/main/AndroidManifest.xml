@@ -45,7 +45,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.Settings" />
         <activity
-            android:name=".ui.ScannedBarcodeActivity"
+            android:name=".ui.ABarcode"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Barcode" />

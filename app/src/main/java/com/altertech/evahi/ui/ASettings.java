@@ -94,7 +94,7 @@ public class ASettings extends ABase<App> {
                             ASettings.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
                     ) {
                         this.startActivityForResult(
-                                new Intent(ASettings.this, ScannedBarcodeActivity.class), App.RQ_A_BARCODE
+                                new Intent(ASettings.this, ABarcode.class), App.RQ_A_BARCODE
                         );
                     } else {
                         ActivityCompat.requestPermissions(
@@ -148,8 +148,7 @@ public class ASettings extends ABase<App> {
                         .get(this.profile.id).settings = profile.settings;
                 this.app.profiles(profiles);
 
-                ASettings.this.setResult(RESULT_OK);
-                ASettings.this.finish();
+                ASettings.this.result(RESULT_OK).finish();
             }
         }
     }
@@ -158,7 +157,7 @@ public class ASettings extends ABase<App> {
     public void permissions(int request, @NonNull String[] permissions, @NonNull int[] results) {
         if (request == REQUEST_CAMERA_PERMISSION && results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
             this.startActivityForResult(
-                    new Intent(ASettings.this, ScannedBarcodeActivity.class), App.RQ_A_BARCODE
+                    new Intent(ASettings.this, ABarcode.class), App.RQ_A_BARCODE
             );
         }
     }
