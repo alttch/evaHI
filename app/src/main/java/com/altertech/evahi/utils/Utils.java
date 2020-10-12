@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Utils {
 
@@ -84,6 +87,16 @@ public final class Utils {
                     return Strings.EMPTY;
                 }
             }
+        }
+
+        public static Map<String, String> headers(String name, String password) {
+
+            Map<String, String> headers = new HashMap<>(
+
+            );
+            headers.put("Authorization", "Basic " + android.util.Base64.encodeToString(String.format("%s:%s", Strings.val(name), Strings.val(password)).getBytes(), android.util.Base64.NO_WRAP));
+            return
+                    headers;
         }
     }
 }

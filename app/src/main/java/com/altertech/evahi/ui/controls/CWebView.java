@@ -3,12 +3,15 @@ package com.altertech.evahi.ui.controls;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.altertech.evahi.BuildConfig;
+import com.altertech.evahi.core.App;
 
 public class CWebView extends WebView {
 
@@ -35,12 +38,25 @@ public class CWebView extends WebView {
             boolean state) {
         CookieManager.getInstance().setAcceptThirdPartyCookies(
                 this,
-                true
+                state
         );
         CookieManager.getInstance().setAcceptCookie(
-                true
+                state
         );
         return this;
+    }
+
+    public CWebView clearCookies() {
+
+        CookieManager.getInstance().removeAllCookies(
+                value -> Log.d(App.TAG, "Cookie removed: " + value)
+        );
+        CookieManager.getInstance().removeSessionCookies(
+                value -> Log.d(App.TAG, "Cookie removed: " + value)
+        );
+        CookieManager.getInstance().flush();
+        return
+                this;
     }
 
     @SuppressLint("SetJavaScriptEnabled")

@@ -20,6 +20,11 @@ public class CWebViewClient extends WebViewClient {
     @Override
     public void onReceivedHttpAuthRequest(WebView view,
                                           HttpAuthHandler handler, String host, String realm) {
+       /* super.onReceivedHttpAuthRequest(
+                view,
+                handler,
+                host,
+                realm);*/
         Profile profile = this.application.profiles().get(this.application.id());
         handler
                 .proceed(profile.settings.name(), profile.settings.password());

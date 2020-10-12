@@ -79,7 +79,10 @@ public class AMain extends ABase2<App> {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                AMain.this.url(view, url);
+                AMain.this.url(
+                        url,
+                        false
+                );
                 return
                         true;
             }
@@ -135,7 +138,9 @@ public class AMain extends ABase2<App> {
             this
                     .state(false).startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
         } else {
-            this.initialization();
+            this.initialization(
+                    false
+            );
         }
 
         if (ActivityCompat.checkSelfPermission(
@@ -176,7 +181,7 @@ public class AMain extends ABase2<App> {
 
         if (request == App.RQ_A_SETTINGS && result == Activity.RESULT_OK) {
             this
-                    .initialization();
+                    .initialization(false);
         } else if (request == App.RQ_A_BARCODE && result == RESULT_OK && data != null && data.hasExtra("settings")) {
 
             boolean
@@ -215,12 +220,14 @@ public class AMain extends ABase2<App> {
             }
 
             this
-                    .title().initialization();
+                    .title().initialization(
+                    false
+            );
         } else if (request == App.RQ_A_PROFILES) {
             if (
                     result == Activity.RESULT_OK) {
                 this.title().initialization(
-
+                        true
                 );
             } else {
                 this.title(
@@ -271,7 +278,7 @@ public class AMain extends ABase2<App> {
                         AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
                         break;
                     case RELOAD:
-                        AMain.this.initialization(AMain.this.web.getWeb().getUrl());
+                        AMain.this.initialization(AMain.this.web.getWeb().getUrl(), false);
                         break;
                     case ABOUT:
                         AMain.this.startActivityForResult(new Intent(AMain.this, AAbout.class), App.RQ_A_ABOUT);
@@ -289,8 +296,7 @@ public class AMain extends ABase2<App> {
             @Override
             public void click(MenuHolder.Type type, String url) {
                 AMain.this.url(
-                        AMain.this.web.getWeb(),
-                        AMain.this.app.profiles().get(AMain.this.app.id()).settings.url() + url);
+                        AMain.this.app.profiles().get(AMain.this.app.id()).settings.url() + url, false);
                 ((DrawerLayout) AMain.this.findViewById(R.id.a_main_drawer)).closeDrawer(Gravity.START, true);
             }
         }).update(this.app.profiles().get(AMain.this.app.id()).config);
@@ -298,12 +304,12 @@ public class AMain extends ABase2<App> {
                 this;
     }
 
-    private void initialization() {
+    private void initialization(boolean clearCookies) {
         this
-                .initialization(null);
+                .initialization(null, clearCookies);
     }
 
-    private void initialization(String url) {
+    private void initialization(String url, boolean clearCookies) {
 
         new ConfigHandler(this.app.profiles().get(this.app.id()).settings.url(), this.app.profiles().get(this.app.id()).settings.name(), this.app.profiles().get(this.app.id()).settings.password(), new ConfigHandler.CallBack() {
             private Dialog progress;
@@ -326,7 +332,7 @@ public class AMain extends ABase2<App> {
                         .get(AMain.this.app.id()).config(config);
                 AMain.this.app.profiles(profiles);
 
-                AMain.this.menu.update(config).and(AMain.this).state(true).url(web.getWeb(), url != null && !url.equals("/") ? url : AMain.this.app.profiles().get(AMain.this.app.id()).prepareUrl(Utils.Views.isLandscape(AMain.this)));
+                AMain.this.menu.update(config).and(AMain.this).state(true).url(url != null && !url.equals("/") ? url : AMain.this.app.profiles().get(AMain.this.app.id()).prepareUrl(Utils.Views.isLandscape(AMain.this)), clearCookies);
             }
 
             @Override
@@ -355,28 +361,17 @@ public class AMain extends ABase2<App> {
         return this;
     }
 
-    private void url(WebView view, String url) {
+    private void url(String url, boolean clearCookies) {
 
         if (this.app.profiles().get(this.app.id()).settings.address() != null && !this.app.profiles().get(this.app.id()).settings.address().isEmpty()) {
-            view
-                    .loadUrl(url);
+            (clearCookies
+                    ? this.web.getWeb()/*.clearCookies()*/
+                    : this.web.getWeb()
+            )
+                    .loadUrl(url/*, Utils.Cookies.headers(this.app.profiles().get(this.app.id()).settings.name(),   this.app.profiles().get(this.app.id()).settings.password())*/);
         } else {
             this.h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_no_settings, VHBase.Messages.Snack.Duration.SHORT);
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        this
-                .web.getWeb().saveState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        this
-                .web.getWeb().saveState(savedInstanceState);
     }
 
     @Override
@@ -389,11 +384,15 @@ public class AMain extends ABase2<App> {
         Config c = this.app.profiles().get(this.app.id()).config;
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (c != null) {
-                this.url(this.web.getWeb(), this.app.profiles().get(this.app.id()).prepareUrl(false));
+                this.url(this.app.profiles().get(this.app.id()).prepareUrl(
+                        false
+                ), false);
             }
         } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (c != null && c.hasLandscape()) {
-                this.url(this.web.getWeb(), this.app.profiles().get(this.app.id()).prepareUrl(true));
+                this.url(this.app.profiles().get(this.app.id()).prepareUrl(
+                        true
+                ), false);
             }
         }
 
