@@ -3,10 +3,11 @@ package com.altertech.evahi.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
@@ -38,7 +39,7 @@ public class ASettings extends ABase<App> {
     public void created() {
 
         this.h
-                .visible(R.id.a_settings_s_container, AppConfig.CONFIG != null && AppConfig.CONFIG.isEnabled() ? View.GONE : View.VISIBLE)
+                .visible(R.id.a_settings_s_container, AppConfig.CONFIG.isEnabled() ? View.GONE : View.VISIBLE)
                 .visible(R.id.a_settings_u_container, AppConfig.AUTHENTICATION ? View.VISIBLE : View.GONE)
                 .click(R.id.title_bar_controls_back_button, view -> this.back())
                 .click(R.id.a_settings_cancel, view -> this.back())
@@ -53,7 +54,7 @@ public class ASettings extends ABase<App> {
                         boolean changed = false;
 
                         if (
-                                AppConfig.CONFIG == null || !AppConfig.CONFIG.isEnabled()) {
+                                !AppConfig.CONFIG.isEnabled()) {
 
                             settings.validSSettings();
 
@@ -124,7 +125,7 @@ public class ASettings extends ABase<App> {
             SSettings settings = this.data(data, "settings", SSettings.class);
 
             boolean changed = false;
-            if (AppConfig.CONFIG == null || !AppConfig.CONFIG.isEnabled()) {
+            if (!AppConfig.CONFIG.isEnabled()) {
 
                 this.profile.settings
                         .https(settings.https())

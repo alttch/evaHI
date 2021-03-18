@@ -1,12 +1,14 @@
 package com.altertech.evahi.utils;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.app.ActivityCompat;
+
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -98,5 +100,18 @@ public final class Utils {
             return
                     headers;
         }
+    }
+
+    public static class Permissions {
+
+        public static boolean has(
+                Context context,
+                String permission) {
+            return ActivityCompat.checkSelfPermission(
+                    context,
+                    permission
+            ) == PackageManager.PERMISSION_GRANTED;
+        }
+
     }
 }

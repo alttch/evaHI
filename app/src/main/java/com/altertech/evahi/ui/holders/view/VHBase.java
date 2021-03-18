@@ -1,21 +1,22 @@
 package com.altertech.evahi.ui.holders.view;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.altertech.evahi.R;
 import com.altertech.evahi.ui.adapters.rv.BaseAdapter;
 import com.altertech.evahi.utils.Utils;
+import com.google.android.material.snackbar.Snackbar;
 
 public class VHBase {
 

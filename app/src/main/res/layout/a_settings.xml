@@ -16,13 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/space_8dp"
         android:background="@drawable/background_shadow_1"
-        android:rotation="180"/>
+        android:rotation="180" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never">
@@ -41,8 +41,8 @@
                     android:layout_marginTop="@dimen/space_25dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:paddingEnd="@dimen/space_35dp"
                     android:paddingStart="@dimen/space_35dp"
+                    android:paddingEnd="@dimen/space_35dp"
                     android:visibility="visible"
                     tools:ignore="UseCompoundDrawables">
 
@@ -71,10 +71,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="@dimen/space_30dp"
-                    android:paddingEnd="@dimen/space_20dp"
                     android:paddingStart="@dimen/space_20dp"
-                    android:paddingTop="@dimen/space_10dp">
+                    android:paddingTop="@dimen/space_10dp"
+                    android:paddingEnd="@dimen/space_20dp"
+                    android:paddingBottom="@dimen/space_30dp">
 
                     <LinearLayout
                         android:id="@+id/a_settings_s_container"
@@ -104,8 +104,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:button="@drawable/selector_checkbox"
-                                android:paddingEnd="0dp"
                                 android:paddingStart="@dimen/space_10dp"
+                                android:paddingEnd="0dp"
                                 android:text="@string/app_a_settings_s_title_scheme"
                                 android:textColor="@color/app_black"
                                 android:textSize="12sp" />
@@ -206,7 +206,7 @@
                                 android:textColor="@color/app_black"
                                 android:textSize="12sp" />
 
-                            <android.support.design.widget.TextInputLayout
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:counterEnabled="false"
@@ -216,7 +216,7 @@
                                 app:passwordToggleEnabled="true"
                                 app:passwordToggleTint="@color/app_gray_2">
                                 <!---->
-                                <android.support.design.widget.TextInputEditText
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/a_settings_u_password"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/space_30dp"
@@ -227,7 +227,7 @@
                                     android:textSize="14sp"
                                     tools:ignore="RtlSymmetry" />
 
-                            </android.support.design.widget.TextInputLayout>
+                            </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
 
@@ -269,7 +269,7 @@
             </LinearLayout>
 
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
 
     </RelativeLayout>

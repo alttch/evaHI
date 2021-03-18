@@ -7,12 +7,12 @@ import android.webkit.WebViewClient;
 import com.altertech.evahi.core.App;
 import com.altertech.evahi.core.models.profiles.Profile;
 
-public class CWebViewClient extends WebViewClient {
+public class WebClient extends WebViewClient {
 
-    private App
+    private final App
             application;
 
-    public CWebViewClient(
+    public WebClient(
             App application) {
         this.application = application;
     }

@@ -1,8 +1,7 @@
 package com.altertech.evahi.ui.adapters.rv.holder;
 
-
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.altertech.evahi.ui.holders.view.VHBase;
 

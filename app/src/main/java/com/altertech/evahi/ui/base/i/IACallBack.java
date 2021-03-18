@@ -2,7 +2,7 @@ package com.altertech.evahi.ui.base.i;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 
 public interface IACallBack {

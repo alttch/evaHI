@@ -1,7 +1,7 @@
 package com.altertech.evahi.core.models.s;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;

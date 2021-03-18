@@ -23,9 +23,12 @@ import javax.net.ssl.SSLHandshakeException;
  */
 public class ConfigHandler {
 
-    private CallBack listener;
+    private final CallBack
+            listener;
 
-    private String username, password, url;
+    private final String username;
+    private final String password;
+    private final String url;
 
     public ConfigHandler(String url, String username, String password, CallBack listener) {
         this.listener = listener;
@@ -35,7 +38,7 @@ public class ConfigHandler {
     }
 
     public void load() {
-        new LOADER().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+         new LOADER().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public interface CallBack {
@@ -59,7 +62,7 @@ public class ConfigHandler {
             try {
                 return new Result(ConfigHandler.this.prepare(ConfigHandler.this.fromYaml(ConfigHandler.this.getFromUrl(url, "/.evahi/config.yml")).valid()));
             } catch (CustomException yamlE) {
-                if (yamlE.getCode().equals(CustomException.Code.NO_CONNECTION_TO_SERVER) || yamlE.getCode().equals(CustomException.Code.CONNECTION_ERROR_HAND_SHAKE)) {
+                if (yamlE.getError().equals(CustomException.Error.NO_CONNECTION_TO_SERVER) || yamlE.getError().equals(CustomException.Error.CONNECTION_ERROR_HAND_SHAKE)) {
                     return yamlE;
                 } else {
                     try {
@@ -117,31 +120,31 @@ public class ConfigHandler {
 
     private Config fromYaml(String config) throws CustomException {
         if (config == null || config.length() == 0) {
-            throw new CustomException(CustomException.Code.FILE_EMPTY);
+            throw new CustomException(CustomException.Error.FILE_EMPTY);
         } else {
             try {
                 return SingletonMapper.getInstanceYaml().readValue(config, Config.class);
             } catch (Exception e) {
-                throw new CustomException(CustomException.Code.PARSE_ERROR);
+                throw new CustomException(CustomException.Error.PARSE_ERROR);
             }
         }
     }
 
     private Config fromJson(String config) throws CustomException {
         if (config == null || config.length() == 0) {
-            throw new CustomException(CustomException.Code.FILE_EMPTY);
+            throw new CustomException(CustomException.Error.FILE_EMPTY);
         } else {
             try {
                 return SingletonMapper.getInstanceJson().readValue(config, Config.class);
             } catch (Exception e) {
-                throw new CustomException(CustomException.Code.PARSE_ERROR);
+                throw new CustomException(CustomException.Error.PARSE_ERROR);
             }
         }
     }
 
     private String getFromUrl(String base, String u) throws CustomException {
         if (base == null || u == null || base.length() == 0 || u.length() == 0) {
-            throw new CustomException(CustomException.Code.BAD_URL);
+            throw new CustomException(CustomException.Error.BAD_URL);
         } else {
             HttpURLConnection connection = null;
             try {
@@ -159,18 +162,18 @@ public class ConfigHandler {
                 }
                 String output = result.toString();
                 if (output.length() == 0) {
-                    throw new CustomException(CustomException.Code.FILE_EMPTY);
+                    throw new CustomException(CustomException.Error.FILE_EMPTY);
                 } else {
                     return output;
                 }
             } catch (MalformedURLException e) {
-                throw new CustomException(CustomException.Code.BAD_URL);
+                throw new CustomException(CustomException.Error.BAD_URL);
             } catch (FileNotFoundException e) {
-                throw new CustomException(CustomException.Code.FILE_NOT_FOUND);
+                throw new CustomException(CustomException.Error.FILE_NOT_FOUND);
             } catch (SSLHandshakeException e) {
-                throw new CustomException(CustomException.Code.CONNECTION_ERROR_HAND_SHAKE);
+                throw new CustomException(CustomException.Error.CONNECTION_ERROR_HAND_SHAKE);
             } catch (IOException e) {
-                throw new CustomException(CustomException.Code.NO_CONNECTION_TO_SERVER);
+                throw new CustomException(CustomException.Error.NO_CONNECTION_TO_SERVER);
             } finally {
                 if (connection != null) {
                     connection.disconnect();

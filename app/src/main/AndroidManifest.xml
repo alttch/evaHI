@@ -8,11 +8,6 @@
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <application
         android:name=".core.App"
         android:allowBackup="true"
@@ -54,9 +49,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.About" />
-
-        <service android:name=".services.SService" android:stopWithTask="true"/>
-
     </application>
 
 </manifest>

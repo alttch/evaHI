@@ -4,35 +4,37 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.altertech.evahi.R;
-import com.altertech.evahi.ui.controls.CWebView;
+import com.altertech.evahi.ui.controls.Web;
 
 /**
  * Created by oshevchuk on 12.03.2019
  */
-public class WebHolder {
+public class HWeb {
 
-    private View
+    private final View
             view;
 
-    private CWebView
+    private final Web
             web;
 
-    public WebHolder(View view) {
+    private final ProgressBar progress;
+
+    public HWeb(View view) {
 
         this.web = (this.view = view).findViewById(
                 R.id.web
         );
-
-        this.view.findViewById(R.id.progress_container).setVisibility(View.INVISIBLE);
+        this.progress = this.view.findViewById(R.id.progress);
     }
 
     public void progress(int progress) {
 
-        this.view.findViewById(R.id.progress_container).setVisibility(
+        this.progress.setProgress(
+                progress
+        );
+        this.progress.setVisibility(
                 progress < 100 ? View.VISIBLE : View.INVISIBLE
         );
-
-        ((ProgressBar) this.view.findViewById(R.id.progress)).setProgress(progress);
     }
 
     public void visibility(
@@ -43,7 +45,7 @@ public class WebHolder {
         );
     }
 
-    public CWebView getWeb() {
+    public Web getWeb() {
         return
                 this.web;
     }

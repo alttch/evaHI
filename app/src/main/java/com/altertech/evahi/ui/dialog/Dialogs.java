@@ -1,7 +1,7 @@
 package com.altertech.evahi.ui.dialog;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import com.altertech.evahi.R;
 import com.altertech.evahi.core.models.profiles.Profile;

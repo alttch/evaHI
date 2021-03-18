@@ -3,11 +3,12 @@ package com.altertech.evahi.ui;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.annotation.LayoutRes;
-import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.LayoutRes;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;

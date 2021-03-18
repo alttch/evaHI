@@ -7,12 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.http.SslError;
-import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.SslErrorHandler;
@@ -20,6 +14,12 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
@@ -30,13 +30,12 @@ import com.altertech.evahi.core.exception.CustomException;
 import com.altertech.evahi.core.models.profiles.Profile;
 import com.altertech.evahi.core.models.profiles.Profiles;
 import com.altertech.evahi.core.models.s.SSettings;
-import com.altertech.evahi.services.SService;
 import com.altertech.evahi.ui.base.ABase2;
-import com.altertech.evahi.ui.controls.clients.CWebViewClient;
+import com.altertech.evahi.ui.controls.clients.WebClient;
 import com.altertech.evahi.ui.dialog.Dialogs;
 import com.altertech.evahi.ui.dialog.obj.Dialog;
+import com.altertech.evahi.ui.holders.HWeb;
 import com.altertech.evahi.ui.holders.MenuHolder;
-import com.altertech.evahi.ui.holders.WebHolder;
 import com.altertech.evahi.ui.holders.view.VHBase;
 import com.altertech.evahi.utils.Utils;
 
@@ -44,13 +43,13 @@ import java.util.concurrent.TimeUnit;
 
 public class AMain extends ABase2<App> {
 
-    public static final int REQUEST_GPS_PERMISSION = 2067;
-
-    private WebHolder
+    private HWeb
             web;
 
     private MenuHolder
             menu;
+
+    private DrawerLayout lMenu;
 
     protected @LayoutRes
     int getLayout() {
@@ -60,7 +59,17 @@ public class AMain extends ABase2<App> {
 
     @Override
     public void init() {
-        this.web = new WebHolder(findViewById(R.id.a_main_web_container));
+
+        this.web = new HWeb(
+                findViewById(R.id.a_main_web_container)
+        );
+
+        this.lMenu = this.findViewById(
+                R.id.a_main_drawer
+        );
+        this.lMenu.setDrawerElevation(
+                0
+        );
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -68,23 +77,14 @@ public class AMain extends ABase2<App> {
     public void created() {
 
         this.title()
-                .h
-                .click(R.id.a_main_settings, view -> AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS))
-                .click(R.id.title_bar_controls_menu_button, view -> ((DrawerLayout) this.findViewById(R.id.a_main_drawer)).openDrawer(Gravity.START, true));
+                .h.click(R.id.settings, view -> AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS)).click(R.id.menu, view -> this.lMenu.openDrawer(GravityCompat.START, true));
 
-        this
-                .initMenu();
-
-        this.web.getWeb().allowCookies(true).init().client(new CWebViewClient(this.app) {
+        this.menu().web.getWeb().allowCookies(true).init().client(new WebClient(this.app) {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                AMain.this.url(
-                        url,
-                        false
-                );
                 return
-                        true;
+                        false;
             }
 
             @Override
@@ -92,27 +92,22 @@ public class AMain extends ABase2<App> {
                 AMain.this.state(
                         true
                 );
-
-                /*Profiles profiles = AMain.this.app.profiles();
-                profiles
-                        .get(AMain.this.app.id()).totraq = Utils.Cookies.get(CookieManager.getInstance().getCookie("https://api.totraq.com/"), "totraq");
-                AMain.this.app.profiles(profiles);*/
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                switch (error.getErrorCode()) {
+
+                switch (
+                        error.getErrorCode()
+                ) {
                     case -6:
                         AMain.this.state(false).h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_connection_refused, VHBase.Messages.Snack.Duration.SHORT);
                         break;
+                    case -10:
                     case -11:
                         AMain.this.state(false).h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_handshake, VHBase.Messages.Snack.Duration.SHORT);
                         break;
-                    case -2:
-                        AMain.this.state(false).h.snack(VHBase.Messages.Snack.Type.E, R.string.app_a_settings_exception_invalid_address, VHBase.Messages.Snack.Duration.SHORT);
-                        break;
                     default:
-                        AMain.this.h.snack(VHBase.Messages.Snack.Type.E, getResources().getString(R.string.app_exception_error) + ", code = " + error.getErrorCode(), VHBase.Messages.Snack.Duration.SHORT);
                         break;
                 }
             }
@@ -138,26 +133,7 @@ public class AMain extends ABase2<App> {
             this
                     .state(false).startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
         } else {
-            this.initialization(
-                    false
-            );
-        }
-
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            this.startService(new Intent(
-                    AMain.this,
-                    SService.class
-            ));
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-            }, REQUEST_GPS_PERMISSION);
+            this.loadConfig(false);
         }
 
     }
@@ -181,7 +157,7 @@ public class AMain extends ABase2<App> {
 
         if (request == App.RQ_A_SETTINGS && result == Activity.RESULT_OK) {
             this
-                    .initialization(false);
+                    .loadConfig(false);
         } else if (request == App.RQ_A_BARCODE && result == RESULT_OK && data != null && data.hasExtra("settings")) {
 
             boolean
@@ -193,7 +169,7 @@ public class AMain extends ABase2<App> {
 
             Profile profile = new Profile(id, this.getResources().getString(R.string.app_profile_unknown) + "_" + id);
 
-            if (AppConfig.CONFIG == null || !AppConfig.CONFIG.isEnabled()) {
+            if (!AppConfig.CONFIG.isEnabled()) {
 
                 profile.settings
                         .https(settings.https())
@@ -220,13 +196,13 @@ public class AMain extends ABase2<App> {
             }
 
             this
-                    .title().initialization(
+                    .title().loadConfig(
                     false
             );
         } else if (request == App.RQ_A_PROFILES) {
             if (
                     result == Activity.RESULT_OK) {
-                this.title().initialization(
+                this.title().loadConfig(
                         true
                 );
             } else {
@@ -240,14 +216,9 @@ public class AMain extends ABase2<App> {
     @Override
     public void permissions(int request, @NonNull String[] permissions, @NonNull int[] results) {
         if (request == ASettings.REQUEST_CAMERA_PERMISSION && results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
-            AMain.this.startActivityForResult(
+            this.startActivityForResult(
                     new Intent(AMain.this, ABarcode.class),
                     App.RQ_A_BARCODE);
-        } else if (request == REQUEST_GPS_PERMISSION && results.length == 2 && results[0] == PackageManager.PERMISSION_GRANTED && results[1] == PackageManager.PERMISSION_GRANTED) {
-            this.startService(new Intent(
-                    AMain.this,
-                    SService.class
-            ));
         }
     }
 
@@ -257,19 +228,21 @@ public class AMain extends ABase2<App> {
                 this;
     }
 
-    private AMain initMenu() {
+    private AMain menu() {
+
         this.menu = new MenuHolder(this, findViewById(R.id.a_main_menu), new MenuHolder.CallBack() {
             @Override
             public void click(MenuHolder.Type type) {
+
                 switch (type) {
                     case PROFILES:
                         AMain.this.startActivityForResult(new Intent(AMain.this, AProfiles.class), App.RQ_A_PROFILES);
                         break;
                     case QR:
-                        if (ActivityCompat.checkSelfPermission(
-                                AMain.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                        ) {
-                            AMain.this.startActivityForResult(new Intent(AMain.this, ABarcode.class), App.RQ_A_BARCODE);
+                        if (Utils.Permissions.has(AMain.this, Manifest.permission.CAMERA)) {
+                            AMain.this.startActivityForResult(
+                                    new Intent(AMain.this, ABarcode.class), App.RQ_A_BARCODE
+                            );
                         } else {
                             ActivityCompat.requestPermissions(AMain.this, new String[]{Manifest.permission.CAMERA}, ASettings.REQUEST_CAMERA_PERMISSION);
                         }
@@ -278,38 +251,33 @@ public class AMain extends ABase2<App> {
                         AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
                         break;
                     case RELOAD:
-                        AMain.this.initialization(AMain.this.web.getWeb().getUrl(), false);
+                        AMain.this.loadConfig(AMain.this.web.getWeb().getUrl(), false);
                         break;
                     case ABOUT:
                         AMain.this.startActivityForResult(new Intent(AMain.this, AAbout.class), App.RQ_A_ABOUT);
                         break;
                     case EXIT:
-                        AMain.this.stopService(new Intent(
-                                AMain.this, SService.class
-                        ));
                         AMain.this.finish();
                         break;
                 }
-                ((DrawerLayout) AMain.this.findViewById(R.id.a_main_drawer)).closeDrawer(Gravity.START, true);
+                AMain.this.lMenu.closeDrawer(GravityCompat.START, true);
             }
 
             @Override
             public void click(MenuHolder.Type type, String url) {
-                AMain.this.url(
-                        AMain.this.app.profiles().get(AMain.this.app.id()).settings.url() + url, false);
-                ((DrawerLayout) AMain.this.findViewById(R.id.a_main_drawer)).closeDrawer(Gravity.START, true);
+                AMain.this.url(AMain.this.app.profiles().get(AMain.this.app.id()).settings.url() + url, false).lMenu.closeDrawer(GravityCompat.START, true);
             }
         }).update(this.app.profiles().get(AMain.this.app.id()).config);
         return
                 this;
     }
 
-    private void initialization(boolean clearCookies) {
+    private void loadConfig(boolean clearCookies) {
         this
-                .initialization(null, clearCookies);
+                .loadConfig(null, clearCookies);
     }
 
-    private void initialization(String url, boolean clearCookies) {
+    private void loadConfig(String url, boolean clearCookies) {
 
         new ConfigHandler(this.app.profiles().get(this.app.id()).settings.url(), this.app.profiles().get(this.app.id()).settings.name(), this.app.profiles().get(this.app.id()).settings.password(), new ConfigHandler.CallBack() {
             private Dialog progress;
@@ -345,7 +313,7 @@ public class AMain extends ABase2<App> {
                         .get(AMain.this.app.id()).config(null);
                 AMain.this.app.profiles(profiles);
 
-                AMain.this.menu.update(null).and(AMain.this).state(false).h.snack(VHBase.Messages.Snack.Type.E, e.getCode().getMessage(), VHBase.Messages.Snack.Duration.SHORT);
+                AMain.this.menu.update(null).and(AMain.this).state(false).h.snack(VHBase.Messages.Snack.Type.E, e.getError().getMessage(), VHBase.Messages.Snack.Duration.SHORT);
             }
         }).load();
     }
@@ -356,12 +324,12 @@ public class AMain extends ABase2<App> {
         );
         this
                 .h
-                .visible(R.id.a_main_settings, (!state ? (AppConfig.CONFIG != null && !AppConfig.CONFIG.isEnabled()) || AppConfig.AUTHENTICATION ? View.VISIBLE : View.GONE : View.GONE));
+                .visible(R.id.settings, !state ? !AppConfig.CONFIG.isEnabled() || AppConfig.AUTHENTICATION ? View.VISIBLE : View.GONE : View.GONE);
 
         return this;
     }
 
-    private void url(String url, boolean clearCookies) {
+    private AMain url(String url, boolean clearCookies) {
 
         if (this.app.profiles().get(this.app.id()).settings.address() != null && !this.app.profiles().get(this.app.id()).settings.address().isEmpty()) {
             (clearCookies
@@ -372,6 +340,7 @@ public class AMain extends ABase2<App> {
         } else {
             this.h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_no_settings, VHBase.Messages.Snack.Duration.SHORT);
         }
+        return this;
     }
 
     @Override

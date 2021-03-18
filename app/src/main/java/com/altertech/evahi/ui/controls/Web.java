@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.CookieManager;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -13,29 +12,30 @@ import android.webkit.WebViewClient;
 import com.altertech.evahi.BuildConfig;
 import com.altertech.evahi.core.App;
 
-public class CWebView extends WebView {
+public class Web extends WebView {
 
     private WebViewClient
             client;
 
-    public CWebView(Context context) {
+    public Web(Context context) {
         super(context);
     }
 
-    public CWebView(Context context, AttributeSet attrs) {
+    public Web(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CWebView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public Web(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public CWebView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public Web(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public CWebView allowCookies(
+    public Web allowCookies(
             boolean state) {
+
         CookieManager.getInstance().setAcceptThirdPartyCookies(
                 this,
                 state
@@ -46,7 +46,9 @@ public class CWebView extends WebView {
         return this;
     }
 
-    public CWebView clearCookies() {
+    public Web clearCookies() {
+
+        // WebViewDatabase.getInstance(this.getContext()).clearHttpAuthUsernamePassword();
 
         CookieManager.getInstance().removeAllCookies(
                 value -> Log.d(App.TAG, "Cookie removed: " + value)
@@ -55,12 +57,14 @@ public class CWebView extends WebView {
                 value -> Log.d(App.TAG, "Cookie removed: " + value)
         );
         CookieManager.getInstance().flush();
+
         return
                 this;
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    public CWebView init() {
+    public Web init() {
+
         this.getSettings().setSavePassword(
                 false
         );
@@ -85,11 +89,14 @@ public class CWebView extends WebView {
         this.getSettings().setUserAgentString(
                 "evaHI" + " (" + BuildConfig.VERSION_NAME + ", " + this.getSettings().getUserAgentString() + ") "
         );
+        this.getSettings().setJavaScriptEnabled(true);
+
+        this.setVerticalScrollBarEnabled(false);
         return
                 this;
     }
 
-    public CWebView client(
+    public Web client(
             WebViewClient client
     ) {
         this.setWebViewClient(
@@ -98,7 +105,7 @@ public class CWebView extends WebView {
         return this;
     }
 
-    public CWebView clientChrome(
+    public Web clientChrome(
             WebChromeClient client
     ) {
         this.setWebChromeClient(

@@ -1,6 +1,6 @@
 package com.altertech.evahi.core.models.profiles;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.altertech.evahi.core.config.Config;
 import com.altertech.evahi.core.models.s.SSettings;

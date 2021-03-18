@@ -15,7 +15,7 @@
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:id="@+id/title_bar_controls_menu_button"
+            android:id="@+id/menu"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@drawable/selector_change_different_color_to_simple_color_round"

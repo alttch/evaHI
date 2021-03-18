@@ -6,15 +6,12 @@
     <string name="app_name_profiles">Profiles</string>
 
     <string name="app_a_main_settings">Set setting</string>
-    <string name="app_a_main_loading">Loading, please wait…</string>
 
     <string name="app_a_settings_s_title_group">Server settings</string>
     <string name="app_a_settings_s_title_scan"><u>Scan QR code</u></string>
     <string name="app_a_settings_s_title_scheme">use https</string>
     <string name="app_a_settings_s_title_address">Server:</string>
     <string name="app_a_settings_s_title_port">Port:</string>
-    <string name="app_a_settings_s_title_page">Page:</string>
-    <string name="app_a_settings_s_title_landscape_page">Landscape page:</string>
     <string name="app_a_settings_u_title_group">Authentication</string>
     <string name="app_a_settings_u_title_name">User:</string>
     <string name="app_a_settings_u_title_password">Password:</string>
@@ -24,16 +21,11 @@
     <string name="app_a_settings_u_hint_password">Password</string>
 
     <string name="app_a_settings_exception_invalid_code">Invalid code</string>
-    <string name="app_a_settings_exception_invalid_scheme">Invalid protocol</string>
     <string name="app_a_settings_exception_invalid_address">Invalid address</string>
     <string name="app_a_settings_exception_invalid_port">Invalid port</string>
-    <string name="app_a_settings_exception_invalid_page">Invalid page</string>
-    <string name="app_a_settings_exception_invalid_landscape_page">Invalid landscape page</string>
     <string name="app_a_settings_exception_invalid_name">Invalid user name</string>
     <string name="app_a_settings_exception_invalid_password">Invalid password</string>
-    <string name="app_a_settings_exception_qr_io_error">QR IO ERROR</string>
     <string name="app_a_settings_exception_empty_field">field cannot be empty</string>
-
 
 
     <string name="app_a_about_line_name" formatted="false">EvaHI build %d</string>
@@ -50,7 +42,6 @@
     <string name="app_exception_parse_error">Parse error</string>
     <string name="app_exception_parse_error_invalid_serial">Invalid serial</string>
     <string name="app_exception_parse_error_invalid_index_page">Invalid index page</string>
-    <string name="app_exception_error">Internal error…</string>
     <string name="app_exception_ssl_error">SSL error…</string>
     <string name="app_exception_handshake">Protocol error</string>
 
@@ -64,7 +55,6 @@
     <string name="app_menu_item_name_qr">QR</string>
     <string name="app_menu_item_name_profiles">Profiles</string>
 
-    <string name="app_dialog_title_execution">Execution…</string>
     <string name="app_dialog_title_delete_profiles">Delete selected profiles?</string>
     <string name="app_remote_wait">Please wait…</string>
 

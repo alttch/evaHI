@@ -4,9 +4,10 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.altertech.evahi.ui.base.i.IACallBack;
 import com.altertech.evahi.ui.holders.view.VHBase;

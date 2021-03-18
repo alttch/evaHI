@@ -2,8 +2,6 @@ package com.altertech.evahi.core.connection;
 
 import android.os.AsyncTask;
 
-import java.io.IOException;
-
 import okhttp3.Response;
 
 public class Post extends AsyncTask<Void, Void, Response> {
@@ -70,7 +68,7 @@ public class Post extends AsyncTask<Void, Void, Response> {
                         data;
                 try {
                     data = response.body() != null ? response.body().string() : "";
-                } catch (IOException e) {
+                } catch (Exception e) {
                     data = "";
                 }
 

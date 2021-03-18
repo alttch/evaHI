@@ -1,6 +1,6 @@
 package com.altertech.evahi.core.models.profiles;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
