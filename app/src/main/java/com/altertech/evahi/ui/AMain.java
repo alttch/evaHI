@@ -328,9 +328,7 @@ public class AMain extends ABase2<App> {
     }
 
     private AMain state(boolean state) {
-        this.web.visibility(
-                state
-        );
+        this.web.visibility(state);
         this
                 .h
                 .visible(R.id.settings, !state ? !AppConfig.CONFIG.isEnabled() || AppConfig.AUTHENTICATION ? View.VISIBLE : View.GONE : View.GONE);
