@@ -39,6 +39,8 @@ public class ASettings extends ABase<App> {
     public void created() {
 
         this.h
+                .text(R.id.title_bar_controls_text,
+                        this.getResources().getString(R.string.app_name_setting) + " (" + this.app.profiles().get(this.app.id()).name + ")")
                 .visible(R.id.a_settings_s_container, AppConfig.CONFIG.isEnabled() ? View.GONE : View.VISIBLE)
                 .visible(R.id.a_settings_u_container, AppConfig.AUTHENTICATION ? View.VISIBLE : View.GONE)
                 .click(R.id.title_bar_controls_back_button, view -> this.back())

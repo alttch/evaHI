@@ -38,6 +38,7 @@ public class App extends Application {
             this
                     .profiles(new Profiles().add(new Profile(this.id, this.getResources().getString(R.string.app_profile_unknown) + "_" + this.id)));
         }
+
     }
 
     /*--------------------------------------------------------------------------*/
@@ -65,8 +66,9 @@ public class App extends Application {
 
     public Profiles
     profiles() {
+        Profiles profiles = new Gson().fromJson(this.preferences.getString("dc8a93838c343b55e0eeea3cefafb389", null), Profiles.class);
         return
-                new Gson().fromJson(this.preferences.getString("dc8a93838c343b55e0eeea3cefafb389", null), Profiles.class);
+                profiles;
     }
 
 
