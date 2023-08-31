@@ -71,6 +71,9 @@ public class AMain extends ABase2<App> {
         );
     }
 
+    private WebResourceError
+            _current_error;
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void created() {
@@ -91,11 +94,15 @@ public class AMain extends ABase2<App> {
                 AMain.this.state(
                         true
                 );
+                //AMain.this.state(
+                //        AMain.this._current_error == null
+                //);
+                //AMain.this._current_error = null;
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-
+                AMain.this._current_error = error;
                 switch (
                         error.getErrorCode()
                 ) {
@@ -105,6 +112,9 @@ public class AMain extends ABase2<App> {
                     case -10:
                     case -11:
                         AMain.this.state(false).h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_handshake, VHBase.Messages.Snack.Duration.SHORT);
+                        break;
+                    case -2:
+                        AMain.this.state(false).h.snack(VHBase.Messages.Snack.Type.E, R.string.app_exception_invalid_url, VHBase.Messages.Snack.Duration.SHORT);
                         break;
                     default:
                         break;
