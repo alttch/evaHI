@@ -17,7 +17,6 @@ import android.webkit.WebView;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -77,7 +76,7 @@ public class AMain extends ABase2<App> {
     public void created() {
 
         this.title()
-                .h.click(R.id.settings, view -> AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS)).click(R.id.menu, view -> this.lMenu.openDrawer(GravityCompat.START, true));
+                .h.click(R.id.settings, view -> AMain.this.sfr(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS)).click(R.id.menu, view -> this.lMenu.openDrawer(GravityCompat.START, true));
 
         this.menu().web.getWeb().allowCookies(true).init().client(new WebClient(this.app) {
 
@@ -131,7 +130,7 @@ public class AMain extends ABase2<App> {
         if (this.app.first()) {
             this.app.first(false);
             this
-                    .state(false).startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
+                    .state(false).sfr(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
         } else {
             this.loadConfig(false);
         }
@@ -197,8 +196,8 @@ public class AMain extends ABase2<App> {
 
             this
                     .title().loadConfig(
-                    false
-            );
+                            false
+                    );
         } else if (request == App.RQ_A_PROFILES) {
             if (
                     result == Activity.RESULT_OK) {
@@ -216,7 +215,7 @@ public class AMain extends ABase2<App> {
     @Override
     public void permissions(int request, @NonNull String[] permissions, @NonNull int[] results) {
         if (request == ASettings.REQUEST_CAMERA_PERMISSION && results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
-            this.startActivityForResult(
+            this.sfr(
                     new Intent(AMain.this, ABarcode.class),
                     App.RQ_A_BARCODE);
         }
@@ -236,25 +235,25 @@ public class AMain extends ABase2<App> {
 
                 switch (type) {
                     case PROFILES:
-                        AMain.this.startActivityForResult(new Intent(AMain.this, AProfiles.class), App.RQ_A_PROFILES);
+                        AMain.this.sfr(new Intent(AMain.this, AProfiles.class), App.RQ_A_PROFILES);
                         break;
                     case QR:
-                        if (Utils.Permissions.has(AMain.this, Manifest.permission.CAMERA)) {
-                            AMain.this.startActivityForResult(
+                        if (AMain.this.has(Manifest.permission.CAMERA)) {
+                            AMain.this.sfr(
                                     new Intent(AMain.this, ABarcode.class), App.RQ_A_BARCODE
                             );
                         } else {
-                            ActivityCompat.requestPermissions(AMain.this, new String[]{Manifest.permission.CAMERA}, ASettings.REQUEST_CAMERA_PERMISSION);
+                            AMain.this.request(new String[]{Manifest.permission.CAMERA}, ASettings.REQUEST_CAMERA_PERMISSION);
                         }
                         break;
                     case SETTINGS:
-                        AMain.this.startActivityForResult(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
+                        AMain.this.sfr(new Intent(AMain.this, ASettings.class), App.RQ_A_SETTINGS);
                         break;
                     case RELOAD:
                         AMain.this.loadConfig(AMain.this.web.getWeb().getUrl(), false);
                         break;
                     case ABOUT:
-                        AMain.this.startActivityForResult(new Intent(AMain.this, AAbout.class), App.RQ_A_ABOUT);
+                        AMain.this.sfr(new Intent(AMain.this, AAbout.class), App.RQ_A_ABOUT);
                         break;
                     case EXIT:
                         AMain.this.finish();

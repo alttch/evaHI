@@ -7,7 +7,6 @@ import android.view.View;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 
 import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.R;
@@ -93,16 +92,10 @@ public class ASettings extends ABase<App> {
                     }
                 })
                 .click(R.id.a_settings_q_container, view -> {
-                    if (ActivityCompat.checkSelfPermission(
-                            ASettings.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        this.startActivityForResult(
-                                new Intent(ASettings.this, ABarcode.class), App.RQ_A_BARCODE
-                        );
+                    if (this.has(Manifest.permission.CAMERA)) {
+                        this.sfr(new Intent(ASettings.this, ABarcode.class), App.RQ_A_BARCODE);
                     } else {
-                        ActivityCompat.requestPermissions(
-                                ASettings.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION
-                        );
+                        this.request(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                     }
                 });
 
@@ -159,7 +152,7 @@ public class ASettings extends ABase<App> {
     @Override
     public void permissions(int request, @NonNull String[] permissions, @NonNull int[] results) {
         if (request == REQUEST_CAMERA_PERMISSION && results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
-            this.startActivityForResult(
+            this.sfr(
                     new Intent(ASettings.this, ABarcode.class), App.RQ_A_BARCODE
             );
         }

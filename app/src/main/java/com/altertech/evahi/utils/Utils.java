@@ -101,17 +101,4 @@ public final class Utils {
                     headers;
         }
     }
-
-    public static class Permissions {
-
-        public static boolean has(
-                Context context,
-                String permission) {
-            return ActivityCompat.checkSelfPermission(
-                    context,
-                    permission
-            ) == PackageManager.PERMISSION_GRANTED;
-        }
-
-    }
 }

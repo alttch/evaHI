@@ -1,13 +1,17 @@
 package com.altertech.evahi.ui.base;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+
+import androidx.annotation.IntRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.altertech.evahi.ui.base.i.IACallBack;
 import com.altertech.evahi.ui.holders.view.VHBase;
@@ -168,5 +172,21 @@ public class ABase<APP extends Application> extends AppCompatActivity implements
         this
                 .setResult(result, data);
         return this;
+    }
+
+    public boolean has(
+            String permission) {
+        return ActivityCompat.checkSelfPermission(
+                this,
+                permission
+        ) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void request(final @NonNull String[] permissions, final @IntRange(from = 0) int requestCode) {
+        this.requestPermissions(permissions, requestCode);
+    }
+
+    public void sfr(Intent intent, int rc){
+        this.startActivityForResult(intent, rc);
     }
 }

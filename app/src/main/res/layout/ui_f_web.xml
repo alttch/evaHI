@@ -21,6 +21,8 @@
         android:layout_gravity="center_vertical"
         android:progressBackgroundTint="@android:color/transparent"
         android:progressTint="#16A324"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/web" />
 
 
