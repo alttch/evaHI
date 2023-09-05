@@ -50,6 +50,7 @@ public class MenuHolder extends ContextWrapper {
     private void init() {
         RecyclerView view = this.view.findViewById(R.id.ui_f_menu_items);
         view.setAdapter(this.adapter = new Adapter(this.menu));
+        //noinspection InvalidSetHasFixedSize
         view.setHasFixedSize(true);
         view.setLayoutManager(new LinearLayoutManager(this));
     }
