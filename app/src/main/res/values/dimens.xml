@@ -1,5 +1,6 @@
 <resources>
 
+    <dimen name="space_0dp">0dp</dimen>
     <dimen name="space_1dp">1dp</dimen>
     <dimen name="space_2dp">2dp</dimen>
     <dimen name="space_3dp">3dp</dimen>

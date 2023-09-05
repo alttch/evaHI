@@ -8,7 +8,6 @@ import com.altertech.evahi.AppConfig;
 import com.altertech.evahi.core.exception.CustomException;
 import com.altertech.evahi.core.parser.SingletonMapper;
 import com.altertech.evahi.utils.ImageUtil;
-import com.altertech.evahi.utils.StringUtil;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,14 +23,14 @@ import javax.net.ssl.SSLHandshakeException;
  */
 public class ConfigHandler {
 
-    private Config old;
+    private final CallBack
+            listener;
 
-    private CallBack listener;
+    private final String username;
+    private final String password;
+    private final String url;
 
-    private String username, password, url;
-
-    public ConfigHandler(String url, String username, String password, Config old, CallBack listener) {
-        this.old = old;
+    public ConfigHandler(String url, String username, String password, CallBack listener) {
         this.listener = listener;
         this.url = url;
         this.username = username;
@@ -39,13 +38,13 @@ public class ConfigHandler {
     }
 
     public void load() {
-        new LOADER().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+         new LOADER().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public interface CallBack {
         void start();
 
-        void end(boolean updated, Config config);
+        void end(Config config);
 
         void error(CustomException e);
     }
@@ -61,23 +60,13 @@ public class ConfigHandler {
         @Override
         protected Object doInBackground(Void... voids) {
             try {
-                Config config = ConfigHandler.this.fromYaml(ConfigHandler.this.getFromUrl(url, "/.evahi/config.yml")).valid();
-                if (ConfigHandler.this.resolveToUpdate(config)) {
-                    return new Result(true, ConfigHandler.this.prepare(config));
-                } else {
-                    return new Result(false, ConfigHandler.this.old);
-                }
+                return new Result(ConfigHandler.this.prepare(ConfigHandler.this.fromYaml(ConfigHandler.this.getFromUrl(url, "/.evahi/config.yml")).valid()));
             } catch (CustomException yamlE) {
-                if (yamlE.getCode().equals(CustomException.Code.NO_CONNECTION_TO_SERVER) || yamlE.getCode().equals(CustomException.Code.CONNECTION_ERROR_HAND_SHAKE)) {
+                if (yamlE.getError().equals(CustomException.Error.NO_CONNECTION_TO_SERVER) || yamlE.getError().equals(CustomException.Error.CONNECTION_ERROR_HAND_SHAKE)) {
                     return yamlE;
                 } else {
                     try {
-                        Config config = ConfigHandler.this.fromJson(ConfigHandler.this.getFromUrl(url, "/.evahi/config.json")).valid();
-                        if (ConfigHandler.this.resolveToUpdate(config)) {
-                            return new Result(true, ConfigHandler.this.prepare(config));
-                        } else {
-                            return new Result(false, ConfigHandler.this.old);
-                        }
+                        return new Result(ConfigHandler.this.prepare(ConfigHandler.this.fromJson(ConfigHandler.this.getFromUrl(url, "/.evahi/config.json")).valid()));
                     } catch (CustomException jsonE) {
                         return jsonE;
                     }
@@ -88,25 +77,19 @@ public class ConfigHandler {
         @Override
         protected void onPostExecute(Object result) {
             if (result instanceof Result) {
-                ConfigHandler.this.listener.end(((Result) result).updated, ((Result) result).config);
+                ConfigHandler.this.listener.end(((Result) result).config);
             } else {
                 ConfigHandler.this.listener.error((CustomException) result);
             }
         }
 
         private class Result {
-            boolean updated;
             Config config;
 
-            Result(boolean updated, Config config) {
-                this.updated = updated;
+            Result(Config config) {
                 this.config = config;
             }
         }
-    }
-
-    private boolean resolveToUpdate(Config config) {
-        return this.old == null || this.old.getSerial() != config.getSerial();
     }
 
     private Config prepare(Config config) {
@@ -137,36 +120,36 @@ public class ConfigHandler {
 
     private Config fromYaml(String config) throws CustomException {
         if (config == null || config.length() == 0) {
-            throw new CustomException(CustomException.Code.FILE_EMPTY);
+            throw new CustomException(CustomException.Error.FILE_EMPTY);
         } else {
             try {
                 return SingletonMapper.getInstanceYaml().readValue(config, Config.class);
             } catch (Exception e) {
-                throw new CustomException(CustomException.Code.PARSE_ERROR);
+                throw new CustomException(CustomException.Error.PARSE_ERROR);
             }
         }
     }
 
     private Config fromJson(String config) throws CustomException {
         if (config == null || config.length() == 0) {
-            throw new CustomException(CustomException.Code.FILE_EMPTY);
+            throw new CustomException(CustomException.Error.FILE_EMPTY);
         } else {
             try {
                 return SingletonMapper.getInstanceJson().readValue(config, Config.class);
             } catch (Exception e) {
-                throw new CustomException(CustomException.Code.PARSE_ERROR);
+                throw new CustomException(CustomException.Error.PARSE_ERROR);
             }
         }
     }
 
     private String getFromUrl(String base, String u) throws CustomException {
         if (base == null || u == null || base.length() == 0 || u.length() == 0) {
-            throw new CustomException(CustomException.Code.BAD_URL);
+            throw new CustomException(CustomException.Error.BAD_URL);
         } else {
             HttpURLConnection connection = null;
             try {
                 connection = (HttpURLConnection) new URL(new URL(base), u).openConnection();
-                if (!AppConfig.AUTHENTICATION && StringUtil.isNotEmpty(username)) {
+                if (!AppConfig.AUTHENTICATION && username != null && !username.isEmpty()) {
                     connection.setRequestProperty("Authorization", "Basic " + android.util.Base64.encodeToString(String.format("%s:%s", username, password).getBytes(), android.util.Base64.NO_WRAP));
                 }
                 connection.setConnectTimeout(5000);
@@ -179,18 +162,18 @@ public class ConfigHandler {
                 }
                 String output = result.toString();
                 if (output.length() == 0) {
-                    throw new CustomException(CustomException.Code.FILE_EMPTY);
+                    throw new CustomException(CustomException.Error.FILE_EMPTY);
                 } else {
                     return output;
                 }
             } catch (MalformedURLException e) {
-                throw new CustomException(CustomException.Code.BAD_URL);
+                throw new CustomException(CustomException.Error.BAD_URL);
             } catch (FileNotFoundException e) {
-                throw new CustomException(CustomException.Code.FILE_NOT_FOUND);
+                throw new CustomException(CustomException.Error.FILE_NOT_FOUND);
             } catch (SSLHandshakeException e) {
-                throw new CustomException(CustomException.Code.CONNECTION_ERROR_HAND_SHAKE);
+                throw new CustomException(CustomException.Error.CONNECTION_ERROR_HAND_SHAKE);
             } catch (IOException e) {
-                throw new CustomException(CustomException.Code.NO_CONNECTION_TO_SERVER);
+                throw new CustomException(CustomException.Error.NO_CONNECTION_TO_SERVER);
             } finally {
                 if (connection != null) {
                     connection.disconnect();

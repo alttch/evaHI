@@ -1,7 +1,7 @@
 package com.altertech.evahi.core.config;
 
 import com.altertech.evahi.core.exception.CustomException;
-import com.altertech.evahi.utils.StringUtil;
+import com.altertech.evahi.utils.Utils;
 
 import java.util.List;
 
@@ -9,9 +9,13 @@ import java.util.List;
  * Created by oshevchuk on 14.02.2019
  */
 public class Config {
-    private int serial = 0;
-    private String index, index_landscape, home_icon;
-    private List<Menu> menu;
+
+    private int
+            serial = 0;
+    private String
+            index, index_landscape, home_icon;
+    private List<Menu>
+            menu;
 
     public int getSerial() {
         return serial;
@@ -30,7 +34,7 @@ public class Config {
     }
 
     public String getIndex_landscape() {
-        return index_landscape != null && index_landscape.length() > 0 ? index_landscape : StringUtil.EMPTY_STRING;
+        return index_landscape != null && index_landscape.length() > 0 ? index_landscape : Utils.Strings.EMPTY;
     }
 
     public void setIndex_landscape(String index_landscape) {
@@ -59,9 +63,9 @@ public class Config {
 
     public Config valid() throws CustomException {
         if (this.serial == 0) {
-            throw new CustomException(CustomException.Code.PARSE_ERROR_INVALID_SERIAL);
+            throw new CustomException(CustomException.Error.PARSE_ERROR_INVALID_SERIAL);
         } else if (this.index == null || this.index.length() == 0) {
-            throw new CustomException(CustomException.Code.PARSE_ERROR_INVALID_INDEX_PAGE);
+            throw new CustomException(CustomException.Error.PARSE_ERROR_INVALID_INDEX_PAGE);
         }
         return this;
     }

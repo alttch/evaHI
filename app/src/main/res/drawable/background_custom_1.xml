@@ -4,7 +4,7 @@
 
     <item>
         <bitmap
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom|right"
             android:src="@drawable/background_1" />
     </item>
 

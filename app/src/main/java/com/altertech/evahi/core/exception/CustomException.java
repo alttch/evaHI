@@ -1,6 +1,6 @@
 package com.altertech.evahi.core.exception;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import com.altertech.evahi.R;
 
@@ -9,7 +9,7 @@ import com.altertech.evahi.R;
  */
 public class CustomException extends Exception {
 
-    public enum Code {
+    public enum Error {
         BAD_URL(1, R.string.app_exception_invalid_url),
         NO_CONNECTION_TO_SERVER(2, R.string.app_exception_no_connection_to_the_server),
         FILE_NOT_FOUND(3, R.string.app_exception_file_not_found),
@@ -22,7 +22,7 @@ public class CustomException extends Exception {
         @StringRes
         int message;
 
-        Code(int id, int message) {
+        Error(int id, int message) {
             this.id = id;
             this.message = message;
         }
@@ -36,15 +36,15 @@ public class CustomException extends Exception {
         }
     }
 
-    private Code code;
+    private final Error
+            error;
 
-    public CustomException(Code code) {
-        this.code = code;
+    public CustomException(Error error) {
+        this.error = error;
     }
 
-
-    public Code getCode() {
-        return code;
+    public Error getError() {
+        return error;
     }
 
 

@@ -9,21 +9,26 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        android:name=".core.BaseApplication"
+        android:name=".core.App"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:logo="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:logo="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Base"
-        tools:targetApi="n">
+        android:usesCleartextTraffic="true"
+        >
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.AProfiles"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Main">
+            android:theme="@style/Theme.Profiles" />
+        <activity
+            android:name=".ui.AMain"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.Main"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,20 +36,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.ASettings"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.Settings" />
         <activity
-            android:name=".ui.ScannedBarcodeActivity"
+            android:name=".ui.ABarcode"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Barcode" />
         <activity
-            android:name=".ui.BaseActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.Main" />
-        <activity
-            android:name=".ui.AboutActivity"
+            android:name=".ui.AAbout"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.About" />
